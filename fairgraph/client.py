@@ -55,7 +55,7 @@ class KGClient(object):
         return [cls.from_kg_instance(instance, self) # todo: lazy resolution
                 for instance in instances]
 
-    def filter_query(self, path, filter, context, from_index=0, size=100):
+    def filter_query(self, path, filter, context, from_index=0, size=100, deprecated=False):
         instances = []
         query = self._nexus_client.instances.list(
             subpath=path,
@@ -63,6 +63,7 @@ class KGClient(object):
             context=quote_plus(json.dumps(context)),
             from_index=from_index,
             size=size,
+            deprecated=deprecated,
             resolved=True)
         # todo: add support for "sort" field
         instances.extend(query.results)
@@ -76,26 +77,35 @@ class KGClient(object):
             self.cache[instance.data["@id"]] = instance
         return instances
 
-    def instance_from_full_uri(self, uri, use_cache=True):
+    def instance_from_full_uri(self, uri, use_cache=True, deprecated=False):
+        # 'deprecated=True' means 'returns an instance even if that instance is deprecated'
+        # should perhaps be called 'show_deprecated' or 'include_deprecated'
         if use_cache and uri in self.cache:
             logger.debug("Retrieving instance from cache")
-            return self.cache[uri]
+            instance = self.cache[uri]
         else:
             instance = Instance(Instance.extract_id_from_url(uri, self._instance_repo.path),
                                 data=self._instance_repo._http_client.get(uri),
                                 root_path=Instance.path)
             self.cache[instance.data["@id"]] = instance
             logger.debug("Retrieved instance from KG " + str(instance.data))
+        if instance and deprecated is False and instance.data["nxv:deprecated"]:
+            return None
+        else:
             return instance
 
-    def instance_from_uuid(self, path, uuid):
+    def instance_from_uuid(self, path, uuid, deprecated=False):
         # todo: caching
         instance = self._instance_repo.read_by_full_id(path + "/" + uuid)
-        return instance
+        if instance and deprecated is False and instance.data["nxv:deprecated"]:
+            return None
+        else:
+            return instance
 
     def create_new_instance(self, path, data):
         instance = Instance(path, data, Instance.path)
         entity = self._nexus_client.instances.create(instance)
+        entity.data.update(data)
         return entity
 
     def update_instance(self, instance):
@@ -107,6 +117,8 @@ class KGClient(object):
 
     def delete_instance(self, instance):
         self._nexus_client.instances.delete(instance)
+        if instance.id in self.cache:
+            self.cache.pop(instance.id)
 
     def by_name(self, cls, name):
         """Retrieve an object based on the value of schema:name"""

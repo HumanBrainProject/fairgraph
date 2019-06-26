@@ -522,12 +522,23 @@ class Morphology(KGObject):
         if morphology_file:
             if distribution:
                 raise ValueError("Cannot provide both morphology_file and distribution")
-            if isinstance(morphology_file, list):
-                self.distribution = [Distribution(location=mf) for mf in morphology_file]
-            else:
-                self.distribution = Distribution(location=morphology_file)
+            self.morphology_file = morphology_file
         self.id = id
         self.instance = instance
+
+    @property
+    def morphology_file(self):
+        if isinstance(self.distribution, list):
+            return [d.location for d in self.distribution]
+        else:
+            return self.distribution.location
+
+    @morphology_file.setter
+    def morphology_file(self, value):
+        if isinstance(value, list):
+            self.distribution = [Distribution(location=mf) for mf in value]
+        else:
+            self.distribution = Distribution(location=value)
 
     @classmethod
     @cache
@@ -841,6 +852,7 @@ class ValidationTestDefinition(KGObject, HasAliasMixin):
                 "@type": item.type,
                 "@id": item.id
             } for item in as_list(self.reference_data)]
+        # todo: if we're auto-saving authors, should do the same for reference data
         if self.data_type is not None:
             data["dataType"] = self.data_type
         if self.recording_modality is not None:
@@ -917,7 +929,7 @@ class ValidationScript(KGObject):  # or ValidationImplementation
         obj = cls(name=D["name"],
                   description=D.get("description", ""),
                   date_created=D["dateCreated"],
-                  repository=D.get("repository"),
+                  repository=D.get("repository")["@id"] if "repository" in D else None,
                   version=D.get("version"),
                   parameters=D.get("parameters"),
                   test_class=D.get("path"),
@@ -955,7 +967,8 @@ class ValidationScript(KGObject):  # or ValidationImplementation
 
 class ValidationResult(KGObject):
     """docstring"""
-    path = NAMESPACE + "/simulation/validationresult/v0.1.1"
+    path = NAMESPACE + "/simulation/validationresult/v0.1.0"
+    #path = NAMESPACE + "/simulation/validationresult/v0.1.1"
     type = ["prov:Entity", "nsg:ValidationResult"]
     context = [
         "{{base}}/contexts/neurosciencegraph/core/data/v0.3.1",
@@ -1048,8 +1061,7 @@ class ValidationResult(KGObject):
 
 class ValidationActivity(KGObject):
     """docstring"""
-    #path = NAMESPACE + "/simulation/modelvalidation/v0.2.0"
-    path = NAMESPACE + "/simulation/modelvalidation/v0.4.0"  # debug
+    path = NAMESPACE + "/simulation/modelvalidation/v0.2.0"
     type = ["prov:Activity", "nsg:ModelValidation"]
     context = [
         "{{base}}/contexts/neurosciencegraph/core/data/v0.3.1",

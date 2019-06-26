@@ -27,7 +27,10 @@ registry = {
 def register_class(target_class):
     registry['names'][target_class.__name__] = target_class
     if hasattr(target_class, 'type'):
-        registry['types'][tuple(target_class.type)] = target_class
+        if isinstance(target_class.type, basestring):
+            registry['types'][target_class.type] = target_class
+        else:
+            registry['types'][tuple(target_class.type)] = target_class
 
 
 def lookup(class_name):
@@ -90,17 +93,20 @@ class KGObject(with_metaclass(Registry, object)):
         raise NotImplementedError("To be implemented by child class")
 
     @classmethod
-    def from_uri(cls, uri, client, use_cache=True):
-        return cls.from_kg_instance(client.instance_from_full_uri(uri, use_cache=use_cache),
+    def from_uri(cls, uri, client, use_cache=True, deprecated=False):
+        return cls.from_kg_instance(client.instance_from_full_uri(uri,
+                                                                  use_cache=use_cache,
+                                                                  deprecated=deprecated),
                                     client,
                                     use_cache=use_cache)
 
     @classmethod
-    def from_uuid(cls, uuid, client):
+    def from_uuid(cls, uuid, client, deprecated=False):
+        logger.info("Attempting to retrieve {} with uuid {}".format(cls.__name__, uuid))
         if len(uuid) == 0:
             raise ValueError("Empty UUID")
         val = UUID(uuid, version=4)  # check validity of uuid
-        instance = client.instance_from_uuid(cls.path, uuid)
+        instance = client.instance_from_uuid(cls.path, uuid, deprecated=deprecated)
         if instance is None:
             return None
         else:
@@ -112,7 +118,7 @@ class KGObject(with_metaclass(Registry, object)):
 
     @classmethod
     def uri_from_uuid(cls, uuid, client):
-        return "{}/{}/{}".format(client.nexus_endpoint, cls.path, uuid)
+        return "{}/data/{}/{}".format(client.nexus_endpoint, cls.path, uuid)
 
     @classmethod
     def list(cls, client, size=100, **filters):
@@ -333,6 +339,10 @@ class KGProxy(object):
         return ('{self.__class__.__name__}('
                 '{self.cls!r}, {self.id!r})'.format(self=self))
 
+    @property
+    def uuid(self):
+        return self.id.split("/")[-1]
+
     def delete(self, client):
         """Delete the instance which this proxy represents"""
         obj = self.resolve(client)
@@ -349,6 +359,10 @@ class KGQuery(object):
             self.cls = cls
         self.filter = filter
         self.context = context
+
+    def __repr__(self):
+        return ('{self.__class__.__name__}('
+                '{self.cls!r}, {self.filter!r})'.format(self=self))
 
     def resolve(self, client, size=10000):
         instances = client.filter_query(
@@ -447,21 +461,25 @@ def build_kg_object(cls, data):
     objects = []
     for item in data:
         if cls is None:
+            # note that if cls is None, then the class can be different for each list item
+            # therefore we need to use a new variable kg_cls inside the loop
             if "@type" in item:
-                cls = lookup_type(item["@type"])
+                kg_cls = lookup_type(item["@type"])
             elif "label" in item:
                 # we could possibly do a reverse lookup using iri_map of all the OntologyTerm
                 # subclasses but for now just returning the base class
-                cls = OntologyTerm
+                kg_cls = OntologyTerm
             else:
                 raise ValueError("Cannot determine type. Item was: {}".format(item))
+        else:
+            kg_cls = cls
 
-        if issubclass(cls, OntologyTerm):
-            obj = cls.from_jsonld(item)
-        elif issubclass(cls, KGObject):
-            obj = KGProxy(cls, item["@id"])
-        elif cls is Distribution:
-            obj = cls.from_jsonld(item)
+        if issubclass(kg_cls, OntologyTerm):
+            obj = kg_cls.from_jsonld(item)
+        elif issubclass(kg_cls, KGObject):
+            obj = KGProxy(kg_cls, item["@id"])
+        elif kg_cls is Distribution:
+            obj = kg_cls.from_jsonld(item)
         else:
             raise ValueError("cls must be a KGObject, OntologyTerm or Distribution")
         objects.append(obj)
@@ -475,6 +493,8 @@ def build_kg_object(cls, data):
 def as_list(obj):
     if obj is None:
         return []
+    elif isinstance(obj, (dict, basestring)):
+        return [obj]
     try:
         L = list(obj)
     except TypeError:

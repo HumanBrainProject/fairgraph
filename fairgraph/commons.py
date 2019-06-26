@@ -25,7 +25,8 @@ class Species(OntologyTerm):
         "Callithrix jacchus": "http://purl.obolibrary.org/obo/NCBITaxon_9483",
         "Homo sapiens": "http://purl.obolibrary.org/obo/NCBITaxon_9606",
         "Macaca mulatta": "http://purl.obolibrary.org/obo/NCBITaxon_9544",
-        "Monodelphis domestica": "http://purl.obolibrary.org/obo/NCBITaxon_13616"
+        "Monodelphis domestica": "http://purl.obolibrary.org/obo/NCBITaxon_13616",
+        "Ornithorhynchus anatinus": "http://purl.obolibrary.org/obo/NCBITaxon_9258"
     }
 
 
