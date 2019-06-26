@@ -5,6 +5,7 @@ Metadata about, or related to, software
 import logging
 import datetime
 from dateutil import parser as date_parser
+
 from .base import KGObject, cache, KGProxy, build_kg_object, Distribution, as_list, KGQuery, OntologyTerm
 from .core import Organization, Person
 from .commons import License
@@ -44,8 +45,21 @@ class ProgrammingLanguage(OntologyTerm):
     }
 
 
+class Device(OntologyTerm):
+    iri_map = {
+        "Mobile": "https://www.wikidata.org/wiki/Q5082128",
+        "Desktop Computer": "https://www.wikidata.org/wiki/Q56155"
+    }
+
+class Language(OntologyTerm):
+    iri_map = {
+        "English": "https://www.wikidata.org/wiki/Q1860",
+        "German": "https://www.wikidata.org/wiki/Q188"
+    }
+
+
 class Software(KGObject):
-    path = NAMESPACE + "/software/software/v0.1.1"
+    path = NAMESPACE + "/software/software/v0.1.2"
     type = ["prov:Entity", "nsg:Software"]
 
     context = {
@@ -54,34 +68,34 @@ class Software(KGObject):
         "schema": "http://schema.org/"
     }
 
-    def __init__(self, name, version, summary=None, description=None, identifier=None,
+    def __init__(self, name, version, providerId=None, summary=None, description=None, identifier=None,
                  citation=None, license=None, release_date=None, previous_version=None,
-                 contributors=None, project=None, image=None, download_url=None,
-                 access_url=None, categories=None, subcategories=None,
-                 operating_system=None, release_notes=None, requirements=None, copyright=None,
-                 components=None, part_of=None,
+                 authors=None, project=None, image=None, categories=None, subcategories=None,
+                 operating_system=None, release_notes=None, screenshots=None, requirements=None, headline=None, copyright=None,
+                 programmingLanguage=None, components=None, part_of=None,
                  funding=None, languages=None, features=None, keywords=None, is_free=None,
-                 homepage=None, documentation=None, help=None, id=None, instance=None):
+                 homepage=None, documentation=None, help=None, code=None, devices=None, id=None, instance=None):
         self.name = name
         self.version = version
-        self.summary = summary
+        self.providerId = providerId
         self.description = description
         self.identifier = identifier
         self.citation = citation
         self.license = license
         self.release_date = release_date
         self.previous_version = previous_version
-        self.contributors = contributors
+        self.authors = authors
         self.project = project
         self.image = image
-        self.download_url = download_url
-        self.access_url = access_url
         self.categories = categories
         self.subcategories = subcategories
         self.operating_system = operating_system
         self.release_notes = release_notes
+        self.screenshots = screenshots
         self.requirements = requirements
+        self.headline = headline
         self.copyright = copyright
+        self.programmingLanguage = programmingLanguage
         self.components = components
         self.part_of = part_of
         self.funding = funding
@@ -92,6 +106,8 @@ class Software(KGObject):
         self.homepage = homepage
         self.documentation = documentation
         self.help = help
+        self.code = code
+        self.devices = devices
         self.id = id
         self.instance = instance
 
@@ -107,7 +123,7 @@ class Software(KGObject):
         assert 'nsg:Software' in D["@type"]
         obj = cls(name=D["schema:name"],
                   version=D["schema:version"],
-                  summary=D.get("schema:headline"),
+                  providerId=D.get("schema:providerId"),
                   description=D.get("schema:description"),
                   #identifier=build_kg_object(Identifier, D .get("schema:identifier")),  # todo: implement commons.Identifier
                   citation=D.get("schema:citation"),
@@ -115,27 +131,30 @@ class Software(KGObject):
                   release_date=date_parser.parse(D.get("schema:dateCreated"))
                                if "schema:dateCreated" in D else None,
                   previous_version=build_kg_object(Software, D.get("prov:wasRevisionOf")),
-                  contributors=build_kg_object(Person, D.get("prov:wasAttributedTo")),
-                  #project=D.get(""),  # todo: add link to SoftwareProject to schema?
+                  authors=build_kg_object(Person, D.get("schema:author")),
+                  project=build_kg_object(SoftwareProject, D.get("schema:project")),  # todo: add link to SoftwareProject to schema?
                   image=D["schema:image"]["@id"] if "schema:image" in D else None,
-                  download_url=D["schema:distribution"].get("schema:downloadURL") if "schema:distribution" in D else None,
-                  access_url=D["schema:distribution"].get("schema:accessURL") if "schema:distribution" in D else None,
                   categories=build_kg_object(SoftwareCategory, D.get("schema:applicationCategory")),
                   subcategories=build_kg_object(SoftwareCategory, D.get("schema:applicationSubCategory")),
                   operating_system=build_kg_object(OperatingSystem, D.get("schema:operatingSystem")),
                   release_notes=D.get("schema:releaseNotes"),  # should probably contain ["@id"] ?
-                  requirements=D.get("schema:softwareRequirements"),
+                  screenshots=D["schema:screenshot"]["@id"] if "schema:screenshot" in D else None,
+                  requirements=D.get("schema:requirements"),
+                  headline=D.get("schema:headline"),
                   copyright=build_kg_object(Organization, D.get("schema:copyrightHolder")),
                   components=build_kg_object(Software, D.get("schema:hasPart")),
                   part_of=build_kg_object(Software, D.get("schema:partOf")),
                   funding=build_kg_object(Organization, D.get("schema:funder")),
-                  languages=build_kg_object(ProgrammingLanguage, D.get("schema:programmingLanguage")),
-                  #features=build_kg_object(SoftwareFeature, D.get("schema:feature")),  # todo: implement SoftwareFeature
+                  programmingLanguage=build_kg_object(ProgrammingLanguage, D.get("schema:programmingLanguage")),
+                  features=build_kg_object(SoftwareFeature, D.get("schema:feature")),  # todo: implement SoftwareFeature
                   keywords=D.get("schema:keywords"),
                   is_free=D.get("schema:isAccessibleForFree"),
                   homepage=D["schema:url"]["@id"] if "schema:url" in D else None,
                   documentation=D["schema:documentation"]["@id"] if "schema:documentation" in D else None,
-                  help=D["schema:softwareHelp"]["@id"] if "schema:softwareHelp" in D else None,
+                  help=D["schema:help"]["@id"] if "schema:help" in D else None,
+                  code=D["schema:code"]["@id"] if "schema:code" in D else None,
+                  devices=build_kg_object(Device, D.get("schema:device")),
+                  languages=build_kg_object(Language,D.get("schema:language")),
                   id=D.get("@id"),
                   instance=instance)
         return obj
@@ -145,8 +164,8 @@ class Software(KGObject):
         data = {}
         data["schema:name"] = self.name
         data["schema:version"] = self.version
-        if self.summary:
-            data["schema:headline"] = self.summary
+        if self.providerId:
+            data["schema:providerId"] = self.providerId
         if self.description:
             data["schema:description"] = self.description
         if self.identifier:
@@ -163,21 +182,13 @@ class Software(KGObject):
                 "@id": self.previous_version.id,
                 "@type": self.previous_version.type
             }
-        if self.contributors:
-            data["prov:wasAttributedTo"] = [{
+        if self.authors:
+            data["schema:author"] = [{
                     "@id": person.id,
                     "@type": person.type
-                } for person in as_list(self.contributors)]
+                } for person in as_list(self.authors)]
         if self.image:
             data["schema:image"] = {"@id": self.image}
-        if self.download_url:
-            data["schema:distribution"] = {
-                "schema:downloadURL": {"@id": self.download_url}
-            }
-        if self.access_url:
-            if "schema:distribution" not in data:
-                data["schema:distribution"] = {}
-            data["schema:distribution"]["schema:accessURL"] = {"@id": self.access_url}
         if self.categories:
             data["schema:applicationCategory"] = [cat.to_jsonld() for cat in as_list(self.categories)]
         if self.subcategories:
@@ -187,8 +198,12 @@ class Software(KGObject):
                                               for os in as_list(self.operating_system)]
         if self.release_notes:
             data["schema:releaseNotes"] = self.release_notes
+        if self.screenshots:
+            data["schema:screenshot"] = {"@id": self.screenshots}
         if self.requirements:
-            data["schema:softwareRequirements"] = self.requirements
+            data["schema:requirements"] = self.requirements
+        if self.headline:
+            data["schema:headline"] = self.headline
         if self.copyright:
             data["schema:copyrightHolder"] = {
                 "@id": self.copyright.id,
@@ -209,8 +224,8 @@ class Software(KGObject):
                     "@id": org.id,
                     "@type": org.type
                 } for org in as_list(self.funding)]
-        if self.languages:
-            data["schema:programmingLanguage"] = [lang.to_jsonld() for lang in as_list(self.languages)]
+        if self.programmingLanguage:
+            data["schema:programmingLanguage"] = [lang.to_jsonld() for lang in as_list(self.programmingLanguage)]
         if self.features:
             data["schema:feature"] = [{
                     "@id": feature.id,
@@ -225,5 +240,161 @@ class Software(KGObject):
         if self.documentation:
             data["schema:documentation"] = {"@id": self.documentation}
         if self.help:
-            data["schema:softwareHelp"] = {"@id": self.help}
+            data["schema:help"] = {"@id": self.help}
+        if self.code:
+            data["schema:code"] = {"@id": self.code}
+        if self.devices:
+            data["schema:device"] = [dev.to_jsonld() for dev in as_list(self.devices)]
+        if self.project:
+            data["schema:project"] = {
+                "@id": self.project.id,
+                "@type": self.project.type
+            }
+        if self.languages:
+            [lang.to_jsonld() for lang in as_list(self.languages)]
+        return data
+
+
+class SoftwareFeature(KGObject):
+    path = NAMESPACE + "/software/softwarefeature/v0.1.1"
+    type = ["prov:Entity", "nsg:SoftwareFeature"]
+
+    context = {
+        "nsg": "https://bbp-nexus.epfl.ch/vocabs/bbp/neurosciencegraph/core/v0.1.0/",
+        "prov": "http://www.w3.org/ns/prov#",
+        "schema": "http://schema.org/"
+    }
+
+    def __init__(self, name,description=None, feature=None, id=None, instance=None):
+        self.name = name
+        self.description = description
+        self.feature = feature
+        self.id = id
+        self.instance = instance
+
+    def __repr__(self):
+        return ('{self.__class__.__name__}('
+                '{self.name!r}, '
+                '{self.id})'.format(self=self))
+
+    @classmethod
+    @cache
+    def from_kg_instance(cls, instance, client, use_cache=True):
+        D = instance.data
+        assert 'nsg:SoftwareFeature' in D["@type"]
+        obj = cls(name=D["schema:name"],
+                  description=D.get("schema:description"),
+                  feature=build_kg_object(SoftwareFeature, D.get("schema:feature")),
+                  id=D.get("@id"),
+                  instance=instance)
+        return obj
+
+    def _build_data(self, client):
+        """docstring"""
+        data = {}
+        data["schema:name"] = self.name
+        if self.feature:
+            data["schema:feature"] = self.feature
+        if self.description:
+            data["schema:description"] = self.description
+
+        return data
+
+
+class SoftwareFeatureCategory(KGObject):
+    path = NAMESPACE + "/software/softwarefeaturecategory/v0.1.0"
+    type = ["prov:Entity", "nsg:SoftwareFeatureCategory"]
+
+    context = {
+        "nsg": "https://bbp-nexus.epfl.ch/vocabs/bbp/neurosciencegraph/core/v0.1.0/",
+        "prov": "http://www.w3.org/ns/prov#",
+        "schema": "http://schema.org/"
+    }
+
+    def __init__(self, name, description=None, features=None, id=None, instance=None):
+        self.name = name
+        self.features = features
+        self.description = description
+        self.id = id
+        self.instance = instance
+
+    def __repr__(self):
+        return ('{self.__class__.__name__}('
+                '{self.name!r}, '
+                '{self.id})'.format(self=self))
+
+    @classmethod
+    @cache
+    def from_kg_instance(cls, instance, client, use_cache=True):
+        D = instance.data
+        assert 'nsg:SoftwareFeatureCategory' in D["@type"]
+        obj = cls(name=D["schema:name"],
+                  description=D.get("schema:description"),
+                  features=(build_kg_object(SoftwareCategory, D["schema:feature"]) if D["schema:feature"]["@type"] == "nsg:SoftwareFeature" else build_kg_object(SoftwareFeatureCategory, D["schema:feature"])) if "schema:feature" in D else None,
+                  id=D.get("@id"),
+                  instance=instance)
+        return obj
+
+    def _build_data(self, client):
+        """docstring"""
+        data = {}
+        data["schema:name"] = self.name
+        if self.features:
+            data["schema:feature"] = [{
+                    "@id": feature.id,
+                    "@type": feature.type
+                } for feature in as_list(self.features)]
+
+        if self.description:
+            data["schema:description"] = self.description
+
+        return data
+
+
+class SoftwareProject(KGObject):
+    path = NAMESPACE + "/software/softwareproject/v0.1.0"
+    type = ["prov:Entity", "nsg:SoftwareProject"]
+
+    context = {
+        "nsg": "https://bbp-nexus.epfl.ch/vocabs/bbp/neurosciencegraph/core/v0.1.0/",
+        "prov": "http://www.w3.org/ns/prov#",
+        "schema": "http://schema.org/"
+    }
+
+    def __init__(self, name, description=None, instances=None, id=None, instance=None):
+        self.name = name
+        self.description = description
+        self.instances = instances
+        self.id = id
+        self.instance = instance
+
+    def __repr__(self):
+        return ('{self.__class__.__name__}('
+                '{self.name!r}, '
+                '{self.id})'.format(self=self))
+
+    @classmethod
+    @cache
+    def from_kg_instance(cls, instance, client, use_cache=True):
+        D = instance.data
+        assert 'nsg:SoftwareProject' in D["@type"]
+        obj = cls(name=D["schema:name"],
+                  description=D.get("schema:description"),
+                  instances=build_kg_object(Software, D.get("schema:instance")),
+                  id=D.get("@id"),
+                  instance=instance)
+        return obj
+
+    def _build_data(self, client):
+        """docstring"""
+        data = {}
+        data["schema:name"] = self.name
+        if self.instances:
+            data["schema:instance"] = [{
+                "@id": instance.id,
+                "@type": instance.type
+            } for instance in as_list(self.instances)]
+        if self.description:
+            data["schema:description"] = self.description
+
         return data

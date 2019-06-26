@@ -9,8 +9,8 @@ from .base import KGObject, KGProxy, cache, as_list
 from .errors import ResourceExistsError
 from .commons import Address, Species, Strain, Sex, Age, QuantitativeValue
 
-NAMESPACE = "neuralactivity"
-#NAMESPACE = "neurosciencegraph"
+#NAMESPACE = "neuralactivity"
+NAMESPACE = "neurosciencegraph"
 #NAMESPACE = "brainsimulation"
 
 logger = logging.getLogger("fairgraph")
