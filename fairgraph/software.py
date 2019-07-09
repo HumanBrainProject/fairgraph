@@ -302,7 +302,7 @@ class SoftwareFeature(KGObject):
 
 
 class SoftwareFeatureCategory(KGObject):
-    path = NAMESPACE + "/software/softwarefeaturecategory/v0.1.0"
+    path = NAMESPACE + "/software/softwarefeaturecategory/v0.1.1"
     type = ["prov:Entity", "nsg:SoftwareFeatureCategory"]
 
     context = {
@@ -330,7 +330,7 @@ class SoftwareFeatureCategory(KGObject):
         assert 'nsg:SoftwareFeatureCategory' in D["@type"]
         obj = cls(name=D["schema:name"],
                   description=D.get("schema:description"),
-                  features=(build_kg_object(SoftwareCategory, D["schema:feature"]) if D["schema:feature"]["@type"] == "nsg:SoftwareFeature" else build_kg_object(SoftwareFeatureCategory, D["schema:feature"])) if "schema:feature" in D else None,
+                  features=(build_kg_object(SoftwareCategory, D["schema:feature"]) if D["schema:feature"][0]["@type"] == "nsg:SoftwareFeature" else build_kg_object(SoftwareFeatureCategory, D["schema:feature"])) if "schema:feature" in D else None,
                   id=D.get("@id"),
                   instance=instance)
         return obj
