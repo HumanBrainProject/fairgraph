@@ -286,6 +286,21 @@ class Field(object):
                 return None
 
 
+def get_field(D, path):
+    if path in D:
+        return D[path]
+    else:
+        try:
+            expanded_path = expand_uri(path, standard_context)[0]
+        except ValueError:
+            #logger.debug("Unable to expand {}".format(path))
+            return None
+        if expanded_path in D:
+            return D[expanded_path]
+        else:
+            return None
+
+
 #class KGObject(object, metaclass=Registry):
 class KGObject(with_metaclass(Registry, object)):
     """Base class for Knowledge Graph objects"""
@@ -357,7 +372,7 @@ class KGObject(with_metaclass(Registry, object)):
             args = {}
             for field in cls.fields:
                 if field.intrinsic:
-                    data_item = D.get(field.path)
+                    data_item = get_field(D, field.path)
                     # todo: handle over-loaded fields, e.g. "used" in ValidationActivity
                 else:
                     data_item = D["@id"]
@@ -967,6 +982,9 @@ class IRI(object):
         if not value.startswith("http"):
             raise ValueError("Invalid IRI")
         self.value = value
+
+    def __repr__(self):
+        return 'IRI("{}")'.format(self.value)
 
     def __eq__(self, other):
         return self.__class__ == other.__class__ and self.value == other.value

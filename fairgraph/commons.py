@@ -267,6 +267,13 @@ class StimulusType(OntologyTerm):
     }
 
 
+class Language(OntologyTerm):
+    iri_map = {
+        "English": "https://www.wikidata.org/wiki/Q1860",
+        "German": "https://www.wikidata.org/wiki/Q188"
+    }
+
+
 class QuantitativeValue(StructuredMetadata):
     """docstring"""
     unit_codes = {

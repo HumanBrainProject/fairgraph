@@ -32,11 +32,11 @@ class TestSoftware(object):
             license=License("CeCILL v2"),
             release_date=date(2019, 3, 22),
             previous_version=None,
-            contributors=[Person("Davison", "Andrew", "andrew.davison@unic.cnrs-gif.fr")],
+            authors=[Person("Davison", "Andrew", "andrew.davison@unic.cnrs-gif.fr")],
             project=None,
             image="https://neuralensemble.org/static/photos/pynn_logo.png",
-            download_url="https://files.pythonhosted.org/packages/a2/1c/78b5d476900254c2c638a29a343ea12985ea16b12c7aed8cec252215c848/PyNN-0.9.4.tar.gz",
-            access_url="https://pypi.org/project/PyNN/0.9.4/",
+            #download_url="https://files.pythonhosted.org/packages/a2/1c/78b5d476900254c2c638a29a343ea12985ea16b12c7aed8cec252215c848/PyNN-0.9.4.tar.gz",
+            #access_url="https://pypi.org/project/PyNN/0.9.4/",
             categories=None,
             subcategories=None,
             operating_system=[OperatingSystem("Linux"), OperatingSystem("MacOS"), OperatingSystem("Windows")],
@@ -46,7 +46,7 @@ class TestSoftware(object):
             components=None,
             part_of=None,
             funding=[Organization("CNRS"), Organization("Human Brain Project")],
-            languages=ProgrammingLanguage("Python"),
+            programming_language=ProgrammingLanguage("Python"),
             features=None,
             keywords="simulation, neuroscience",
             is_free=True,
@@ -65,28 +65,31 @@ class TestSoftware(object):
             'schema:license': {'@id': input_data["license"].iri, 'label': input_data["license"].label},
             'schema:dateCreated': '2019-03-22',
             'schema:copyrightYear': input_data["release_date"].year,
-            'prov:wasAttributedTo': [
-                {'@id': None, '@type': ['nsg:Person', 'prov:Agent']}
-            ],
+            # 'prov:wasAttributedTo': [
+            #     {'@id': None, '@type': ['nsg:Person', 'prov:Agent']}
+            # ],
+            'schema:author': {'@id': None, '@type': ['nsg:Person', 'prov:Agent']},
             'schema:image': {'@id': input_data["image"]},
-            'schema:distribution': {
-                'schema:downloadURL': {"@id": input_data["download_url"]},
-                'schema:accessURL': {"@id": input_data["access_url"]}
-            },
+            # 'schema:distribution': {
+            #     'schema:downloadURL': {"@id": input_data["download_url"]},
+            #     'schema:accessURL': {"@id": input_data["access_url"]}
+            # },
             'schema:operatingSystem': [
                 {'@id': os.iri, 'label': os.label}
                 for os in input_data["operating_system"]
             ],
             'schema:releaseNotes': input_data["release_notes"],
-            'schema:softwareRequirements': input_data["requirements"],
+            #'schema:softwareRequirements': input_data["requirements"],
+            'schema:requirements': input_data["requirements"],
             'schema:copyrightHolder': {'@id': None, '@type': 'nsg:Organization'},
             'schema:funder': [{'@id': None, '@type': 'nsg:Organization'}, {'@id': None, '@type': 'nsg:Organization'}],
-            'schema:programmingLanguage': [{'@id': input_data["languages"].iri, 'label': input_data["languages"].label}],
+            'schema:programmingLanguage': {'@id': input_data["programming_language"].iri, 'label': input_data["programming_language"].label},
             'schema:keywords': input_data["keywords"],
             'schema:isAccessibleForFree': input_data["is_free"],
             'schema:url': {'@id': input_data["homepage"]},
             'schema:documentation': {'@id': input_data["documentation"]},
-            'schema:softwareHelp': {'@id': input_data["help"]}
+            #'schema:softwareHelp': {'@id': input_data["help"]}
+            'schema:help': {'@id': input_data["help"]}
         }
 
     def test_from_instance(self):
