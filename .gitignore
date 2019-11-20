@@ -7,3 +7,4 @@ htmlcov
 *.pyc
 doc/_build
 *.py.orig
+.idea/
