@@ -17,7 +17,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from pyld import jsonld
+
 try:
     from urllib.parse import urlparse, quote_plus
 except ImportError:  # Python 2
@@ -27,6 +27,7 @@ try:
     basestring
 except NameError:
     basestring = str
+from pyld import jsonld
 
 
 ATTACHMENT_SIZE_LIMIT = 1024 * 1024  # 1 MB
@@ -144,7 +145,7 @@ def expand_uri(uri_list, context, client=None):
     expanded_uris = tuple(jsonld.expand(doc)[0]["@type"])
     for uri in expanded_uris:
         if not uri.startswith("http"):
-            raise ValueError(f"Problem expanding '{uri_list}'. Context = {full_context}")
+            raise ValueError("Problem expanding '{}'. Context = {}".format(uri_list, full_context))
     return expanded_uris
 
 

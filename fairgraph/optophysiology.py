@@ -28,18 +28,19 @@ Coming soon:
 
 import sys
 import inspect
-from datetime import datetime
-from .base import KGObject, Field, Distribution
-from .commons import QuantitativeValue, BrainRegion, License
-from .core import Person, Protocol
-from .experiment import CranialWindow, Slice, VisualStimulation, ElectrophysiologicalStimulation, BehavioralStimulation, Device
 try:
     basestring
 except NameError:
     basestring = str
+from datetime import datetime
+
+from .base import KGObject, KGProxy, KGQuery, cache, lookup, build_kg_object, Field, Distribution
+from .commons import QuantitativeValue, BrainRegion, Origin, CellType, StimulusType, License, Shape
+from .core import Subject, Person, Protocol
+from .minds import Dataset
+from .utility import compact_uri, standard_context, as_list
 
 DEFAULT_NAMESPACE = "neuralactivity"
-
 
 class Position(KGObject):
     """Location within a coordinate system."""
@@ -52,7 +53,7 @@ class Position(KGObject):
         "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
         "nsg": "https://bbp-nexus.epfl.ch/vocabs/bbp/neurosciencegraph/core/v0.1.0/",
         "name": "schema:name",
-        "origin": "nsg:origin",
+    	"origin": "nsg:origin",
         "x": "nsg:x",
         "ycoordinate": "nsg:y"
         }
@@ -123,11 +124,11 @@ class TimeSeriesExtraction(KGObject):
         "value": "schema:value",
         "used": "prov:used",
         "generated": "prov:generated",
-        "hadProtocol":"p  rov:hadProtocol",
+	    "hadProtocol":"p  rov:hadProtocol",
         "wasAssociatedWith": "prov:wasAssociatedWith",
-        "citation":"nsg:citation",
-        "code":"nsg:code",
-        "license":"nsg:license"
+    	"citation":"nsg:citation",
+    	"code":"nsg:code",
+    	"license":"nsg:license"
         }
     fields = (
         Field("name", basestring, "name", required=True),
@@ -135,9 +136,9 @@ class TimeSeriesExtraction(KGObject):
         Field("region_of_interest", "optophysiology.RegionOfInterest", "used"),
         Field("protocol", Protocol, "hadProtocol"),
         Field("people", Person, "wasAssociatedWith", multiple=True),
-        Field("citation", basestring, "citation"),
-        Field("code", basestring, "code"),
-        Field("license", License, "license")
+    	Field("citation", basestring, "citation"),
+    	Field("code", basestring, "code"),
+    	Field("license", License, "license")
     )
 
     def __init__(self, name, fluorescence_trace, region_of_interest=None, protocol=None, people=None, citation=None, code=None, license=None, id=None, instance=None):
@@ -152,20 +153,20 @@ class ImageSequence(KGObject):
     _path = "/optophysiology/imagesequence/v0.1.0"
     type = ["nsg:ImageSequence", "prov:Entity"]
     context = {
-        "schema": "http://schema.org/",
-        "prov": "http://www.w3.org/ns/prov#",
-        "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
-        "nsg": "https://bbp-nexus.epfl.ch/vocabs/bbp/neurosciencegraph/core/v0.1.0/",
-        "name": "schema:name",
-        "frameRate": "nsg:frameRate",
-        "imageCount": "nsg:imageCount",
-        "imageSize": "nsg:imageSize",
-        "brainLocation": "nsg:brainLocation",
-        "value": "schema:value",
-        "extent": "nsg:extent",
-        "description": "schema:description",
-        "wasGeneratedBy": "prov:wasGeneratedBy",
-        "distribution": {
+            "schema": "http://schema.org/",
+            "prov": "http://www.w3.org/ns/prov#",
+            "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+            "nsg": "https://bbp-nexus.epfl.ch/vocabs/bbp/neurosciencegraph/core/v0.1.0/",
+            "name": "schema:name",
+            "frameRate": "nsg:frameRate",
+            "imageCount": "nsg:imageCount",
+            "imageSize": "nsg:imageSize",
+            "brainLocation": "nsg:brainLocation",
+            "value": "schema:value",
+            "extent": "nsg:extent",
+            "description": "schema:description",
+            "wasGeneratedBy": "prov:wasGeneratedBy",
+            "distribution": {
                 "@id": "schema:distribution",
                 "@type": "@id"},
             "downloadURL": {
@@ -173,7 +174,7 @@ class ImageSequence(KGObject):
                 "@type": "@id"},
             "mediaType": {
                 "@id": "schema:mediaType"
-                },
+            },
             "minds": "https://schema.hbp.eu/"
             }
 
@@ -185,7 +186,7 @@ class ImageSequence(KGObject):
         Field("image_size", int, "imageSize", required=False), # assumed square
         Field("extent", QuantitativeValue, "extent"),
         Field("brain_location", BrainRegion, "brainRegion", required=False, multiple=True),
-        Field("correction_activity", "optophysiology.MotionCorrection", "^prov:used", reverse=["before", "after"]),
+        Field("correction_activity", "optophysiology.MotionCorrection", "^prov:used", reverse=["before","after"]),
         Field("distribution", Distribution, "distribution", required=False),
         Field("description", basestring, "description", required=False)
     )
@@ -195,7 +196,6 @@ class ImageSequence(KGObject):
         args = locals()
         args.pop("self")
         KGObject.__init__(self, **args)
-
 
 class RegionOfInterest(KGObject):
     """A region of interest within an image sequence."""
@@ -208,23 +208,23 @@ class RegionOfInterest(KGObject):
         "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
         "nsg": "https://bbp-nexus.epfl.ch/vocabs/bbp/neurosciencegraph/core/v0.1.0/",
         "name": "schema:name",
-        "position": "nsg:position",
+        "position":"nsg:position",
         "shape": "nsg:geometry",
-        "description": "nsg:description",
-        "classification": "nsg:classification"
+    	"description":"nsg:description",
+    	"classification":"nsg:classification"
         }
 
     fields = (
         Field("name", basestring, "name", required=True),
         Field("position", Position, "position"),
         Field("shape", basestring, "shape"),
-        Field("classification", basestring, "classification"),
-        Field("description", basestring, "description"),
+    	Field("classification", basestring, "classification"),
+    	Field("description", basestring, "description"),
         Field("selection", "optophysiology.ROISelection","^prov:generated", reverse="regions"),
         Field("time_series", TimeSeriesExtraction,"^prov:used", reverse="region_of_interest"),
     )
 
-    def __init__(self, name, position=None, shape=None, classification=None,
+    def __init__(self, name, position= None, shape=None, classification=None,
     description=None, selection=None, time_series=None, id=None, instance=None):
         args = locals()
         args.pop("self")
@@ -244,11 +244,11 @@ class ROISelection(KGObject):
         "name": "schema:name",
         "used": "prov:used",
         "generated": "prov:generated",
-        "hadProtocol": "prov:hadProtocol",
+	    "hadProtocol":"p  rov:hadProtocol",
         "wasAssociatedWith": "prov:wasAssociatedWith",
-        "citation": "nsg:citation",
-        "code": "nsg:code",
-        "license": "nsg:license"
+    	"citation":"nsg:citation",
+    	"code":"nsg:code",
+    	"license":"nsg:license"
         }
     fields = (
         Field("name", basestring, "name", required=True),
@@ -256,9 +256,9 @@ class ROISelection(KGObject):
         Field("regions", RegionOfInterest, "generated", required=True),
         Field("protocol", Protocol, "hadProtocol"),
         Field("people", Person, "wasAssociatedWith", multiple=True),
-        Field("citation", basestring, "citation"),
-        Field("code", basestring, "code"),
-        Field("license", License, "license")
+    	Field("citation", basestring, "citation"),
+    	Field("code", basestring, "code"),
+    	Field("license", License, "license")
     )
 
     def __init__(self, name, image_sequence, regions, protocol=None, people=None, citation=None, code=None, license=None, id=None, instance=None):
@@ -267,56 +267,150 @@ class ROISelection(KGObject):
         KGObject.__init__(self, **args)
 
 
-class TwoPhotonImaging(KGObject):
-    """Two-photon-excited fluorescence laser-scanning microscopy."""
+class CranialWindow(KGObject):
+    """A window (partially) through the skull."""
     namespace = DEFAULT_NAMESPACE
-    _path = "/optophysiology/twophotonimaging/v0.1.1"
-    #type = ["prov:ExperimentalActivity", "nsg:TwoPhotonImaging"]
-    type = ["nsg:TwoPhotonImaging", "prov:Activity"]
+    _path = "/optophysiology/cranialwindow/v0.1.1"
+    type = ["nsg:CranialWindow", "prov:Entity"]
     context = {
         "schema": "http://schema.org/",
         "prov": "http://www.w3.org/ns/prov#",
-        "nsg": "https://bbp-nexus.epfl.ch/vocabs/bbp/neurosciencegraph/core/v0.1.0/",
-        "xsd": "http://www.w3.org/2001/XMLSchema#",
         "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+        "nsg": "https://bbp-nexus.epfl.ch/vocabs/bbp/neurosciencegraph/core/v0.1.0/",
+        "value": "schema:value",
         "name": "schema:name",
         "brainLocation": "nsg:brainLocation",
-        "value": "schema:value",
+        "brainRegion": "nsg:brainRegion",
+    	"windowType":"nsg:windowType",
+    	"diameter":"nsg:diameter",
+    	"fluorescenceLabeling":"nsg:fluorescenceLabeling",
         "description": "schema:description",
-        "wasGeneratedBy": "prov:wasGeneratedBy",
-        "distribution": {
-            "@id": "schema:distribution",
-            "@type": "@id"},
-        "downloadURL": {
-            "@id": "schema:downloadURL",
-            "@type": "@id"},
-        "mediaType": {
-            "@id": "schema:mediaType"
-        },
-        "minds": "https://schema.hbp.eu/",
+        "minds": "https://schema.hbp.eu/"
+        }
+    fields = (
+        Field("name", basestring, "name", required=True),
+        Field("brain_location", BrainRegion, "brainRegion", multiple=True),
+        Field("window_type", basestring, "windowType"),
+        Field("diameter", QuantitativeValue, "diameter"),
+        Field("fluorescence_labeling", basestring, "fluorescenceLabeling"),
+        Field("description", basestring, "description"),
+        Field("generated_by", "Craniotomy", "^prov:generated", reverse="cranial_window"),
+        Field("activity", ("optophysiology.TwoPhotonImaging", "electrophysiology.ElectrodeImplantationActivity", "electrophysiology.PatchClampActivity"), "^prov:used", reverse=["target", "cranial_window", "recorded_tissue"])
+    )
+
+    def __init__(self, name, brain_location=None, window_type=None, diameter=None, fluorescence_labeling=None,
+    description=None, generated_by=None, activity=None, id=None, instance=None):
+        args = locals()
+        args.pop("self")
+        KGObject.__init__(self, **args)
+
+
+class Craniotomy(KGObject):
+    """Surgical procedure to give optical access through the skull to the brain (dura)."""
+    namespace = DEFAULT_NAMESPACE
+    _path = "/optophysiology/craniotomy/v0.2.0"
+    type = ["nsg:Craniotomy", "prov:Activity"]
+    context = {
+        "schema": "http://schema.org/",
+        "prov": "http://www.w3.org/ns/prov#",
+        "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+        "nsg": "https://bbp-nexus.epfl.ch/vocabs/bbp/neurosciencegraph/core/v0.1.0/",
+        "name": "schema:name",
         "generated": "prov:generated",
-        "wasInformedBy": "nsg:wasInformedBy",
         "used": "prov:used",
+        "anesthesia": "nsg:anesthesia",
         "startedAtTime": "prov:startedAtTime",
         "endedAtTime": "prov:endedAtTime",
         "hadProtocol": "prov:hadProtocol",
-        "wasAssociatedWith": "prov:wasAssociatedWith",
-        "device": "nsg:device",
-        "brainState": "nsg:brainState",
-        "anesthesia": "nsg:anesthesia",
-        "imagingDepth": "nsg:imagingDepth",
-        "laser": "nsg:laser",
-        "laserPower": "nsg:laserPower",
-        "excitationWavelength": "nsg:excitationWavelength",
-        "collectionWavelength": "nsg:collectionWavelength"
+        "wasAssociatedWith": "prov:wasAssociatedWith"
+    }
+    fields = (
+        Field("name", basestring, "name", required=True),
+        Field("subject", Subject, "used", required=True),
+        Field("cranial_window", CranialWindow, "generated", required=True),
+        Field("anesthesia", basestring, "anesthesia"),
+	    Field("protocol", Protocol, "hadProtocol"),
+        Field("start_time", datetime, "startedAtTime"),
+        Field("end_time", datetime, "endedAtTime"),
+        Field("people", Person, "wasAssociatedWith", multiple=True)
+    )
+
+    def __init__(self, name, subject, cranial_window, anesthesia=None, protocol=None, start_time=None, end_time=None, people=None, id=None, instance=None):
+        args = locals()
+        args.pop("self")
+        KGObject.__init__(self, **args)
+
+
+class Slice(KGObject):  # should move to "core" module?
+    """A brain slice."""
+    namespace = DEFAULT_NAMESPACE
+    _path = "/core/slice/v0.1.0"
+    type = ["nsg:Slice", "prov:Entity"]
+    context = {
+        "schema": "http://schema.org/",
+        "prov": "http://www.w3.org/ns/prov#",
+        "name": "schema:name",
+        "nsg": "https://bbp-nexus.epfl.ch/vocabs/bbp/neurosciencegraph/core/v0.1.0/",
+        "providerId": "nsg:providerId",
+        "wasDerivedFrom": "prov:wasDerivedFrom"
+    }
+    fields = (
+        Field("name", basestring, "name", required=True),
+        Field("subject", Subject, "wasDerivedFrom", required=True),
+        Field("provider_id", basestring, "providerId"),
+        Field("brain_slicing_activity", "BrainSlicingActivity", "^prov:generated", reverse="slices"),
+        Field("activity", ("electrophysiology.PatchClampActivity", "optophysiology.TwoPhotonImaging"), "^prov:used", reverse=["recorded_tissue","target"])
+    )
+
+
+class TwoPhotonImaging(KGObject):
+    """Two-photon-excited fluorescence laser-scanning microscopy."""
+    namespace = DEFAULT_NAMESPACE
+    _path = "/optophysiology/twophotonimaging/v0.1.0"
+    #type = ["prov:ExperimentalActivity", "nsg:TwoPhotonImaging"]
+    type = ["nsg:TwoPhotonImaging", "prov:Activity"]
+    context = {
+            "schema": "http://schema.org/",
+            "prov": "http://www.w3.org/ns/prov#",
+            "nsg": "https://bbp-nexus.epfl.ch/vocabs/bbp/neurosciencegraph/core/v0.1.0/",
+            "xsd": "http://www.w3.org/2001/XMLSchema#",
+            "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+            "name": "schema:name",
+            "brainLocation": "nsg:brainLocation",
+            "value": "schema:value",
+            "description": "schema:description",
+            "wasGeneratedBy": "prov:wasGeneratedBy",
+            "distribution": {
+                "@id": "schema:distribution",
+                "@type": "@id"},
+            "downloadURL": {
+                "@id": "schema:downloadURL",
+                "@type": "@id"},
+            "mediaType": {
+                "@id": "schema:mediaType"
+            },
+            "minds": "https://schema.hbp.eu/",
+            "generated": "prov:generated",
+            "used": "prov:used",
+            "startedAtTime": "prov:startedAtTime",
+            "endedAtTime": "prov:endedAtTime",
+            "hadProtocol": "prov:hadProtocol",
+            "wasAssociatedWith": "prov:wasAssociatedWith",
+            "microscope": "nsg:microscope",
+            "brainState": "nsg:brainState",
+            "anesthesia": "nsg:anesthesia",
+            "imagingDepth": "nsg:imagingDepth",
+            "laser": "nsg:laser",
+            "laserPower": "nsg:laserPower",
+            "excitationWavelength": "nsg:excitationWavelength",
+            "collectionWavelength": "nsg:collectionWavelength"
             }
 
     fields = (
         Field("name", basestring, "name", required=True),
         Field("image_sequence", ImageSequence, "generated", required=True),
-        Field("stimulation", (VisualStimulation, BehavioralStimulation, ElectrophysiologicalStimulation), "wasInformedBy"),
         Field("target", (Slice, CranialWindow), "used"),
-        Field("microscope", Device, "device"),
+        Field("microscope", basestring, "microscope"),
         Field("brain_state", basestring, "brainState"),
         Field("anesthesia", basestring, "anesthesia"),
         Field("laser", basestring, "laser"),
@@ -327,14 +421,15 @@ class TwoPhotonImaging(KGObject):
         Field("distribution", Distribution, "distribution"),
         Field("start_time", datetime, "startedAtTime"),
         Field("end_time", datetime, "endedAtTime"),
-        Field("protocol", Protocol, "hadProtocol"),
+	    Field("protocol", Protocol, "hadProtocol"),
         Field("people", Person, "wasAssociatedWith", multiple=True)
     )
 
-    def __init__(self, name, image_sequence=None, stimulation=None, target=None, microscope=None, brain_state=None, anesthesia=None, laser=None, excitation_wavelength=None, power_at_objective=None, collection_wavelength=None, imaging_depth=None, distribution=None, start_time=None, end_time=None, protocol=None, people=None, citation=None, code=None, license=None, id=None, instance=None):
+    def __init__(self, name, image_sequence=None, target=None, microscope=None, brain_state=None, anesthesia=None, laser=None, excitation_wavelength=None, power_at_objective=None, collection_wavelength=None, imaging_depth=None, distribution=None, start_time=None, end_time=None, protocol=None, people=None, citation=None, code=None, license=None, id=None, instance=None):
         args = locals()
         args.pop("self")
         KGObject.__init__(self, **args)
+
 
 
 class MotionCorrection(KGObject):
@@ -353,9 +448,9 @@ class MotionCorrection(KGObject):
         "used": "prov:used",
         "hadProtocol": "prov:hadProtocol",
         "wasAssociatedWith": "prov:wasAssociatedWith",
-        "citation":"nsg:citation",
-        "code":"nsg:code",
-        "license":"nsg:license"
+    	"citation":"nsg:citation",
+    	"code":"nsg:code",
+    	"license":"nsg:license"
         }
     fields = (
         Field("name", basestring, "name", required=True),
@@ -363,12 +458,165 @@ class MotionCorrection(KGObject):
         Field("after", ImageSequence, "generated", required=True),
         Field("protocol", Protocol, "hadprotocol"),
         Field("people", Person, "wasAssociatedWith", multiple=True),
-        Field("citation", basestring, "citation"),
-        Field("code", basestring, "code"),
-        Field("license", License, "license")
+    	Field("citation", basestring, "citation"),
+    	Field("code", basestring, "code"),
+    	Field("license", License, "license")
     )
 
     def __init__(self, name, before, after, protocol=None, people=None, citation=None, code=None, license=None, id=None, instance=None):
+        args = locals()
+        args.pop("self")
+        KGObject.__init__(self, **args)
+
+
+class VisualStimulus(KGObject):
+    """A generic visual stimulus."""
+    namespace = DEFAULT_NAMESPACE
+    _path = "/optophysiology/visualstimulus/v0.1.0"
+    type = ["nsg:VisualStimulus", "prov:Entity"]
+    context = {
+        "schema": "http://schema.org/",
+        "prov": "http://www.w3.org/ns/prov#",
+        "nsg": "https://bbp-nexus.epfl.ch/vocabs/bbp/neurosciencegraph/core/v0.1.0/",
+        "xsd": "http://www.w3.org/2001/XMLSchema#",
+        "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+        "minds": "https://schema.hbp.eu/",
+        "value": "schema:value",
+        "name": "schema:name",
+        "description": "schema:description",
+        "distribution": {
+            "@id": "schema:distribution",
+            "@type": "@id"},
+        "downloadURL": {
+            "@id": "schema:downloadURL",
+            "@type": "@id"},
+        "mediaType": {
+            "@id": "schema:mediaType"
+        }
+    }
+    fields = (
+        Field("name", basestring, "name", required=True),
+        Field("description", basestring, "description"),
+        Field("distribution", Distribution, "distribution"),
+        Field("stimulation", "optophysiology.VisualStimulation", "^prov:used", reverse="stimulus")
+    )
+
+    def __init__(self, name, description=None, distribution=None, stimulation=None, id=None, instance=None):
+        args = locals()
+        args.pop("self")
+        KGObject.__init__(self, **args)
+
+
+class VisualStimulation(KGObject):
+    """Presentation of a visual stimulus to the subject of the experiment."""
+    namespace = DEFAULT_NAMESPACE
+    _path = "/optophysiology/visualstimulation/v0.1.0"
+    type = ["nsg:VisualStimulation", "prov:Activity"]
+    context = {
+        "schema": "http://schema.org/",
+        "prov": "http://www.w3.org/ns/prov#",
+        "nsg": "https://bbp-nexus.epfl.ch/vocabs/bbp/neurosciencegraph/core/v0.1.0/",
+        "xsd": "http://www.w3.org/2001/XMLSchema#",
+        "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+        "used": "prov:used",
+        "name": "schema:name",
+        "interstimulusInterval": "nsg:interstimulusInterval",
+        "refreshRate": "nsg:refreshRate",
+        "backgroundLuminance": "nsg:backgroundLuminance",
+	    "hadProtocol":"prov:hadProtocol",
+        "value": "schema:value",
+    	"citation":"nsg:citation",
+    	"code":"nsg:code",
+    	"license":"nsg:license"
+        }
+
+    fields = (
+        Field("name", basestring, "name", required=True),
+        Field("stimulus", VisualStimulus, "used", required=True),
+        Field("interstimulus_interval", QuantitativeValue, "interstimulusInterval"),
+        Field("refresh_rate", QuantitativeValue, "refreshRate"),
+        Field("background_luminance", QuantitativeValue, "backgroundLuminance"),
+        Field("protocol", Protocol, "hadProtocol"),
+    	Field("citation", basestring, "citation"),
+    	Field("code", basestring, "code"),
+    	Field("license", License, "license")
+    )
+
+    def __init__(self, name, stimulus, interstimulus_interval=None, refresh_rate=None, background_luminance=None, citation=None, protocol=None, code=None, license=None, id=None, instance=None):
+        args = locals()
+        args.pop("self")
+        KGObject.__init__(self, **args)
+
+
+class ElectrophysiologicalStimulus(KGObject):
+    """A generic electrophysiological stimulus."""
+    namespace = DEFAULT_NAMESPACE
+    _path = "/optophysiology/electrophysiologicalstimulus/v0.1.0"
+    type = ["nsg:ElectrophysiologicalStimulus", "prov:Entity"]
+    context = {
+        "schema": "http://schema.org/",
+        "prov": "http://www.w3.org/ns/prov#",
+        "nsg": "https://bbp-nexus.epfl.ch/vocabs/bbp/neurosciencegraph/core/v0.1.0/",
+        "xsd": "http://www.w3.org/2001/XMLSchema#",
+        "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+        "minds": "https://schema.hbp.eu/",
+        "name": "schema:name",
+        "description": "schema:description",
+        "distribution": {
+            "@id": "schema:distribution",
+            "@type": "@id"},
+        "downloadURL": {
+            "@id": "schema:downloadURL",
+            "@type": "@id"},
+        "mediaType": {
+            "@id": "schema:mediaType"
+        }
+    }
+    fields = (
+        Field("name", basestring, "name", required=True),
+        Field("description", basestring, "description", required=True),
+        Field("distribution", Distribution, "distribution"),
+        Field("stimulation", "optophysiology.ElectrophysiologicalStimulation", "^prov:used", reverse="stimulus")
+    )
+
+    def __init__(self, name, description, distribution=None, stimulation=None, id=None, instance=None):
+        args = locals()
+        args.pop("self")
+        KGObject.__init__(self, **args)
+
+
+class ElectrophysiologicalStimulation(KGObject):
+    """Use of an electrophysiological stimulus in the experiment."""
+    namespace = DEFAULT_NAMESPACE
+    _path = "/optophysiology/electrophysiologicalstimulation/v0.1.0"
+    type = ["nsg:ElectrophysiologicalStimulation", "prov:Activity"]
+    context = {
+        "schema": "http://schema.org/",
+        "prov": "http://www.w3.org/ns/prov#",
+        "nsg": "https://bbp-nexus.epfl.ch/vocabs/bbp/neurosciencegraph/core/v0.1.0/",
+        "xsd": "http://www.w3.org/2001/XMLSchema#",
+        "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+        "used": "prov:used",
+        "name": "schema:name",
+	    "hadProtocol": "prov:hadProtocol",
+        "value": "schema:value",
+    	"citation": "nsg:citation",
+    	"code": "nsg:code",
+    	"stimulusType": "nsg:stimulusType",
+    	"license": "nsg:license"
+        }
+
+    fields = (
+        Field("name", basestring, "name", required=True),
+        Field("electrophysiological_stimulus", ElectrophysiologicalStimulus, "used", required=True),
+        Field("stimulus_type", StimulusType, "stimulusType"),
+        Field("protocol", Protocol, "hadProtocol"),
+    	Field("citation", basestring, "citation"),
+    	Field("code", basestring, "code"),
+    	Field("license", License, "license")
+    )
+
+    def __init__(self, name, electrophysiological_stimulus, stimulus_type=None, citation=None, protocol=None, code=None, license=None, id=None, instance=None):
         args = locals()
         args.pop("self")
         KGObject.__init__(self, **args)

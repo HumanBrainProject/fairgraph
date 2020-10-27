@@ -27,7 +27,7 @@ try:
 except ImportError:
     from pathlib2 import Path
 from datetime import datetime
-from fairgraph.base import KGObject, Field
+from fairgraph.base import KGObject, KGProxy, KGQuery, cache, Field
 
 
 class DataObject(KGObject):

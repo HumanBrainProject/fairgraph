@@ -22,13 +22,15 @@ from __future__ import unicode_literals
 import sys
 import inspect
 import logging
-from datetime import date
-from .base import KGObject, KGQuery, as_list, Field, Distribution
-from .commons import Address, Species, Strain, Genotype, Sex, Age, QuantitativeValue, Handedness, Group
 try:
     basestring
 except NameError:
     basestring = str
+from datetime import date, datetime
+from dateutil import parser as date_parser
+from .base import KGObject, KGProxy, KGQuery, cache, as_list, Field
+from .errors import ResourceExistsError
+from .commons import Address, Species, Strain, Genotype, Sex, Age, QuantitativeValue, Handedness, Group
 
 DEFAULT_NAMESPACE = None
 # core is used everywhere, so it makes no sense to set a default namespace
@@ -36,7 +38,6 @@ DEFAULT_NAMESPACE = None
 
 
 logger = logging.getLogger("fairgraph")
-
 
 class Subject(KGObject):
     """The individual organism that is the subject of an experimental study."""
@@ -62,7 +63,7 @@ class Subject(KGObject):
         "genotype": "nsg:genotype",
         "handedness": "nsg:handedness",
         "deathDate": "schema:deathDate",
-        "group": "nsg:group",
+	"group": "nsg:group",
         "providerId": "nsg:providerId"
     }
     fields = (
@@ -74,7 +75,7 @@ class Subject(KGObject):
         Field("handedness", Handedness, "handedness"),
         Field("age", Age, "age"),
         Field("death_date", date, "deathDate"),
-        Field("group", Group, "group")
+	Field("group", Group, "group")
     )
 
     def __init__(self, name, species, age=None, sex=None, handedness=None, strain=None, genotype=None, death_date=None, group=None, id=None, instance=None):
@@ -145,7 +146,7 @@ class Person(KGObject):
 
     @property
     def full_name(self):
-        return f'{self.given_name} {self.family_name}'
+        return '{self.given_name} {self.family_name}'.format(self=self)
 
     @classmethod
     def list(cls, client, size=100, api="query", scope="released", resolved=False, **filters):
@@ -175,7 +176,9 @@ class Person(KGObject):
                         "value": value
                     })
                 else:
-                    raise ValueError(f"The only supported filters are by first (given) name, last (family) name or email. You specified {name}")
+                    raise ValueError(
+                        "The only supported filters are by first (given) name, "
+                        "last (family) name or email. You specified {name}".format(name=name))
             if len(filter_queries) == 0:
                 return client.list(cls, size=size)
             elif len(filter_queries) == 1:
@@ -241,150 +244,117 @@ class Person(KGObject):
             return person
 
 
+class Protocol(KGObject):
+    """
+    An experimental protocol.
+    """
+    namespace = DEFAULT_NAMESPACE
+    _path = "/core/protocol/v0.1.0"
+    type = ["nsg:Protocol", "prov:Entity"]
+    context = {
+        "schema": "http://schema.org/",
+        "nsg": "https://bbp-nexus.epfl.ch/vocabs/bbp/neurosciencegraph/core/v0.1.0/",
+        "name": "schema:name",
+        "prov": "http://www.w3.org/ns/prov#"
+    }
+
+    def __init__(self, name, steps, materials, author,
+                 date_published, identifier, id=None, instance=None):
+        self.name = name
+        self.steps = steps
+        self.materials = materials
+        self.author = author
+        self.date_published = date_published
+        self.identifier = identifier
+        self.id = id
+        self.instance = instance
+
+    def __repr__(self):
+        return ('{self.__class__.__name__}('
+                '{self.identifier!r}, {self.id})'.format(self=self))
+
+    @classmethod
+    @cache
+    def from_kg_instance(cls, instance, client, resolved=False):
+        """docstring"""
+        D = instance.data
+        assert 'nsg:Protocol' in D["@type"]
+        return cls(D["name"],
+                   D["nsg:steps"],
+                   [Material.from_jsonld(material) for material in D["nsg:materials"]],
+                   KGProxy(Person, D["schema:author"]),
+                   D["schema:datePublished"],
+                   KGProxy(Identifier, D["schema:identifier"]),
+                   D["@id"], instance=instance)
+
+    def _build_data(self, client, all_fields=False):
+        """docstring"""
+        data = {}
+        data["name"] = self.name
+        data["nsg:steps"] = self.steps
+        if self.materials:
+            data["nsg:materials"] = [material.to_jsonld() for material in self.materials]
+        if self.author:
+            if self.author.id is None:
+                self.author.save(client)
+            data["schema:author"] = {
+                "@type": self.author.type,
+                "@id": self.author.id
+            }
+        if self.date_published:
+            data["schema:datePublished"] = self.date_published
+        if self.identifier:
+            if self.identifier.id is None:
+                self.identifier.save(client)
+            data["schema:identifier"] = {
+                "@type": self.identifier.type,
+                "@id": self.identifier.id
+            }
+        return data
+
+
 class Identifier(KGObject):
     namespace = "nexus"
     _path = "/schemaorgsh/identifier/v0.1.0"
     type = ["schema:Identifier"]
 
 
-class Material(KGObject):
-    """
-    Metadata about a chemical product or other material used in an experimental protocol.
-    """
-    namespace = DEFAULT_NAMESPACE
-    _path = "/core/material/v0.1.0"
-    type = ["nsg:Material", "prov:Entity"]
-    context = {
-        "schema": "http://schema.org/",
-        "nsg": "https://bbp-nexus.epfl.ch/vocabs/bbp/neurosciencegraph/core/v0.1.0/",
-        "prov": "http://www.w3.org/ns/prov#",
-        "name": "schema: name",
-        "reagentMolarWeight": "nsg:reagentMolarWeight",
-        "reagentLinearFormula": "nsg:reagentLinearFormula",
-        "reagentSKU": "schema:sku",
-        "distribution": {
-            "@id": "schema:distribution",
-            "@type": "@id"},
-        "downloadURL": {
-            "@id": "schema:downloadURL",
-            "@type": "@id"},
-        "mediaType": {
-            "@id": "schema:mediaType"
+class Material(object):
+    """Metadata about a chemical product or other material used in an experimental protocol."""
+
+    def __init__(self, name, molar_weight, formula, stock_keeping_unit, identifier, vendor):
+        self.name = name
+        self.molar_weight = molar_weight
+        self.formula = formula
+        self.stock_keeping_unit = stock_keeping_unit
+        self.identifier = identifier
+        self.vendor = vendor
+
+    def to_jsonld(self, client=None):
+        return {
+            "nsg:reagentName": self.name,
+            "nsg:reagentMolarWeight": self.molar_weight.to_jsonld(),
+            "nsg:reagentLinearFormula": self.formula,
+            "schema:sku": self.stock_keeping_unit,
+            "schema:identifier": {
+                "@id": self.identifier.id,
             },
-        "vendor": "nsg:reagentVendor"
-    }
-    fields = (
-        Field("name", basestring, "name", required=True),
-        Field("molar_weight", QuantitativeValue, "reagentMolarWeight"),
-        Field("formula", basestring, "reagentLinearFormula"),
-        Field("stock_keeping_unit", basestring, "reagentSKU"), # doi
-        Field("reagent_distribution", Distribution, "distribution"),
-        Field("vendor", Organization, "vendor")
-        )
+            "nsg:reagentVendor": {
+                "@type": self.vendor.type,
+                "@id": self.vendor.id
+            }
+        }
 
-    def __init__(self, name, molar_weight=None, formula=None,
-                        stock_keeping_unit=None, reagent_distribution=None, vendor=None, id=None, instance=None):
-        args = locals()
-        args.pop("self")
-        KGObject.__init__(self, **args)
-
-
-class Step(KGObject):
-    """
-    A step in an experimental protocol.
-    """
-    namespace = DEFAULT_NAMESPACE
-    _path = "/core/protocol/v0.1.2"
-    type = ["nsg:Protocol", "prov:Entity"]
-    context = {
-        "schema": "http://schema.org/",
-        "nsg": "https://bbp-nexus.epfl.ch/vocabs/bbp/neurosciencegraph/core/v0.1.0/",
-        "prov": "http://www.w3.org/ns/prov#",
-        "name": "schema:name",
-        "previousStepName": "nsg:previousStepName",
-        "sequenceNumber": "nsg:sequenceNumber",
-        "identifier": "schema:identifier",
-        "description": "schema:description",
-        "version" : "nsg:version",
-        "distribution": {
-            "@id": "schema:distribution",
-            "@type": "@id"},
-        "downloadURL": {
-            "@id": "schema:downloadURL",
-            "@type": "@id"},
-        "mediaType": {
-            "@id": "schema:mediaType"
-        },
-        "material":"nsg:material",
-        "wasAssociatedWith": "prov:wasAssociatedWith",
-    }
-    fields = (
-        Field("name", (basestring, int), "name", required=True),
-        Field("previous_step_name", (basestring, int), "previousStepName"),
-        Field("sequence_number", int, "sequenceNumber"),
-        Field("identifier", basestring, "identifier"), # doi
-        Field("version", (basestring, int), "version"),
-        Field("distribution", Distribution, "distribution"), # external link
-        Field("description", basestring, "description"),
-        Field("materials", Material, "material", multiple=True),
-        Field("author", Person, "wasAssociatedWith", multiple=True),
-        )
-
-    def __init__(self, name, previous_step_name=None, sequence_number=None,
-                 identifier=None, version=None, distribution=None,
-                 description=None, materials=None, author=None,
-                 id=None, instance=None):
-        args = locals()
-        args.pop("self")
-        KGObject.__init__(self, **args)
-
-
-class Protocol(KGObject):
-    """
-    An experimental protocol.
-    """
-    namespace = DEFAULT_NAMESPACE
-    _path = "/core/protocol/v0.1.2"
-    type = ["nsg:Protocol", "prov:Entity"]
-    context = {
-        "schema": "http://schema.org/",
-        "nsg": "https://bbp-nexus.epfl.ch/vocabs/bbp/neurosciencegraph/core/v0.1.0/",
-        "prov": "http://www.w3.org/ns/prov#",
-        "name": "schema:name",
-        "version" : "nsg:version",
-        "distribution": {
-            "@id": "schema:distribution",
-            "@type": "@id"},
-        "downloadURL": {
-            "@id": "schema:downloadURL",
-            "@type": "@id"},
-        "mediaType": {
-            "@id": "schema:mediaType"
-        },
-        "numberOfSteps": "nsg:numberOfSteps",
-        "hasPart": "nsg:hasPart",
-        "identifier": "nsg:identifier",
-        "material":"nsg:material",
-        "wasAssociatedWith": "prov:wasAssociatedWith",
-        "datePublished": "nsg:datePublished"
-    }
-    fields = (
-        Field("name", basestring, "name", required=True),
-        Field("version", (basestring, int), "version"),
-        Field("identifier", basestring, "identifier"), # DOI
-        Field("distribution", Distribution, "distribution"), # external link
-        Field("number_of_steps", int, "numberOfSteps"),
-        Field("steps", Step, "hasPart", multiple=True),
-        Field("materials", Material, "material", multiple=True),
-        Field("author", Person, "wasAssociatedWith", multiple=True),
-        Field("date_published", date, "datePublished")
-        )
-
-    def __init__(self, name, version=None, identifier=None, doi=None, distribution=None, number_of_steps=None,
-    steps=None, materials=None, author=None, date_published=None, id=None, instance=None):
-        args = locals()
-        args.pop("self")
-        KGObject.__init__(self, **args)
+    @classmethod
+    def from_jsonld(cls, data):
+        if data is None:
+            return None
+        return cls(data["name"],
+                   QuantitativeValue.from_jsonld(data["nsg:reagentMolarWeight"]),
+                   data["nsg:reagentLinearFormula"],
+                   data["schema:sku"],
+                   KGProxy(Identifier, data["schema:identifier"]["@id"]),
+                   KGProxy(Organization, data["nsg:reagentVendor"]["@id"]))
 
 
 class Collection(KGObject):

@@ -384,10 +384,13 @@ class KGObject(with_metaclass(Registry, object)):
     def _fix_keys(cls, data):
         """
         The KG Query API does not allow the same field name to be used twice in a document.
+
         This is a problem when resolving linked nodes which use the same field names
         as the 'parent'. As a workaround, we prefix the field names in the linked node
         with the class name.
+
         This method removes this prefix.
+
         This feels like a kludge, and I'd be happy to find a better solution.
         """
         prefix = cls.__name__ + "__"

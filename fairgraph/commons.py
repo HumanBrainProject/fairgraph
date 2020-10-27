@@ -19,7 +19,6 @@
 
 
 import collections
-from .base import OntologyTerm, StructuredMetadata, Field
 try:
     basestring
 except NameError:
@@ -35,7 +34,8 @@ class Address(StructuredMetadata):
         self.country = country
 
     def __repr__(self):
-        return (f'{self.__class__.__name__}({self.locality!r}, {self.country!r})')
+        return ('{self.__class__.__name__}('
+                '{self.locality!r}, {self.country!r})'.format(self=self))
 
     def __eq__(self, other):
         return (isinstance(other, self.__class__)
@@ -108,7 +108,7 @@ class Shape(OntologyTerm):
     iri_map = {
         "circle": "https://en.wiktionary.org/wiki/circle",
         "ellipse": "https://en.wiktionary.org/wiki/ellipse",
-        "freeform": "https://en.wiktionary.org/wiki/free-form#English",
+	"freeform": "https://en.wiktionary.org/wiki/free-form#English",
         "rectangle": "https://en.wiktionary.org/wiki/rectangle",
         "square": "https://en.wiktionary.org/wiki/square"
     }
@@ -119,31 +119,7 @@ class MorphologyType(OntologyTerm):
     The morphology of the cell used for recording.
     """
     iri_map = {
-        "bipolar": "http://purl.obolibrary.org/obo/FMA_67282",
-        "pyramidal cell": "http://uri.interlex.org/ilx_0107385"
-    }
-
-
-class SomaType(OntologyTerm):
-    """
-    The type of soma of a reconstructed cell.
-    """
-    iri_map = {
-        "3D": "http://www.hbp.FIXME.org/",
-        "2D contour": "http://www.hbp.FIXME.org/",
-        "1 point": "http://www.hbp.FIXME.org/",
-        "3 point": "http://www.hbp.FIXME.org/"
-    }
-
-
-class ObjectiveType(OntologyTerm):
-    """
-    The type of objective used for microscopy.
-    """
-    iri_map = {
-        "dry": "http://www.hbp.FIXME.org/",
-        "oil": "http://www.hbp.FIXME.org/",
-        "water": "http://www.hbp.FIXME.org/"
+        "bipolar": "http://purl.obolibrary.org/obo/FMA_67282"
     }
 
 
@@ -152,37 +128,26 @@ class Strain(OntologyTerm):
     An inbred sub-population within a species.
     """
     iri_map = {
-        "129/Sv": "https://dknet.org/data/record/nlx_154697-1/MGI:5656185/resolver?q=129%2FSv&l=129%2FSv&i=5d422cf50fbc3b6016f5437e",
+        "129/Sv": "http://www.hbp.FIXME.org/hbp_strain_ontology/12345673",
         # 129/Sv is ambiguous
         # could be https://www.jax.org/strain/002448 or https://www.jax.org/strain/000691 or other
         # see http://www.informatics.jax.org/mgihome/nomen/strain_129.shtml
         #"Sprague-Dawley": "https://rgd.mcw.edu/rgdweb/report/strain/main.html?id=70508",
-        "ATJ/FVB.129P2-FMR1-mix": "https://dknet.org/data/record/nlx_154697-1/IMSR_JAX:004624/resolver?q=%2A&l=&filter[]=Catalog%20Number:004624&i=5d422ff90fbc3b6016f6f089",
-        "B6.129-Nlgn3<tm4Sud>/J": "https://dknet.org/data/record/nlx_154697-1/IMSR_JAX:023398/resolver?q=%2A&l=&filter[]=Catalog%20Number:023398&i=5d42266e0fbc3b6016f1c113",
-        "B6.129-Nlgn3/J": "https://dknet.org/data/record/nlx_154697-1/IMSR_JAX:008475/resolver?q=%2A&l=%2A&filter[]=Catalog%20Number:008475&i=5d422c170fbc3b6016f4cb08",
-        "B6.129-Nlgn3/KftnkRbrc": "https://dknet.org/data/record/nlx_154697-1/IMSR_JAX:008475/resolver?q=%2A&l=%2A&filter[]=Catalog%20Number:008475&i=5d422c170fbc3b6016f4cb08",
-        "BAC_cck/dsred//BAC_pva/gfp (TgTg) - FVB/AntF1": "http://www.hbp.FIXME.org/",
-        "BAC_cck/dsred on FVB/ANT":"http://www.hbp.FIXME.org/",
-        "BAC_PV/eGFP on FVB/ANT": "http://www.hbp.FIXME.org/",
-        "BAC_PV/eGFP onFVB/ANT": "http://www.hbp.FIXME.org/",
-        "BAC_pva/gfp (2) - FVB/AntFx": "http://www.hbp.FIXME.org/",
-        "Bl6": "https://dknet.org/data/record/nlx_154697-1/IMSR_JAX:000664/resolver?q=%2A&l=%2A&filter[]=Catalog%20Number:000664&i=5d4227790fbc3b6016f250e8",
-        "C57BL/6": "https://dknet.org/data/record/nlx_154697-1/IMSR_JAX:000664/resolver?q=%2A&l=%2A&filter[]=Catalog%20Number:000664&i=5d4227790fbc3b6016f250e8",
-        "C57BL/6J": "https://dknet.org/data/record/nlx_154697-1/IMSR_JAX:000664/resolver?q=%2A&l=%2A&filter[]=Catalog%20Number:000664&i=5d4227790fbc3b6016f250e8",
-        "C57Bl/6J": "https://dknet.org/data/record/nlx_154697-1/IMSR_JAX:000664/resolver?q=%2A&l=%2A&filter[]=Catalog%20Number:000664&i=5d4227790fbc3b6016f250e8",
-        "C57BL6/SJL": "https://dknet.org/data/record/nlx_154697-1/IMSR_JAX:100012/resolver?q=%2A&l=%2A&filter[]=Catalog%20Number:100012&i=5d422f510fbc3b6016f6939a",
-        "C57BL/6J-Tg(Thy1-GCaMP6f)GP5.5Dkim/J":"https://dknet.org/data/record/nlx_154697-1/IMSR_JAX:024276/resolver?q=%2A&l=%2A&filter[]=Catalog%20Number:024276&i=5d4232230fbc3b6016f81e3a",
-        "C57BL/6J X SJL": "https://dknet.org/data/record/nlx_154697-1/IMSR_JAX:100012/resolver?q=%2A&l=&filter[]=Catalog%20Number:100012&i=5d422f510fbc3b6016f6939a",
-        "Cr/IRES_cre//Gt(ROSA)26Sor_CAG/LSL_ZsGreen1": "http://www.hbp.FIXME.org/",
-        "Del(5Gtf2i-Fkbp6)1Vcam": "https://dknet.org/data/record/nlx_154697-1/MGI:5662390/resolver?q=Del%285Gtf2i-Fkbp6%291Vcam&l=Del%285Gtf2i-Fkbp6%291Vcam&i=5d4233580fbc3b6016f8c3f2",
-        "Del(5Gtf2i-Fkbp6)1Vcam/Vcam": "https://dknet.org/data/record/nlx_154697-1/MGI:5662390/resolver?q=Del%285Gtf2i-Fkbp6%291Vcam&l=Del%285Gtf2i-Fkbp6%291Vcam&i=5d4233580fbc3b6016f8c3f2",
-        "lister hooded": "https://dknet.org/data/record/nlx_154697-1/RGD_2312466/resolver?q=lister%20hooded&l=lister%20hooded&i=5d422c300fbc3b6016f4d849",
-        "Sprague-Dawley": "https://dknet.org/data/record/nlx_154697-1/MGI:5651135/resolver?q=Sprague-Dawley&l=Sprague-Dawley&i=5d422b8e0fbc3b6016f4825a",
-        "SWR": "https://dknet.org/data/record/nlx_154697-1/MGI:2159803/resolver?q=SWR&l=SWR&i=5d422e420fbc3b6016f5fcaa",
-        "Tg2576": "https://dknet.org/data/record/nlx_154697-1/MGI:3029285/resolver?q=Tg%28APPSWE%292576Kha&l=Tg%28APPSWE%292576Kha&i=5d4235df0fbc3b6016fa16fb",
+        "ATJ/FVB.129P2-FMR1-mix": "https://www.jax.org/strain/004624",
+        "B6.129-Nlgn3<tm4Sud>/J": "https://www.jax.org/strain/023398",
+        "B6.129-Nlgn3/J": "https://www.jax.org/strain/008475",
+        "B6.129-Nlgn3/KftnkRbrc": "https://www.jax.org/strain/008475",
+        "C57BL/6": "https://www.jax.org/strain/000664",
+        "C57BL/6J": "https://www.jax.org/strain/000664",
+        "C57BL6/SJL": "https://www.jax.org/strain/100012",
+        "C57BL/6J-Tg(Thy1-GCaMP6f)GP5.5Dkim/J":"https://www.jax.org/strain/024276",
+        "C57BL/6J X SJL": "http://www.hbp.FIXME.org/hbp_strain_ontology/12345672",
+	    "Del(5Gtf2i-Fkbp6)1Vcam": "http://www.informatics.jax.org/allele/MGI:5555958",
+        "Sprague-Dawley": "https://rgd.mcw.edu/rgdweb/ontology/view.html?acc_id=RS:0000681",
+        "SWR": "http://www.informatics.jax.org/inbred_strains/mouse/docs/SWR.shtml",
+        "Tg2576": "http://www.hbp.FIXME.org/hbp_strain_ontology/12345670",
         #"Wistar":  "https://rgd.mcw.edu/rgdweb/report/strain/main.html?id=13508588",
-        "Wistar": "https://dknet.org/data/record/nlx_154697-1/RGD_12879431/resolver?q=%22Wistar%20Rat%22&l=%22Wistar%20Rat%22&i=5d4228f20fbc3b6016f318fa",
-        "BAC_cck/dsred onFVB/ANT": "http://www.hbp.FIXME.org/"
+        "Wistar": "https://rgd.mcw.edu/rgdweb/ontology/view.html?acc_id=RS:0001013"
     }
 # use RRIDs
 
@@ -191,21 +156,15 @@ class Genotype(OntologyTerm):
     Transgenic modification of the strain.
     """
     iri_map = {
-        "BAC_cck/dsred":"http://www.hbp.FIXME.org/",
-        "BAC_cck/dsred//BAC_pva/gfp (TgTg)":"http://www.hbp.FIXME.org/",
-        "BAC_PV/eGFP": "http://www.hbp.FIXME.org/",
-        "BAC_pva/gfp (2)": "http://www.hbp.FIXME.org/",
-        "Cre/tdTomato": "https://dknet.org/data/record/nlx_154697-1/IMSR_JAX:007909/resolver?q=%2A&l=%2A&filter[]=Catalog%20Number:007909&i=5d422e850fbc3b6016f6225c",
-        "Cr/IRES_cre//Gt(ROSA)26Sor_CAG/LSL_ZsGreen1": "http://www.hbp.FIXME.org/",
-        "C57BL/6J-Tg(Thy1-GCaMP6f)GP5.17Dkim/J": "https://dknet.org/data/record/nlx_154697-1/IMSR_JAX:025393/resolver?q=%2A&l=&filter[]=Catalog%20Number:025393&i=5d4228390fbc3b6016f2b6a3",
-	    "Fmr1KO": "https://dknet.org/data/record/nlx_154697-1/IMSR_JAX:003025/resolver?q=%2A&l=&filter[]=Catalog%20Number:003025&i=5d422b9b0fbc3b6016f48946",
+	    "wild type": "http://purl.obolibrary.org/obo/GENO_0000511",
+	    "Fmr1KO": "https://www.jax.org/strain/003025",
         "GlyT2-GFP":"http://www.informatics.jax.org/allele/MGI:3835459",
         "IB2-KO": "http://www.hbp.FIXME.org/hbp_brain_region_ontology/1234567",
         "Nlgn3KO/Y; hemizygous": "http://www.informatics.jax.org/allele/MGI:5439278",
         "NL3R451C/Y; hemizygous": "http://www.informatics.jax.org/allele/MGI:3758949",
-        "Tg(Thy1-GCaMP6f)GP5.17Dkim/J": "https://dknet.org/data/record/nlx_154697-1/IMSR_JAX:025393/resolver?q=%2A&l=&filter[]=Catalog%20Number:025393&i=5d4228390fbc3b6016f2b6a3",
-        "wild type": "https://dknet.org/data/record/nlx_154697-1/MGI:5649737/resolver?q=wild%20type&l=wild%20type&i=5d4223a00fbc3b6016f04b3f",
-        "6J-Tg(Thy1-GCaMP6f)GP5.17Dkim/J": "http://www.hbp.FIXME.org/"
+        "Tg(Thy1-GCaMP6f)GP5.17Dkim/J": "https://www.jax.org/strain/025393",
+        "Cre/tdTomato": "https://www.jax.org/strain/007909",
+        "C57BL/6J-Tg(Thy1-GCaMP6f)GP5.17Dkim/J": "https://www.jax.org/strain/025393"
     }
 
 
@@ -224,22 +183,22 @@ class Handedness(OntologyTerm):
     The handedness of an animal or person from whom/which data were obtained.
     """
     iri_map = {
-        "left":"http://uri.interlex.org/ilx_0106154",
-        "right":"http://uri.interlex.org/ilx_0110142"
+        "left":"http://dbpedia.org/ontology/handedness",
+        "right":"http://dbpedia.org/ontology/handedness"
     }
 
 class ChannelType(OntologyTerm):
     """
-    The recording method used.
+    The handedness of an animal or person from whom/which data were obtained.
     """
     iri_map = {
-        "ECoG": "http://purl.obolibrary.org/obo/NCIT_C116664",
-        "ECG": "http://purl.obolibrary.org/obo/NCIT_C38054",
-        "EEG": "http://purl.obolibrary.org/obo/NCIT_C38054",
-        "EMG": "http://purl.obolibrary.org/obo/NCIT_C38056",
-        "ERP": "http://purl.bioontology.org/ontology/SNOMEDCT/251630008",
-        "MEG": "http://purl.obolibrary.org/obo/NCIT_C16811",
-        "SEEG": "https://en.wikipedia.org/wiki/Stereoelectroencephalography"
+        "ECoG":"http://purl.obolibrary.org/obo/NCIT_C116664",
+	    "ECG": "http://purl.obolibrary.org/obo/NCIT_C38054",
+        "EEG":"http://purl.obolibrary.org/obo/NCIT_C38054",
+	    "EMG" : "http://purl.obolibrary.org/obo/NCIT_C38056",
+        "ERP":"http://purl.bioontology.org/ontology/SNOMEDCT/251630008",
+	    "MEG": "http://purl.obolibrary.org/obo/NCIT_C16811",
+	    "SEEG": "https://en.wikipedia.org/wiki/Stereoelectroencephalography"
     }
 
 class BrainRegion(OntologyTerm):
@@ -247,87 +206,85 @@ class BrainRegion(OntologyTerm):
     A sub-structure or region with the brain.
     """
     iri_map = {
-        "anterolateral visual area": "http://uri.interlex.org/ilx_0735646",
-        "anteromedial visual area": "http://uri.interlex.org/ilx_0733890",
-        "barrel cortex": "http://uri.interlex.org/ilx_0101097",
-        "basal ganglia": "http://uri.interlex.org/ilx_0101102",
-        "brainstem": "http://uri.interlex.org/ilx_0101444",
-        "CA3 field of hippocampus": "http://uri.interlex.org/ilx_0101534",
-        "cerebellum": "http://uri.interlex.org/ilx_0101963",
-        "cerebral cortex": "http://uri.interlex.org/ilx_0101978",
-        "cortex": "http://uri.interlex.org/ilx_0727230",
-        "dorsal cortex": "http://uri.interlex.org/ilx_0103432",
-        "dorsal striatum": "http://uri.interlex.org/ilx_0103481",
-        "frontal association cortex": "http://uri.interlex.org/ilx_0109209",
-        "hippocampus": "http://uri.interlex.org/ilx_0105021",  # Ammon's horn
-        "hippocampus CA1": "http://uri.interlex.org/ilx_0101520",
-        "hippocampus CA3": "http://uri.interlex.org/ilx_0101534",
-        "hippocampal formation": "http://uri.interlex.org/ilx_0105009",
-        "lobule 5 of the cerebellar vermis": "http://uri.interlex.org/ilx_0112399",
-        "lobule 6 of the cerebellar vermis": "http://uri.interlex.org/ilx_0112400",
-        "lobule 7 of the cerebellar vermis": "http://uri.interlex.org/ilx_0112401",
-        "lobule 8 of the cerebellar vermis": "http://uri.interlex.org/ilx_0112404",
-        "motor cortex": "http://uri.interlex.org/ilx_0107119",
-        "parietal association area": "http://uri.interlex.org/ilx_0103503",
-        "perirhinal cortex": "http://uri.interlex.org/ilx_0108747",
-        "posteromedial visual area": "http://uri.interlex.org/ilx_0734159",
-        "prefrontal cortex": "http://uri.interlex.org/ilx_0109209",
-        "prelimbic cortex": "http://uri.interlex.org/ilx_0106685",
-        "primary auditory cortex": "http://uri.interlex.org/ilx_0443027",
-        "primary motor cortex": "http://uri.interlex.org/ilx_0109278",
-        "primary somatosensory cortex": "http://uri.interlex.org/ilx_0109333",
-        "primary visual cortex": "http://uri.interlex.org/ilx_0112514",
-        "retina": "http://uri.interlex.org/ilx_0109993",
-        "retrosplenial cortex": "http://uri.interlex.org/ilx_0728007",
-        "secondary motor cortex": "http://uri.interlex.org/ilx_0109222",
-        "secondary visual cortex": "http://uri.interlex.org/ilx_0727119",
-        "somatosensory cortex": "http://uri.interlex.org/ilx_0110752",
-        "spinal cord": "http://uri.interlex.org/ilx_0110909",
-        "stratum pyramidale": "http://uri.interlex.org/ilx_0111081",
-        "striatum": "http://uri.interlex.org/ilx_0111098",
-        "thalamocortical": "http://uri.interlex.org/ilx_0738230",
-        "thalamus": "http://uri.interlex.org/ilx_0111657",
-        "ventral hippocampus": "http://uri.interlex.org/ilx_0105021",   # how to distinguish this? Question for Tier 2 folks?
-        "visual cortex": "http://uri.interlex.org/ilx_0112513",
-        "whole brain": "http://uri.interlex.org/ilx_0101431",
-        "5th cerebellar lobule": "http://uri.interlex.org/ilx_0112399",
-        "6th cerebellar lobule": "http://uri.interlex.org/ilx_0112400",
-        "7th cerebellar lobule": "http://uri.interlex.org/ilx_0112401",
-        "8th cerebellar lobule": "http://uri.interlex.org/ilx_0112404"
+        "anterolateral visual area": "http://purl.obolibrary.org/obo/UBERON_0035894",
+        "anteromedial visual area": "http://purl.obolibrary.org/obo/UBERON_0035893",
+        "basal ganglia": "http://purl.obolibrary.org/obo/UBERON_0010011",
+        "brainstem": "http://purl.obolibrary.org/obo/UBERON_0002298",
+        "CA3 field of hippocampus": "http://purl.obolibrary.org/obo/UBERON_0003883",
+        "cerebellum": "http://purl.obolibrary.org/obo/UBERON_0002037",
+        "cerebral cortex": "http://purl.obolibrary.org/obo/UBERON_0016529",
+        "cortex": "http://purl.obolibrary.org/obo/UBERON_0016529",
+        "dorsal cortex": "http://purl.obolibrary.org/obo/UBERON_0002577",
+        "dorsal striatum": "http://purl.obolibrary.org/obo/UBERON_0005382",
+	    "frontal association cortex": "http://purl.obolibrary.org/obo/UBERON_0000451",
+        "hippocampus": "http://purl.obolibrary.org/obo/UBERON_0001954",  # Ammon's horn
+        "hippocampus CA1": "http://purl.obolibrary.org/obo/UBERON_0003881",
+        "hippocampal formation": "http://purl.obolibrary.org/obo/UBERON_0002421",
+        "lobule 5 of the cerebellar vermis": "http://purl.obolibrary.org/obo/UBERON_0004079",
+        "lobule 6 of the cerebellar vermis": "http://purl.obolibrary.org/obo/UBERON_0004080",
+        "lobule 7 of the cerebellar vermis": "http://purl.obolibrary.org/obo/UBERON_0004081",
+        "lobule 8 of the cerebellar vermis": "http://purl.obolibrary.org/obo/UBERON_0004082",
+	    "motor cortex": "http://purl.obolibrary.org/obo/UBERON_0001384",
+	    "parietal association area": "http://purl.obolibrary.org/obo/UBERON_0035886",
+        "posteromedial visual area": "http://purl.obolibrary.org/obo/UBERON_0035900",
+        "prefrontal cortex": "http://purl.obolibrary.org/obo/UBERON_0000451",
+        "prelimbic cortex": "http://purl.obolibrary.org/obo/UBERON_0013560",
+        "primary auditory cortex": "http://purl.obolibrary.org/obo/UBERON_0034751",
+        "primary auditory cortex": "http://purl.obolibrary.org/obo/UBERON_0034751",
+    	"primary motor cortex": "http://purl.obolibrary.org/obo/UBERON_0001384",
+    	"primary somatosensory cortex": "http://purl.obolibrary.org/obo/UBERON_0008933",
+    	"primary visual cortex": "http://purl.obolibrary.org/obo/UBERON_0002436",
+        "retina": "http://purl.obolibrary.org/obo/UBERON_0000966",
+    	"retrosplenial cortex": "http://purl.obolibrary.org/obo/UBERON_0013531",
+    	"secondary motor cortex": "http://purl.obolibrary.org/obo/UBERON_0016634",
+    	"secondary visual cortex": "http://purl.obolibrary.org/obo/UBERON_0022232",
+        "somatosensory cortex": "http://purl.obolibrary.org/obo/UBERON_0008930",
+        "spinal cord": "http://purl.obolibrary.org/obo/UBERON_0002240",
+        "striatum": "http://purl.obolibrary.org/obo/UBERON_0002435",
+        "thalamocortical": "http://www.hbp.FIXME.org/hbp_brain_region_ontology/1234567",
+        "thalamus": "http://purl.obolibrary.org/obo/UBERON_0001897",
+        "ventral hippocampus": "http://purl.obolibrary.org/obo/UBERON_0001954",   # how to distinguish this? Question for Tier 2 folks?
+	    "visual cortex": "http://purl.obolibrary.org/obo/UBERON_0000411",
+        "whole brain": "http://purl.obolibrary.org/obo/UBERON_0000955",
+        "5th cerebellar lobule": "http://purl.obolibrary.org/obo/UBERON_0004004",
+        # more specific term to be determined: http://purl.obolibrary.org/obo/UBERON_0024001 or http://purl.obolibrary.org/obo/UBERON_0004079 ?
+        "6th cerebellar lobule": "http://purl.obolibrary.org/obo/UBERON_0004004",  # more specific term to be determined
+        "7th cerebellar lobule": "http://purl.obolibrary.org/obo/UBERON_0004004",  # more specific term to be determined
+        "8th cerebellar lobule": "http://purl.obolibrary.org/obo/UBERON_0004004"  # more specific term to be determined
     }
 
 
 class CellType(OntologyTerm):
     """A type of neuron or glial cell."""
     iri_map = {
-        "cerebellar granule cell": "http://uri.interlex.org/ilx_0101967",
+        "cerebellar granule cell": "http://purl.obolibrary.org/obo/CL_0001031",
         "cholinergic interneuron": "http://uri.interlex.org/base/ilx_0490357",
         "fast spiking interneuron": "http://www.hbp.FIXME.org/hbp_celltype_ontology/12345670",
-        "Golgi cell": "http://uri.interlex.org/ilx_0101966",
-        "granule cell": "http://uri.interlex.org/ilx_0101967",
-        "hippocampus CA1 basket cell": "http://uri.interlex.org/ilx_0105022",
+        "Golgi cell": "http://purl.obolibrary.org/obo/CL_0000119",
+        "granule cell": "http://purl.obolibrary.org/obo/CL_0000120",
+        "hippocampus CA1 basket cell": "http://uri.neuinfo.org/nif/nifstd/nlx_cell_091205",
         "hippocampus CA1 bistratified cell": "unknown",
         "hippocampus CA1 ivy neuron": "http://uri.neuinfo.org/nif/nifstd/nlx_35220",
-        "hippocampus CA1 lacunosum moleculare neuron": "http://uri.interlex.org/ilx_0105027",
-        "hippocampus CA1 pyramidal cell": "http://uri.interlex.org/ilx_0105031",
-        "hippocampus CA3 pyramidal cell": "http://uri.interlex.org/ilx_0105046",
-        "interneuron": "http://uhttp://uri.interlex.org/ilx_0107385ri.interlex.org/ilx_0105593",
+        "hippocampus CA1 lacunosum moleculare neuron": "http://uri.neuinfo.org/nif/nifstd/nlx_92500",
+        "hippocampus CA1 pyramidal cell": "http://uri.neuinfo.org/nif/nifstd/sao830368389",
+        "hippocampus CA3 pyramidal cell": "http://uri.neuinfo.org/nif/nifstd/sao383526650",
+        "hippocampus interneuron BP": "unknown",
+        "interneuron": "http://purl.obolibrary.org/obo/CL_0000099",
         "medium spiny neuron": "http://purl.obolibrary.org/obo/CL_1001474",
         "medium spiny neuron (D1 type)": "http://www.hbp.FIXME.org/hbp_celltype_ontology/12345672",
         "medium spiny neuron (D2 type)": "http://www.hbp.FIXME.org/hbp_celltype_ontology/12345671",
         "not applicable": "http://www.hbp.FIXME.org/hbp_celltype_ontology/12345673",
-        "Purkinje cell": "http://uri.interlex.org/ilx_0101974",
-        "pyramidal cell": "http://uri.interlex.org/ilx_0107385",
-        "spiny stellate neuron": "http://uri.interlex.org/ilx_0107391",
-        "striatal neuron": "http://uri.interlex.org/base/ilx_0111098",
+        "Purkinje cell": "http://purl.obolibrary.org/obo/CL_0000121",
+        "pyramidal cell": "http://purl.obolibrary.org/obo/CL_0000598",
+        "spiny stellate neuron": "http://uri.neuinfo.org/nif/nifstd/sao1236796660",
         "L1 neurogliaform cell": "http://uri.interlex.org/base/ilx_0383196",
-        "L2 inverted pyramidal cell": "http://uri.interlex.org/ilx_0102369",
-        "L2/3 chandelier cell": "http://uri.interlex.org/ilx_0107356",
-        "L2/3 pyramidal cell": "http://uri.interlex.org/ilx_0107385",
-        "L4 Martinotti cell": "http://uri.interlex.org/ilx_0107375",
+        "L2 inverted pyramidal cell": "http://uri.interlex.org/base/ilx_0383207",
+        "L2/3 chandelier cell": "http://uri.interlex.org/base/ilx_0383200",
+        "L2/3 pyramidal cell": "http://uri.neuinfo.org/nif/nifstd/nifext_49",
+        "L4 Martinotti cell": "http://uri.neuinfo.org/nif/nifstd/nifext_55",
         "L5 pyramidal cell": "http://uri.interlex.org/ilx_0107385",
-        "L5 tufted pyramidal cell": "http://uri.interlex.org/ilx_0107385",
-        "L6 inverted pyramidal cell": "http://uri.interlex.org/ilx_0102369"
+        "L5 tufted pyramidal cell": "http://uri.interlex.org/base/ilx_0738209",
+        "L6 inverted pyramidal cell": "http://uri.interlex.org/base/ilx_0381373"
     }
 
 
@@ -434,8 +391,8 @@ class License(OntologyTerm):
 class StimulusType(OntologyTerm):
     iri_map = {
         "Excitatory postsynaptic currents": "http://ontologies.humanbrainproject.eu/ephys_stimuli/0001000",
-        "Excitatory postsynaptic potentials": "http://ontologies.humanbrainproject.eu/ephys_stimuli/0001000",
-        "Mossy Fiber Stimulation": "http://www.FIXME.org/ephys_stimuli/0000001",
+	    "Excitatory postsynaptic potentials": "http://ontologies.humanbrainproject.eu/ephys_stimuli/0001000",
+	    "Mossy Fiber Stimulation": "http://www.FIXME.org/ephys_stimuli/0000001",
         "No stimulus (spontaneous activity)": "http://www.FIXME.org/ephys_stimuli/0000000",
         "Pre-synaptic extracellular electrical stimulation": "http://www.FIXME.org/ephys_stimuli/0000001",
         "Sinusoidal current injections": "http://ontologies.humanbrainproject.eu/ephys_stimuli/0001000",
@@ -453,30 +410,31 @@ class Origin(OntologyTerm):
 
 
 unit_codes = {
-        "days": "http://purl.obolibrary.org/obo/UO_0000033",
-        "weeks": "http://purl.obolibrary.org/obo/UO_0000034",
-        "months": "http://purl.obolibrary.org/obo/UO_0000035",
-        "years": "http://purl.obolibrary.org/obo/UO_0000036",
-        "degrees": "http://purl.obolibrary.org/obo/UO_0000185",
-        "µm": "http://purl.obolibrary.org/obo/UO_0000017",
-        "mm": "http://purl.obolibrary.org/obo/UO_0000016",
-        "nm": "http://purl.obolibrary.org/obo/UO_0000018",
-        "mV": "http://purl.obolibrary.org/obo/UO_0000247",
-        "ms": "http://purl.obolibrary.org/obo/UO_0000028",
-        "s": "http://purl.obolibrary.org/obo/UO_0000010",
-        "c": "https://en.wiktionary.org/wiki/megaohm",
-        "Mohm": "https://en.wiktionary.org/wiki/megaohm",
-        "GΩ": "https://en.wiktionary.org/wiki/gigaohm",
-        "Gohm": "https://en.wiktionary.org/wiki/gigaohm",
-        "µA": "http://purl.obolibrary.org/obo/UO_0000038",
-        "nA": "https://en.wiktionary.org/wiki/nanoamp",
-        "Hz": "http://purl.obolibrary.org/obo/UO_0000106",
-        "kHz": "http://purl.obolibrary.org/obo/NCIT_C67279"
-    }
+    "days": "http://purl.obolibrary.org/obo/UO_0000033",
+    "weeks": "http://purl.obolibrary.org/obo/UO_0000034",
+    "months": "http://purl.obolibrary.org/obo/UO_0000035",
+    "years": "http://purl.obolibrary.org/obo/UO_0000036",
+    "degrees": "http://purl.obolibrary.org/obo/UO_0000185",
+    "µm": "http://purl.obolibrary.org/obo/UO_0000017",
+    "mm": "http://purl.obolibrary.org/obo/UO_0000016",
+    "nm": "http://purl.obolibrary.org/obo/UO_0000018",
+    "mV": "http://purl.obolibrary.org/obo/UO_0000247",
+    "ms": "http://purl.obolibrary.org/obo/UO_0000028",
+    "s": "http://purl.obolibrary.org/obo/UO_0000010",
+    "MΩ": "https://en.wiktionary.org/wiki/megaohm",
+    "Mohm": "https://en.wiktionary.org/wiki/megaohm",
+    "GΩ": "https://en.wiktionary.org/wiki/gigaohm",
+    "Gohm": "https://en.wiktionary.org/wiki/gigaohm",
+    "µA": "http://purl.obolibrary.org/obo/UO_0000038",
+    "nA": "https://en.wiktionary.org/wiki/nanoamp",
+    "Hz": "http://purl.obolibrary.org/obo/UO_0000106",
+    "kHz": "http://purl.obolibrary.org/obo/NCIT_C67279"
+}
 
 
 class QuantitativeValue(StructuredMetadata):
     """docstring"""
+    type = ("nsg:QuantitativeValue",)
     unit_codes = unit_codes
 
     def __init__(self, value, unit_text, unit_code=None):
@@ -487,7 +445,8 @@ class QuantitativeValue(StructuredMetadata):
         self.unit_code = unit_code or self.unit_codes[unit_text]
 
     def __repr__(self):
-        return (f'{self.__class__.__name__}({self.value!r} {self.unit_text!r})')
+        return ('{self.__class__.__name__}('
+                '{self.value!r} {self.unit_text!r})'.format(self=self))
 
     def __eq__(self, other):
         return (self.value == other.value
@@ -537,6 +496,7 @@ class QuantitativeValue(StructuredMetadata):
 
 class QuantitativeValueRange(StructuredMetadata):
     """docstring"""
+    type = ("nsg:QuantitativeValueRange",)
     unit_codes = unit_codes
 
     def __init__(self, min, max, unit_text, unit_code=None):
@@ -550,7 +510,8 @@ class QuantitativeValueRange(StructuredMetadata):
         self.unit_code = unit_code or self.unit_codes[unit_text]
 
     def __repr__(self):
-        return (f'{self.__class__.__name__}({self.min!r}-{self.max!r} {self.unit_text!r})')
+        return ('{self.__class__.__name__}('
+                '{self.min!r}-{self.max!r} {self.unit_text!r})'.format(self=self))
 
     def __eq__(self, other):
         return (self.min == other.min
@@ -614,11 +575,12 @@ class Age(StructuredMetadata):
     def __init__(self, value, period):
         self.value = value
         if period not in Age.allowed_periods:
-            raise ValueError(f"period must be one of {allowed_periods}")
+            raise ValueError("period must be one of {}".format(allowed_periods))
         self.period = period
 
     def __repr__(self):
-        return (f'{self.__class__.__name__}({self.value!r}, {self.period!r})')
+        return ('{self.__class__.__name__}('
+                '{self.value!r}, {self.period!r})'.format(self=self))
 
     def __eq__(self, other):
         return (isinstance(other, self.__class__)

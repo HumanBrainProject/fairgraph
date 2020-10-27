@@ -18,15 +18,17 @@ An updated version of MINDS
 # limitations under the License.
 
 
-import sys
-import inspect
+import sys, inspect
 from datetime import datetime
-from fairgraph.base import KGObject, KGProxy, KGQuery, cache, as_list, Field
-from fairgraph.minds import MINDSObject
 try:
     basestring
 except NameError:
     basestring = str
+
+from fairgraph.base import KGObject, KGProxy, KGQuery, cache, as_list, Field
+from fairgraph.data import FileAssociation, CSCSFile
+from fairgraph.commons import QuantitativeValue
+from fairgraph.minds import MINDSObject
 
 class UnimindsObject(MINDSObject):
     namespace = "uniminds"
@@ -60,9 +62,9 @@ class AbstractionLevel(UnimindsOption):
     _path = "/options/abstractionlevel/v1.0.0"
     type = ["uniminds:Abstractionlevel"]
     fields = (
-        Field("alternatives", KGObject, "https://schema.hbp.eu/inference/alternatives", required=False, multiple=True),
-        Field("identifier", basestring, "http://schema.org/identifier", required=False, multiple=True),
-        Field("name", basestring, "http://schema.org/name", required=False, multiple=False))
+      Field("alternatives", KGObject, "https://schema.hbp.eu/inference/alternatives", required=False, multiple=True),
+      Field("identifier", basestring, "http://schema.org/identifier", required=False, multiple=True),
+      Field("name", basestring, "http://schema.org/name", required=False, multiple=False))
 
 
 class AgeCategory(UnimindsOption):
@@ -84,9 +86,9 @@ class BrainStructure(UnimindsOption):
     _path = "/options/brainstructure/v1.0.0"
     type = ["uniminds:Brainstructure"]
     fields = (
-        Field("alternatives", KGObject, "https://schema.hbp.eu/inference/alternatives", required=False, multiple=True),
-        Field("identifier", basestring, "http://schema.org/identifier", required=False, multiple=True),
-        Field("name", basestring, "http://schema.org/name", required=False, multiple=False))
+      Field("alternatives", KGObject, "https://schema.hbp.eu/inference/alternatives", required=False, multiple=True),
+      Field("identifier", basestring, "http://schema.org/identifier", required=False, multiple=True),
+      Field("name", basestring, "http://schema.org/name", required=False, multiple=False))
 
 
 class CellularTarget(UnimindsOption):
@@ -96,9 +98,9 @@ class CellularTarget(UnimindsOption):
     _path = "/options/cellulartarget/v1.0.0"
     type = ["uniminds:Cellulartarget"]
     fields = (
-        Field("alternatives", KGObject, "https://schema.hbp.eu/inference/alternatives", required=False, multiple=True),
-        Field("identifier", basestring, "http://schema.org/identifier", required=False, multiple=True),
-        Field("name", basestring, "http://schema.org/name", required=False, multiple=False))
+      Field("alternatives", KGObject, "https://schema.hbp.eu/inference/alternatives", required=False, multiple=True),
+      Field("identifier", basestring, "http://schema.org/identifier", required=False, multiple=True),
+      Field("name", basestring, "http://schema.org/name", required=False, multiple=False))
 
 
 class Country(UnimindsOption):
@@ -108,9 +110,9 @@ class Country(UnimindsOption):
     _path = "/options/country/v1.0.0"
     type = ["uniminds:Country"]
     fields = (
-        Field("alternatives", KGObject, "https://schema.hbp.eu/inference/alternatives", required=False, multiple=True),
-        Field("identifier", basestring, "http://schema.org/identifier", required=False, multiple=True),
-        Field("name", basestring, "http://schema.org/name", required=False, multiple=False))
+      Field("alternatives", KGObject, "https://schema.hbp.eu/inference/alternatives", required=False, multiple=True),
+      Field("identifier", basestring, "http://schema.org/identifier", required=False, multiple=True),
+      Field("name", basestring, "http://schema.org/name", required=False, multiple=False))
 
 
 class Dataset(UnimindsObject):
@@ -687,7 +689,7 @@ def list_kg_classes():
     return classes
 
 
-if __name__ == '__main__':
+if __name__=='__main__':
 
     import os
     from fairgraph import uniminds, KGClient
