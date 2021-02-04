@@ -24,6 +24,7 @@ import logging
 from datetime import datetime, date
 import mimetypes
 import sys
+import json
 import inspect
 from dateutil import parser as date_parser
 import requests
@@ -836,3 +837,39 @@ def use_namespace(namespace):
     """Set the namespace for all classes in this module."""
     for cls in list_kg_classes():
         cls.namespace = namespace
+
+
+class LivePaper(KGObject):
+    """
+    JSON data for generating live papers.
+    """
+    namespace = DEFAULT_NAMESPACE
+    _path = "/simulation/livepaper/v0.0.1"
+    type = ["prov:Entity", "nsg:LivePaper"]
+    context = [
+        "{{base}}/contexts/neurosciencegraph/core/data/v0.3.1",
+        "{{base}}/contexts/nexus/core/resource/v0.3.0",
+        {
+            "name": "schema:name",
+            "description": "schema:description",
+            "nsg": "https://bbp-nexus.epfl.ch/vocabs/bbp/neurosciencegraph/core/v0.1.0/",
+            "prov": "http://www.w3.org/ns/prov#",
+            "schema": "http://schema.org/",
+            "dateCreated": "schema:dateCreated",
+            "dataObject": "schema:livePaperDataObject"
+        }
+    ]
+    fields = (
+        Field("name", str, "name", required=True),
+        Field("description", str, "description", required=False),
+        Field("date_created", (date, datetime), "dateCreated", required=True),
+        Field("data_object", str, "dataObject", required=True), # stringify JSON object
+    )
+
+    @property
+    def data(self):
+        return json.loads(self.dataObject)
+
+    @data.setter
+    def data(self, dataObject):
+        self.dataObject = json.dumps(dataObject)
