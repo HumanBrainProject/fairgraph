@@ -34,7 +34,7 @@ from .commons import BrainRegion, CellType, Species, AbstractionLevel, ModelScop
 from .core import Organization, Person, Age, Collection
 from .utility import compact_uri, standard_context
 from .computing import ComputingEnvironment
-
+from .uniminds import Publication
 
 logger = logging.getLogger("fairgraph")
 mimetypes.init()
@@ -856,7 +856,7 @@ class LivePaper(KGObject):
             "prov": "http://www.w3.org/ns/prov#",
             "schema": "http://schema.org/",
             "dateCreated": "schema:dateCreated",
-            "dataObject": "schema:livePaperDataObject"
+            "publication": "nsg:publication"
         }
     ]
     fields = (
@@ -864,6 +864,7 @@ class LivePaper(KGObject):
         Field("description", str, "description", required=False),
         Field("date_created", (date, datetime), "dateCreated", required=True),
         Field("data_object", str, "dataObject", required=True), # stringify JSON object
+        Field("publication", Publication, "publication", required=False)
     )
 
     @property
