@@ -841,7 +841,7 @@ def use_namespace(namespace):
 
 class LivePaper(KGObject):
     """
-    JSON data for generating live papers.
+    Data for generating live papers.
     """
     namespace = DEFAULT_NAMESPACE
     _path = "/simulation/livepaper/v0.0.1"
@@ -864,13 +864,13 @@ class LivePaper(KGObject):
             "createdAuthor": "schema:author",
             "approvedAuthor": "schema:author",
             "datePublished": "nsg:datePublished",
-            "license": "schema:license"
+            "license": "schema:license",
+            "resourceSection": "schema:LivePaperResourceSection"
         }
     ]
     fields = (
         Field("name", str, "name", required=True, multiple=False),
         Field("description", str, "description", required=False, multiple=False),
-        Field("date_created", (date, datetime), "dateCreated", required=True, multiple=False),
         Field("date_created", (date, datetime), "dateCreated", required=True, multiple=False),
         Field("date_modified", datetime, "http://hbp.eu/minds#last_modified", required=True, multiple=False),
         Field("data_object", str, "dataObject", required=True, multiple=False), # stringify JSON object
@@ -889,31 +889,66 @@ class LivePaper(KGObject):
         Field("doi", str, "https://schema.hbp.eu/minds/doi", required=False, multiple=False),
         Field("abstract", str, "abstract", required=False, multiple=False),
         Field("license", str, "license"),
+        Field("resource_section", LivePaperResourceSection, "resourceSection", , required=False, multiple=True)
     )
 
-    def __init__(self, name, date_created, date_modified, description, dataObject):
-        super(LivePaper, self).__init__()
+class LivePaperResourceSection(KGObject):
+    """
+    Data associated with Live Paper resource sections.
+    """
+    namespace = DEFAULT_NAMESPACE
+    _path = "/simulation/LivePaperResourceSection/v0.0.1"
+    type = ["prov:Entity", "nsg:LivePaperResourceSection"]
+    context = [
+        "{{base}}/contexts/neurosciencegraph/core/data/v0.3.1",
+        "{{base}}/contexts/nexus/core/resource/v0.3.0",
+        {
+            "title": "schema:name",
+            "description": "schema:description",
+        }
+    ]
+    fields = (
+        Field("type", str, "type", required=True, multiple=False),
+        Field("title", str, "title", required=True, multiple=False),
+        Field("icon", str, "icon", required=True, multiple=False),
+        Field("description", str, "description", required=False, multiple=False),
+        Field("data", (str, LivePaperResouceCollection), "data", required=True, multiple=False), # str for custom HTML/Markdown blocks, KGObject otherwise.
+        # HOW to specify: multiple=False for str, and multiple=True if KGObject/LivePaperResouceCollection
+        # Or do I make a LivePaperResouceCollection schema inbetween LivePaperResouceSection and LivePaperResouceItem
+    )
 
-        self.name = name
-        self.date_created = date_created
-        self.date_modified = date_modified
-        self.description = description
-        self.unpack_data(dataObject)
+class LivePaperResouceCollection(KGObject):
+    """
+    Collection of items in a single Live Paper resource section.
+    """
+    namespace = DEFAULT_NAMESPACE
+    _path = "/simulation/LivePaperResouceCollection/v0.0.1"
+    type = ["prov:Entity", "nsg:LivePaperResouceCollection"]
+    context = [
+        "{{base}}/contexts/neurosciencegraph/core/data/v0.3.1",
+        "{{base}}/contexts/nexus/core/resource/v0.3.0",
+    ]
+    fields = (
+        Field("resource_item", LivePaperResourceItem, "resource_item", required=False, multiple=True),
+    )
 
-    def unpack_data(dataObject):
-        # unpack object to assign parameters
-        self.lp_version = dataObject["lp_version"]
-        self.authors = dataObject["authors"]
-        # ... on similar lines unpack others?
-        self. = dataObject[""]
-        self. = dataObject[""]
-        self. = dataObject[""]
-
-    @property
-    def data(self):
-        return json.loads(self.dataObject)
-
-    @data.setter
-    def data(self, dataObject):
-        self.dataObject = json.dumps(dataObject)
-        self.unpack_data(dataObject)
+class LivePaperResourceItem(KGObject):
+    """
+    Individual resource items in a Live Paper resource section.
+    """
+    namespace = DEFAULT_NAMESPACE
+    _path = "/simulation/LivePaperResourceItem/v0.0.1"
+    type = ["prov:Entity", "nsg:LivePaperResourceItem"]
+    context = [
+        "{{base}}/contexts/neurosciencegraph/core/data/v0.3.1",
+        "{{base}}/contexts/nexus/core/resource/v0.3.0",
+        {
+            "label": "schema:name",
+            
+        }
+    ]
+    fields = (
+        Field("download_url", str, "http://schema.org/url", required=True, multiple=False),
+        Field("label", str, "label", required=True, multiple=False),
+        Field("view_url", str, "http://schema.org/url", required=False, multiple=False), # for model catalog url
+    )
