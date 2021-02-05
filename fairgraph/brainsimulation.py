@@ -857,15 +857,57 @@ class LivePaper(KGObject):
             "schema": "http://schema.org/",
             "dateCreated": "schema:dateCreated",
             "publication": "nsg:publication"
+            "lp_version" : "nsg:version",
+            "author": "schema:author",
+            "affiliation": "schema:affiliation",
+            "correspondingAuthor": "schema:author",
+            "createdAuthor": "schema:author",
+            "approvedAuthor": "schema:author",
+            "datePublished": "nsg:datePublished",
+            "license": "schema:license"
         }
     ]
     fields = (
-        Field("name", str, "name", required=True),
-        Field("description", str, "description", required=False),
-        Field("date_created", (date, datetime), "dateCreated", required=True),
-        Field("data_object", str, "dataObject", required=True), # stringify JSON object
-        Field("publication", Publication, "publication", required=False)
+        Field("name", str, "name", required=True, multiple=False),
+        Field("description", str, "description", required=False, multiple=False),
+        Field("date_created", (date, datetime), "dateCreated", required=True, multiple=False),
+        Field("date_created", (date, datetime), "dateCreated", required=True, multiple=False),
+        Field("date_modified", datetime, "http://hbp.eu/minds#last_modified", required=True, multiple=False),
+        Field("data_object", str, "dataObject", required=True, multiple=False), # stringify JSON object
+        Field("publication", Publication, "publication", required=False, multiple=False), # presuming a 1:1 mapping
+        Field("version", (str, int), "lp_version", multiple=False),
+        Field("authors", Person, "author", required=True, multiple=True),
+        Field("organization", Organization, "affiliation", multiple=True), # required? should be available through authors?
+        Field("corresponding_author", Person, "correspondingAuthor", required=True, multiple=False),
+        Field("created_author", Person, "createdAuthor", required=True, multiple=False),
+        Field("approved_author", Person, "approvedAuthor", required=True, multiple=False),
+        Field("date_published", date, "datePublished")
+        Field("title", str, "title", required=True, multiple=False),
+        Field("journal", str, "title", required=False, multiple=False),
+        Field("url", str, "http://schema.org/url", required=True, multiple=False),
+        Field("citation", str, "https://schema.hbp.eu/uniminds/citation", required=False, multiple=False),
+        Field("doi", str, "https://schema.hbp.eu/minds/doi", required=False, multiple=False),
+        Field("abstract", str, "abstract", required=False, multiple=False),
+        Field("license", str, "license"),
     )
+
+    def __init__(self, name, date_created, date_modified, description, dataObject):
+        super(LivePaper, self).__init__()
+
+        self.name = name
+        self.date_created = date_created
+        self.date_modified = date_modified
+        self.description = description
+        self.unpack_data(dataObject)
+
+    def unpack_data(dataObject):
+        # unpack object to assign parameters
+        self.lp_version = dataObject["lp_version"]
+        self.authors = dataObject["authors"]
+        # ... on similar lines unpack others?
+        self. = dataObject[""]
+        self. = dataObject[""]
+        self. = dataObject[""]
 
     @property
     def data(self):
@@ -874,3 +916,4 @@ class LivePaper(KGObject):
     @data.setter
     def data(self, dataObject):
         self.dataObject = json.dumps(dataObject)
+        self.unpack_data(dataObject)
