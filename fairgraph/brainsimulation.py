@@ -912,24 +912,7 @@ class LivePaperResourceSection(KGObject):
         Field("title", str, "title", required=True, multiple=False),
         Field("icon", str, "icon", required=True, multiple=False),
         Field("description", str, "description", required=False, multiple=False),
-        Field("data", (str, LivePaperResouceCollection), "data", required=True, multiple=False), # str for custom HTML/Markdown blocks, KGObject otherwise.
-        # HOW to specify: multiple=False for str, and multiple=True if KGObject/LivePaperResouceCollection
-        # Or do I make a LivePaperResouceCollection schema inbetween LivePaperResouceSection and LivePaperResouceItem
-    )
-
-class LivePaperResouceCollection(KGObject):
-    """
-    Collection of items in a single Live Paper resource section.
-    """
-    namespace = DEFAULT_NAMESPACE
-    _path = "/simulation/LivePaperResouceCollection/v0.0.1"
-    type = ["prov:Entity", "nsg:LivePaperResouceCollection"]
-    context = [
-        "{{base}}/contexts/neurosciencegraph/core/data/v0.3.1",
-        "{{base}}/contexts/nexus/core/resource/v0.3.0",
-    ]
-    fields = (
-        Field("resource_item", LivePaperResourceItem, "resource_item", required=False, multiple=True),
+        Field("data", (str, KGObject, LivePaperResourceItem), "data", required=True, multiple=True),
     )
 
 class LivePaperResourceItem(KGObject):
