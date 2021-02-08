@@ -24,7 +24,6 @@ import logging
 from datetime import datetime, date
 import mimetypes
 import sys
-import json
 import inspect
 from dateutil import parser as date_parser
 import requests
@@ -873,7 +872,6 @@ class LivePaper(KGObject):
         Field("description", str, "description", required=False, multiple=False),
         Field("date_created", (date, datetime), "dateCreated", required=True, multiple=False),
         Field("date_modified", datetime, "http://hbp.eu/minds#last_modified", required=True, multiple=False),
-        Field("data_object", str, "dataObject", required=True, multiple=False), # stringify JSON object
         Field("publication", Publication, "publication", required=False, multiple=False), # presuming a 1:1 mapping
         Field("version", (str, int), "lp_version", multiple=False),
         Field("authors", Person, "author", required=True, multiple=True),
