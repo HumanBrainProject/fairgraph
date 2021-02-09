@@ -906,11 +906,13 @@ class LivePaperResourceSection(KGObject):
         }
     ]
     fields = (
+        Field("order", int, "order", required=True, multiple=False),
         Field("type", str, "type", required=True, multiple=False),
         Field("title", str, "title", required=True, multiple=False),
         Field("icon", str, "icon", required=True, multiple=False),
         Field("description", str, "description", required=False, multiple=False),
         Field("data", (str, KGObject, LivePaperResourceItem), "data", required=True, multiple=True),
+        Field("data_raw", str, "dataRaw", required=True, multiple=False),
     )
 
 class LivePaperResourceItem(KGObject):
