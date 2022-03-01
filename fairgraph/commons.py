@@ -432,7 +432,8 @@ class License(OntologyTerm):
                 raise Exception("Unable to retrieve license list")
             license_data = response.json()
         for entry in license_data["licenses"]:
-            cls.iri_map[entry["name"]] = entry["seeAlso"][0]
+            if len(entry["seeAlso"]) > 0:
+                cls.iri_map[entry["name"]] = entry["seeAlso"][0]
 
 
 class StimulusType(OntologyTerm):
