@@ -21,6 +21,7 @@ import os
 import json
 import logging
 from urllib.parse import urlparse, quote_plus
+from time import sleep
 
 from requests.exceptions import HTTPError
 try:
@@ -140,14 +141,28 @@ class KGClient(object):
             filter = quote_plus(json.dumps(filter))
         if context:
             context = quote_plus(json.dumps(context))
-        query = self._nexus_client.instances.list(
-            subpath=path,
-            filter_query=filter,
-            context=context,
-            from_index=from_index,
-            size=size,
-            deprecated=deprecated,
-            resolved=True)
+        tries = 0
+        while tries < 5:
+            try:
+                query = self._nexus_client.instances.list(
+                    subpath=path,
+                    filter_query=filter,
+                    context=context,
+                    from_index=from_index,
+                    size=size,
+                    deprecated=deprecated,
+                    resolved=True)
+            except HTTPError as err:
+                if err.response.status_code == 503:
+                    tries += 1
+                    if tries >= 5:
+                        raise
+                    logger.warning("503 error. Retrying ({} of 5)".format(tries))
+                    sleep(5)
+                else:
+                    raise
+            else:
+                tries = 9999  # continue
         return query
 
     def query_nexus(self, path, filter, context, from_index=0, size=100, deprecated=False):
