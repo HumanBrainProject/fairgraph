@@ -1,7 +1,7 @@
 pyld<1.0
 git+https://github.com/HumanBrainProject/openid_http_client.git#egg=openid_http_client&subdirectory=openid_http_client
 git+https://github.com/apdavison/pyxus.git@pystache-jinja2#egg=pyxus&subdirectory=pyxus
-git+https://github.com/HumanBrainProject/kg-core-python.git#egg=kg-core
+git+https://github.com/HumanBrainProject/kg-core-python.git#egg=ebrains-kg-core
 pathlib2
 python-dateutil
 six
