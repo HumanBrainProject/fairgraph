@@ -4,7 +4,6 @@
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import {{ base_class }}, IRI
 from fairgraph.fields import Field
 
