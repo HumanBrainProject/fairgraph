@@ -854,20 +854,15 @@ class KGObject(ContainsMetadata, RepresentsSingleObject, SupportsQuerying):
         """Return a list of child objects."""
         if follow_links:
             self.resolve(client, follow_links=follow_links)
-        #print(f"#### {self.__class__.__name__}")
         all_children = []
         for field in self.fields:
-            #if self.__class__.__name__ == "Environment":
-            #if field.name == "environment":
-            #    breakpoint()
             if field.intrinsic and field.is_link:
                 children = as_list(getattr(self, field.name))
                 all_children.extend(children)
                 if follow_links:
                     for child in children:
-                        all_children.extend(child.children(client, follow_links.get(field.name, None)))
+                        all_children.extend(child.children(client))
         return all_children
-    """Discrepancy between 'children()' which does not expect to return EmbeddedMetadata, and 'is_link', which does return EmbeddedMetadata. And of course, EmbeddedMetadata can include KGObject, so you can have links that pass through EmbeddedMetadata"""
 
     def export(self, path: str, single_file: bool = False):
         """
