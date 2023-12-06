@@ -11,7 +11,7 @@ from fairgraph.errors import ResolutionFailure
 from .live_paper import LivePaper
 from datetime import date
 from datetime import datetime
-from openminds.base import IRI
+from fairgraph.base import IRI
 
 
 class LivePaperVersion(KGObject):

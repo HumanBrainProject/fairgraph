@@ -8,7 +8,7 @@ from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
 
-from openminds.base import IRI
+from fairgraph.base import IRI
 
 
 class StimulationApproach(KGObject):

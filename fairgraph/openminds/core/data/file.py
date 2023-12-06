@@ -19,7 +19,7 @@ from ...controlledterms.unit_of_measurement import UnitOfMeasurement
 from fairgraph.utility import accepted_terms_of_use, sha1sum
 
 mimetypes.init()
-from openminds.base import IRI
+from fairgraph.base import IRI
 
 
 class File(KGObject):

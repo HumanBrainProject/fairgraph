@@ -9,7 +9,7 @@ from fairgraph.fields import Field
 
 
 from datetime import date
-from openminds.base import IRI
+from fairgraph.base import IRI
 
 
 class Book(KGObject):

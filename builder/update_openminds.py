@@ -739,7 +739,7 @@ class FairgraphClassBuilder:
             "date": "from datetime import date",
             "datetime": "from datetime import datetime",
             "time": "from datetime import time",
-            "IRI": "from openminds.base import IRI",
+            "IRI": "from fairgraph.base import IRI",
             "[datetime, time]": "from datetime import datetime, time",
         }
         extra_imports = set()

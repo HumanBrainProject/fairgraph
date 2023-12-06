@@ -11,7 +11,7 @@ from urllib.request import urlretrieve
 from pathlib import Path
 from ....utility import accepted_terms_of_use
 from datetime import date
-from openminds.base import IRI
+from fairgraph.base import IRI
 
 
 class DatasetVersion(KGObject):

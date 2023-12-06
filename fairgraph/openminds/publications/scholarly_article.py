@@ -11,7 +11,7 @@ from fairgraph.utility import as_list
 from .publication_issue import PublicationIssue
 from .periodical import Periodical
 from datetime import date
-from openminds.base import IRI
+from fairgraph.base import IRI
 
 
 class ScholarlyArticle(KGObject):

@@ -10,7 +10,7 @@ from fairgraph.fields import Field
 from fairgraph.errors import ResolutionFailure
 from .validation_test import ValidationTest
 from datetime import date
-from openminds.base import IRI
+from fairgraph.base import IRI
 
 
 class ValidationTestVersion(KGObject):

@@ -10,7 +10,7 @@ from fairgraph.fields import Field
 from fairgraph.errors import ResolutionFailure
 from .model import Model
 from datetime import date
-from openminds.base import IRI
+from fairgraph.base import IRI
 
 
 class ModelVersion(KGObject):
