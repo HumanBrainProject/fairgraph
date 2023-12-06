@@ -1,16 +1,20 @@
 """
-
+<description not available>
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
 
+from openminds.base import IRI
+
+
 class LivePaper(KGObject):
-    """ """
+    """
+    <description not available>
+    """
 
     default_space = "livepapers"
     type_ = ["https://openminds.ebrains.eu/publications/LivePaper"]
@@ -58,6 +62,13 @@ class LivePaper(KGObject):
             "vocab:digitalIdentifier",
             doc="Digital handle to identify objects or legal persons.",
         ),
+        Field("homepage", IRI, "vocab:homepage", doc="Main website of the live paper."),
+        Field(
+            "how_to_cite",
+            str,
+            "vocab:howToCite",
+            doc="Preferred format for citing a particular object or legal person.",
+        ),
         Field(
             "versions",
             "openminds.publications.LivePaperVersion",
@@ -65,13 +76,6 @@ class LivePaper(KGObject):
             multiple=True,
             required=True,
             doc="Reference to variants of an original.",
-        ),
-        Field("homepage", IRI, "vocab:homepage", doc="Main website of the live paper."),
-        Field(
-            "how_to_cite",
-            str,
-            "vocab:howToCite",
-            doc="Preferred format for citing a particular object or legal person.",
         ),
         Field(
             "comments",
@@ -108,9 +112,9 @@ class LivePaper(KGObject):
         custodians=None,
         description=None,
         digital_identifier=None,
-        versions=None,
         homepage=None,
         how_to_cite=None,
+        versions=None,
         comments=None,
         is_part_of=None,
         learning_resources=None,
@@ -130,9 +134,9 @@ class LivePaper(KGObject):
             custodians=custodians,
             description=description,
             digital_identifier=digital_identifier,
-            versions=versions,
             homepage=homepage,
             how_to_cite=how_to_cite,
+            versions=versions,
             comments=comments,
             is_part_of=is_part_of,
             learning_resources=learning_resources,

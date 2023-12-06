@@ -1,19 +1,22 @@
 """
-
+<description not available>
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
 from fairgraph.errors import ResolutionFailure
 from .software import Software
+from datetime import date
+from openminds.base import IRI
 
 
 class SoftwareVersion(KGObject):
-    """ """
+    """
+    <description not available>
+    """
 
     default_space = "software"
     type_ = ["https://openminds.ebrains.eu/core/SoftwareVersion"]
@@ -84,7 +87,7 @@ class SoftwareVersion(KGObject):
         ),
         Field(
             "digital_identifier",
-            ["openminds.core.DOI", "openminds.core.RRID", "openminds.core.SWHID"],
+            ["openminds.core.DOI", "openminds.core.SWHID", "openminds.core.RRID"],
             "vocab:digitalIdentifier",
             doc="Digital handle to identify objects or legal persons.",
         ),
@@ -158,6 +161,7 @@ class SoftwareVersion(KGObject):
                 "openminds.controlledterms.AtlasType",
                 "openminds.controlledterms.AuditoryStimulusType",
                 "openminds.controlledterms.BiologicalOrder",
+                "openminds.controlledterms.BiologicalProcess",
                 "openminds.controlledterms.BiologicalSex",
                 "openminds.controlledterms.BreedingType",
                 "openminds.controlledterms.CellCultureType",
@@ -187,6 +191,7 @@ class SoftwareVersion(KGObject):
                 "openminds.controlledterms.Laterality",
                 "openminds.controlledterms.LearningResourceType",
                 "openminds.controlledterms.MeasuredQuantity",
+                "openminds.controlledterms.MeasuredSignalType",
                 "openminds.controlledterms.MetaDataModelType",
                 "openminds.controlledterms.ModelAbstractionLevel",
                 "openminds.controlledterms.ModelScope",
@@ -393,6 +398,14 @@ class SoftwareVersion(KGObject):
             doc="reverse of 'about'",
         ),
         Field(
+            "publication",
+            "openminds.publications.LivePaperVersion",
+            "^vocab:about",
+            reverse="about",
+            multiple=True,
+            doc="reverse of 'about'",
+        ),
+        Field(
             "used_in",
             ["openminds.computation.Environment", "openminds.computation.SoftwareAgent"],
             "^vocab:software",
@@ -444,6 +457,7 @@ class SoftwareVersion(KGObject):
         is_part_of=None,
         is_version_of=None,
         learning_resources=None,
+        publication=None,
         used_in=None,
         id=None,
         data=None,
@@ -494,6 +508,7 @@ class SoftwareVersion(KGObject):
             is_part_of=is_part_of,
             is_version_of=is_version_of,
             learning_resources=learning_resources,
+            publication=publication,
             used_in=used_in,
         )
 

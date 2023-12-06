@@ -46,6 +46,7 @@
     {
       "path": "https://openminds.ebrains.eu/vocab/describedIn",
       "propertyName": "vocab:describedIn",
+      "ensureOrder": true,
       "structure": [
         {
           "path": "@id"

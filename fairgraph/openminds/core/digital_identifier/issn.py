@@ -1,21 +1,20 @@
 """
-A persistent identifier for an information resource provided by the Handle System of the Corporation for National Research Initiatives.
+An International Standard Serial Number of the ISSN International Centre.
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
 
-class HANDLE(KGObject):
+class ISSN(KGObject):
     """
-    A persistent identifier for an information resource provided by the Handle System of the Corporation for National Research Initiatives.
+    An International Standard Serial Number of the ISSN International Centre.
     """
 
-    default_space = "common"
-    type_ = ["https://openminds.ebrains.eu/core/HANDLE"]
+    default_space = "dataset"
+    type_ = ["https://openminds.ebrains.eu/core/ISSN"]
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",
@@ -24,7 +23,15 @@ class HANDLE(KGObject):
         "core": "https://openminds.ebrains.eu/core/",
     }
     fields = [
-        Field("identifier", str, "vocab:identifier", required=True, doc="Term or code used to identify the HANDLE."),
+        Field("identifier", str, "vocab:identifier", required=True, doc="Term or code used to identify the ISSN."),
+        Field(
+            "identifies",
+            "openminds.publications.Periodical",
+            "^vocab:digitalIdentifier",
+            reverse="digital_identifiers",
+            multiple=True,
+            doc="reverse of 'digitalIdentifier'",
+        ),
         Field(
             "related_to",
             [
@@ -47,7 +54,13 @@ class HANDLE(KGObject):
     ]
     existence_query_fields = ("identifier",)
 
-    def __init__(self, identifier=None, related_to=None, id=None, data=None, space=None, scope=None):
+    def __init__(self, identifier=None, identifies=None, related_to=None, id=None, data=None, space=None, scope=None):
         return super().__init__(
-            id=id, space=space, scope=scope, data=data, identifier=identifier, related_to=related_to
+            id=id,
+            space=space,
+            scope=scope,
+            data=data,
+            identifier=identifier,
+            identifies=identifies,
+            related_to=related_to,
         )

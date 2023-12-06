@@ -1,35 +1,19 @@
 """
 Structured information on the lateral direction.
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - left
-         -
-       * - right
-         -
-
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
+
+
+from openminds.base import IRI
 
 
 class Laterality(KGObject):
     """
     Structured information on the lateral direction.
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - left
-         -
-       * - right
-         -
-
     """
 
     default_space = "controlled"
@@ -111,7 +95,12 @@ class Laterality(KGObject):
         ),
         Field(
             "is_laterality_of",
-            ["openminds.core.TissueSample", "openminds.core.TissueSampleCollection"],
+            [
+                "openminds.core.TissueSample",
+                "openminds.core.TissueSampleCollection",
+                "openminds.sands.AtlasAnnotation",
+                "openminds.sands.CustomAnnotation",
+            ],
             "^vocab:laterality",
             reverse="lateralities",
             multiple=True,

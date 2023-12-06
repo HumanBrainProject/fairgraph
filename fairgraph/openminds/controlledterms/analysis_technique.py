@@ -1,16 +1,20 @@
 """
-
+<description not available>
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
 
+from openminds.base import IRI
+
+
 class AnalysisTechnique(KGObject):
-    """ """
+    """
+    <description not available>
+    """
 
     default_space = "controlled"
     type_ = ["https://openminds.ebrains.eu/controlledTerms/AnalysisTechnique"]
@@ -71,7 +75,6 @@ class AnalysisTechnique(KGObject):
             [
                 "openminds.computation.ValidationTestVersion",
                 "openminds.computation.WorkflowRecipeVersion",
-                "openminds.core.DatasetVersion",
                 "openminds.core.MetaDataModelVersion",
                 "openminds.core.ModelVersion",
                 "openminds.core.SoftwareVersion",
@@ -107,6 +110,7 @@ class AnalysisTechnique(KGObject):
                 "openminds.computation.Optimization",
                 "openminds.computation.Simulation",
                 "openminds.computation.Visualization",
+                "openminds.core.DatasetVersion",
                 "openminds.core.Protocol",
             ],
             "^vocab:technique",

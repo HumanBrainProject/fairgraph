@@ -3,10 +3,10 @@ import inspect
 from fairgraph.kgobject import KGObject
 from fairgraph.embedded import EmbeddedMetadata
 
-from .chemical_mixture import ChemicalMixture
-from .product_source import ProductSource
 from .amount_of_chemical import AmountOfChemical
+from .chemical_mixture import ChemicalMixture
 from .chemical_substance import ChemicalSubstance
+from .product_source import ProductSource
 
 
 def list_kg_classes():

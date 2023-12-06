@@ -4,7 +4,6 @@ Structured information about a file that is not accessible via a URL.
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 

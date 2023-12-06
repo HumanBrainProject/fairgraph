@@ -1,0 +1,29 @@
+    @classmethod
+    def from_local_file(cls, relative_path):
+        obj = cls(
+            name=relative_path,
+            storage_size=QuantitativeValue(value=float(
+                os.stat(relative_path).st_size), unit=UnitOfMeasurement(name="bytes")),
+            hashes=Hash(algorithm="SHA1", digest=sha1sum(relative_path)),
+            format=ContentType(name=mimetypes.guess_type(relative_path)[0])
+            # todo: query ContentTypes since that contains additional, EBRAINS-specific content types
+        )
+        return obj
+
+    def download(self, local_path, client, accept_terms_of_use=False):
+        if accepted_terms_of_use(client, accept_terms_of_use=accept_terms_of_use):
+            local_path = Path(local_path)
+            if local_path.is_dir():
+                local_filename = local_path / self.name
+            else:
+                local_filename = local_path
+                local_filename.parent.mkdir(parents=True, exist_ok=True)
+            url_parts = urlparse(self.iri.value)
+            url_parts = url_parts._replace(path=quote(url_parts.path))
+            url = urlunparse(url_parts)
+            local_filename, headers = urlretrieve(url, local_filename)
+            # todo: check hash value of downloaded file
+            # todo: if local_path isn't an existing directory but looks like a directory name
+            #       rather than a filename, create that directory and save a file called self.name
+            #       within it
+            return local_filename

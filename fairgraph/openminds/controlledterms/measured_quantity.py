@@ -1,63 +1,19 @@
 """
-
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - holding potential
-         - Measured membrane potential during a voltage-clamp protocol.
-       * - compensation current
-         - Current injected into a cell to maintain the membrane potential at a target value.
-       * - input resistance
-         - Total resistance observed by the amplifier during an electrophysiological recording.
-       * - series resistance
-         - Resistance of the electrode during an electrophysiological recording.
-       * - liquid junction potential
-         - A potential difference that develops when two solutions of electrolytes of different concentrations are in contact with each other.
-       * - measured holding potential
-         - Measured membrane potetial during a voltage-clamp protocol.
-       * - seal resistance
-         - Resistance of the seal between the pipette tip and cell membrane in patch-clamp recording.
-       * - `membrane potential <http://uri.interlex.org/base/ilx_0106774>`_
-         - A quality inhering in a cell's plasma membrane by virtue of the electric potential difference across it.
-       * - chloride reversal potential
-         - The reversal potential for chloride ions.
-
+<description not available>
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
 
+from openminds.base import IRI
+
+
 class MeasuredQuantity(KGObject):
     """
-
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - holding potential
-         - Measured membrane potential during a voltage-clamp protocol.
-       * - compensation current
-         - Current injected into a cell to maintain the membrane potential at a target value.
-       * - input resistance
-         - Total resistance observed by the amplifier during an electrophysiological recording.
-       * - series resistance
-         - Resistance of the electrode during an electrophysiological recording.
-       * - liquid junction potential
-         - A potential difference that develops when two solutions of electrolytes of different concentrations are in contact with each other.
-       * - measured holding potential
-         - Measured membrane potetial during a voltage-clamp protocol.
-       * - seal resistance
-         - Resistance of the seal between the pipette tip and cell membrane in patch-clamp recording.
-       * - `membrane potential <http://uri.interlex.org/base/ilx_0106774>`_
-         - A quality inhering in a cell's plasma membrane by virtue of the electric potential difference across it.
-       * - chloride reversal potential
-         - The reversal potential for chloride ions.
-
+    <description not available>
     """
 
     default_space = "controlled"
@@ -137,6 +93,14 @@ class MeasuredQuantity(KGObject):
             multiple=True,
             doc="reverse of 'keyword'",
         ),
+        Field(
+            "measurement",
+            "openminds.core.Measurement",
+            "^vocab:measuredQuantity",
+            reverse="measured_quantities",
+            multiple=True,
+            doc="reverse of 'measuredQuantity'",
+        ),
     ]
     existence_query_fields = ("name",)
 
@@ -150,6 +114,7 @@ class MeasuredQuantity(KGObject):
         preferred_ontology_identifier=None,
         synonyms=None,
         describes=None,
+        measurement=None,
         id=None,
         data=None,
         space=None,
@@ -168,4 +133,5 @@ class MeasuredQuantity(KGObject):
             preferred_ontology_identifier=preferred_ontology_identifier,
             synonyms=synonyms,
             describes=describes,
+            measurement=measurement,
         )

@@ -1,39 +1,19 @@
 """
-
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - `arterial blood <http://purl.obolibrary.org/obo/UBERON_0013755>`_
-         - 'Arterial blood' is the oxygenated portion of blood which occupies the pulmonary vein, the left chambers of the heart, and the arteries of the circulatory system.
-       * - `venous blood <http://purl.obolibrary.org/obo/UBERON_0013756>`_
-         - 'Venous blood' is deoxygenated blood which travels from the peripheral vessels, through the venous system into the right atrium of the heart.
-       * - `blood <http://purl.obolibrary.org/obo/UBERON_0000178>`_
-         - ''Blood' is a body fluid in the circulatory system of vertebrates that transports substances to and from cells (e.g. nutrients, oxygen or metabolic waste products). [[adapted from Wikipedia](https://en.wikipedia.org/wiki/Blood)]
-
+<description not available>
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
 
+from openminds.base import IRI
+
+
 class OrganismSubstance(KGObject):
     """
-
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - `arterial blood <http://purl.obolibrary.org/obo/UBERON_0013755>`_
-         - 'Arterial blood' is the oxygenated portion of blood which occupies the pulmonary vein, the left chambers of the heart, and the arteries of the circulatory system.
-       * - `venous blood <http://purl.obolibrary.org/obo/UBERON_0013756>`_
-         - 'Venous blood' is deoxygenated blood which travels from the peripheral vessels, through the venous system into the right atrium of the heart.
-       * - `blood <http://purl.obolibrary.org/obo/UBERON_0000178>`_
-         - ''Blood' is a body fluid in the circulatory system of vertebrates that transports substances to and from cells (e.g. nutrients, oxygen or metabolic waste products). [[adapted from Wikipedia](https://en.wikipedia.org/wiki/Blood)]
-
+    <description not available>
     """
 
     default_space = "controlled"
@@ -95,7 +75,6 @@ class OrganismSubstance(KGObject):
             [
                 "openminds.computation.ValidationTestVersion",
                 "openminds.computation.WorkflowRecipeVersion",
-                "openminds.core.DatasetVersion",
                 "openminds.core.MetaDataModelVersion",
                 "openminds.core.ModelVersion",
                 "openminds.core.SoftwareVersion",
@@ -117,9 +96,17 @@ class OrganismSubstance(KGObject):
             "is_location_of",
             ["openminds.ephys.ElectrodeArrayUsage", "openminds.ephys.ElectrodeUsage", "openminds.ephys.PipetteUsage"],
             ["^vocab:anatomicalLocation", "^vocab:anatomicalLocationOfElectrodes"],
-            reverse=["anatomical_locations", "anatomical_location_of_electrodes"],
+            reverse=["anatomical_locations", "anatomical_locations_of_electrodes"],
             multiple=True,
             doc="reverse of anatomicalLocation, anatomicalLocationOfElectrodes",
+        ),
+        Field(
+            "is_target_of",
+            "openminds.sands.AnatomicalTargetPosition",
+            "^vocab:anatomicalTarget",
+            reverse="anatomical_targets",
+            multiple=True,
+            doc="reverse of 'anatomicalTarget'",
         ),
         Field(
             "is_used_to_group",
@@ -130,7 +117,7 @@ class OrganismSubstance(KGObject):
             doc="reverse of 'groupedBy'",
         ),
         Field(
-            "samples",
+            "sample",
             ["openminds.core.TissueSample", "openminds.core.TissueSampleCollection"],
             "^vocab:origin",
             reverse="origins",
@@ -148,6 +135,7 @@ class OrganismSubstance(KGObject):
                 "openminds.computation.Simulation",
                 "openminds.computation.ValidationTest",
                 "openminds.computation.Visualization",
+                "openminds.core.DatasetVersion",
                 "openminds.core.Model",
                 "openminds.core.ProtocolExecution",
                 "openminds.ephys.CellPatching",
@@ -177,8 +165,9 @@ class OrganismSubstance(KGObject):
         synonyms=None,
         describes=None,
         is_location_of=None,
+        is_target_of=None,
         is_used_to_group=None,
-        samples=None,
+        sample=None,
         studied_in=None,
         id=None,
         data=None,
@@ -199,7 +188,8 @@ class OrganismSubstance(KGObject):
             synonyms=synonyms,
             describes=describes,
             is_location_of=is_location_of,
+            is_target_of=is_target_of,
             is_used_to_group=is_used_to_group,
-            samples=samples,
+            sample=sample,
             studied_in=studied_in,
         )

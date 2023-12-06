@@ -1,111 +1,19 @@
 """
-
-    Here we show the first 20 possible values, an additional 63 values are not shown.
-
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - matplotlib.colormaps.Set2
-         - The colormap 'Set2' is a qualitative colormap of the Python plotting library Matplotlib.
-       * - matplotlib.colormaps.magma
-         - The colormap 'magma' is a perceptually uniform sequential colormap of the Python plotting library Matplotlib.
-       * - matplotlib.colormaps.summer
-         - The colormap 'summer' is a sequential (type 2) colormap of the Python plotting library Matplotlib.
-       * - matplotlib.colormaps.RdPu
-         - The colormap 'RdPu' is a sequential colormap of the Python plotting library Matplotlib.
-       * - matplotlib.colormaps.cubehelix
-         - The colormap 'cubehelix' is a miscellaneous colormap of the Python plotting library Matplotlib.
-       * - matplotlib.colormaps.plasma
-         - The colormap 'plasma' is a perceptually uniform sequential colormap of the Python plotting library Matplotlib.
-       * - matplotlib.colormaps.gist_rainbow
-         - The colormap 'gist_rainbow' is a miscellaneous colormap of the Python plotting library Matplotlib.
-       * - matplotlib.colormaps.gnuplot2
-         - The colormap 'gnuplot2' is a miscellaneous colormap of the Python plotting library Matplotlib.
-       * - matplotlib.colormaps.turbo
-         - The colormap 'turbo' is a miscellaneous colormap of the Python plotting library Matplotlib.
-       * - matplotlib.colormaps.YlGnBu
-         - The colormap 'YlGnBu' is a sequential colormap of the Python plotting library Matplotlib.
-       * - matplotlib.colormaps.CMRmap
-         - The colormap 'CMRmap' is a miscellaneous colormap of the Python plotting library Matplotlib.
-       * - matplotlib.colormaps.PuBuGn
-         - The colormap 'PuBuGn' is a sequential colormap of the Python plotting library Matplotlib.
-       * - matplotlib.colormaps.jet
-         - The colormap 'jet' is a miscellaneous colormap of the Python plotting library Matplotlib.
-       * - matplotlib.colormaps.YlOrBr
-         - The colormap 'YlOrBr' is a sequential colormap of the Python plotting library Matplotlib.
-       * - matplotlib.colormaps.tab20b
-         - The colormap 'tab20b' is a qualitative colormap of the Python plotting library Matplotlib.
-       * - matplotlib.colormaps.YlGn
-         - The colormap 'YlGn' is a sequential colormap of the Python plotting library Matplotlib.
-       * - matplotlib.colormaps.Accent
-         - The colormap 'Accent' is a qualitative colormap of the Python plotting library Matplotlib.
-       * - matplotlib.colormaps.inferno
-         - The colormap 'inferno' is a perceptually uniform sequential colormap of the Python plotting library Matplotlib.
-       * - matplotlib.colormaps.RdYlBu
-         - The colormap 'RdYlBu' is a diverging colormap of the Python plotting library Matplotlib.
-       * - matplotlib.colormaps.PuOr
-         - The colormap 'PuOr' is a diverging colormap of the Python plotting library Matplotlib.
-
+<description not available>
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
 
+from openminds.base import IRI
+
+
 class Colormap(KGObject):
     """
-
-    Here we show the first 20 possible values, an additional 63 values are not shown.
-
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - matplotlib.colormaps.Set2
-         - The colormap 'Set2' is a qualitative colormap of the Python plotting library Matplotlib.
-       * - matplotlib.colormaps.magma
-         - The colormap 'magma' is a perceptually uniform sequential colormap of the Python plotting library Matplotlib.
-       * - matplotlib.colormaps.summer
-         - The colormap 'summer' is a sequential (type 2) colormap of the Python plotting library Matplotlib.
-       * - matplotlib.colormaps.RdPu
-         - The colormap 'RdPu' is a sequential colormap of the Python plotting library Matplotlib.
-       * - matplotlib.colormaps.cubehelix
-         - The colormap 'cubehelix' is a miscellaneous colormap of the Python plotting library Matplotlib.
-       * - matplotlib.colormaps.plasma
-         - The colormap 'plasma' is a perceptually uniform sequential colormap of the Python plotting library Matplotlib.
-       * - matplotlib.colormaps.gist_rainbow
-         - The colormap 'gist_rainbow' is a miscellaneous colormap of the Python plotting library Matplotlib.
-       * - matplotlib.colormaps.gnuplot2
-         - The colormap 'gnuplot2' is a miscellaneous colormap of the Python plotting library Matplotlib.
-       * - matplotlib.colormaps.turbo
-         - The colormap 'turbo' is a miscellaneous colormap of the Python plotting library Matplotlib.
-       * - matplotlib.colormaps.YlGnBu
-         - The colormap 'YlGnBu' is a sequential colormap of the Python plotting library Matplotlib.
-       * - matplotlib.colormaps.CMRmap
-         - The colormap 'CMRmap' is a miscellaneous colormap of the Python plotting library Matplotlib.
-       * - matplotlib.colormaps.PuBuGn
-         - The colormap 'PuBuGn' is a sequential colormap of the Python plotting library Matplotlib.
-       * - matplotlib.colormaps.jet
-         - The colormap 'jet' is a miscellaneous colormap of the Python plotting library Matplotlib.
-       * - matplotlib.colormaps.YlOrBr
-         - The colormap 'YlOrBr' is a sequential colormap of the Python plotting library Matplotlib.
-       * - matplotlib.colormaps.tab20b
-         - The colormap 'tab20b' is a qualitative colormap of the Python plotting library Matplotlib.
-       * - matplotlib.colormaps.YlGn
-         - The colormap 'YlGn' is a sequential colormap of the Python plotting library Matplotlib.
-       * - matplotlib.colormaps.Accent
-         - The colormap 'Accent' is a qualitative colormap of the Python plotting library Matplotlib.
-       * - matplotlib.colormaps.inferno
-         - The colormap 'inferno' is a perceptually uniform sequential colormap of the Python plotting library Matplotlib.
-       * - matplotlib.colormaps.RdYlBu
-         - The colormap 'RdYlBu' is a diverging colormap of the Python plotting library Matplotlib.
-       * - matplotlib.colormaps.PuOr
-         - The colormap 'PuOr' is a diverging colormap of the Python plotting library Matplotlib.
-
+    <description not available>
     """
 
     default_space = "controlled"

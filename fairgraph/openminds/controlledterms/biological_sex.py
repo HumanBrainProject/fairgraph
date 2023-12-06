@@ -1,43 +1,19 @@
 """
 Structured information on the biological sex of a subject.
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - not detectable
-         - Can be stated if the biological sex in visually not detectable at a specific point in time.
-       * - `male <http://purl.obolibrary.org/obo/PATO_0000384>`_
-         - Biological sex that produces sperm cells (spermatozoa).
-       * - `female <http://purl.obolibrary.org/obo/PATO_0000383>`_
-         - Biological sex that produces egg cells (ova).
-       * - `hermaphrodite <http://purl.obolibrary.org/obo/PATO_0001340>`_
-         - Biological sex with both male and female reproductive organs.
-
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
+
+
+from openminds.base import IRI
 
 
 class BiologicalSex(KGObject):
     """
     Structured information on the biological sex of a subject.
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - not detectable
-         - Can be stated if the biological sex in visually not detectable at a specific point in time.
-       * - `male <http://purl.obolibrary.org/obo/PATO_0000384>`_
-         - Biological sex that produces sperm cells (spermatozoa).
-       * - `female <http://purl.obolibrary.org/obo/PATO_0000383>`_
-         - Biological sex that produces egg cells (ova).
-       * - `hermaphrodite <http://purl.obolibrary.org/obo/PATO_0001340>`_
-         - Biological sex with both male and female reproductive organs.
-
     """
 
     default_space = "controlled"
@@ -99,7 +75,6 @@ class BiologicalSex(KGObject):
             [
                 "openminds.computation.ValidationTestVersion",
                 "openminds.computation.WorkflowRecipeVersion",
-                "openminds.core.DatasetVersion",
                 "openminds.core.MetaDataModelVersion",
                 "openminds.core.ModelVersion",
                 "openminds.core.SoftwareVersion",
@@ -126,7 +101,7 @@ class BiologicalSex(KGObject):
                 "openminds.core.TissueSampleCollection",
             ],
             "^vocab:biologicalSex",
-            reverse="biological_sex",
+            reverse="biological_sexes",
             multiple=True,
             doc="reverse of 'biologicalSex'",
         ),
@@ -149,6 +124,7 @@ class BiologicalSex(KGObject):
                 "openminds.computation.Simulation",
                 "openminds.computation.ValidationTest",
                 "openminds.computation.Visualization",
+                "openminds.core.DatasetVersion",
                 "openminds.core.Model",
                 "openminds.core.ProtocolExecution",
                 "openminds.ephys.CellPatching",

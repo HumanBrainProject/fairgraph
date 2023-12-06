@@ -4,7 +4,6 @@ Structured information on a bundle of file instances.
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
@@ -68,6 +67,7 @@ class FileBundle(KGObject):
                 "openminds.controlledterms.TactileStimulusType",
                 "openminds.controlledterms.Technique",
                 "openminds.controlledterms.TermSuggestion",
+                "openminds.controlledterms.TissueSampleType",
                 "openminds.controlledterms.UBERONParcellation",
                 "openminds.controlledterms.VisualStimulusType",
                 "openminds.core.BehavioralProtocol",
@@ -178,7 +178,7 @@ class FileBundle(KGObject):
                 "openminds.ephys.RecordingActivity",
             ],
             ["^vocab:output", "^vocab:outputData"],
-            reverse=["outputs", "output_data"],
+            reverse=["output_data", "outputs"],
             multiple=True,
             doc="reverse of output, outputData",
         ),
@@ -190,8 +190,16 @@ class FileBundle(KGObject):
             multiple=True,
             doc="reverse of 'referenceData'",
         ),
+        Field(
+            "specifies",
+            "openminds.stimulation.EphysStimulus",
+            "^vocab:specification",
+            reverse="specifications",
+            multiple=True,
+            doc="reverse of 'specification'",
+        ),
     ]
-    existence_query_fields = ("name", "is_part_of")
+    existence_query_fields = ("is_part_of", "name")
 
     def __init__(
         self,
@@ -210,6 +218,7 @@ class FileBundle(KGObject):
         is_location_of=None,
         is_output_of=None,
         is_reference_for=None,
+        specifies=None,
         id=None,
         data=None,
         space=None,
@@ -235,4 +244,5 @@ class FileBundle(KGObject):
             is_location_of=is_location_of,
             is_output_of=is_output_of,
             is_reference_for=is_reference_for,
+            specifies=specifies,
         )

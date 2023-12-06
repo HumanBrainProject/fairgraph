@@ -4,7 +4,6 @@ Structured information about how to contact a given person or consortium.
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
@@ -35,7 +34,7 @@ class ContactInformation(KGObject):
             "is_contact_information_of",
             ["openminds.core.Consortium", "openminds.core.Person"],
             "^vocab:contactInformation",
-            reverse="contact_informations",
+            reverse="contact_information",
             multiple=True,
             doc="reverse of 'contactInformation'",
         ),

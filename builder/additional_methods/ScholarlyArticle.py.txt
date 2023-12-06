@@ -1,0 +1,43 @@
+    def get_journal(self, client, with_volume=False, with_issue=False):
+        journal = volume = issue = None
+        if self.is_part_of:
+            issue_or_volume = self.is_part_of.resolve(client, scope=self.scope, follow_links={"is_part_of": {}})
+            if isinstance(issue_or_volume, PublicationIssue):
+                volume = issue_or_volume.is_part_of
+                issue = issue_or_volume
+            else:
+                volume = issue_or_volume
+                issue = None
+            journal = volume.is_part_of
+            assert isinstance(journal, Periodical)
+        retval = [journal]
+        if with_volume:
+            retval.append(volume)
+        if with_issue:
+            retval.append(issue)
+        if not with_volume and not with_issue:
+            return journal
+        else:
+            return tuple(retval)
+
+    def get_citation_string(self, client):
+        #Eyal, G., Verhoog, M. B., Testa-Silva, G., Deitcher, Y., Lodder, '
+        #     -              'J. C., Benavides-Piccione, R., ... & Segev, I. (2016). Unique '
+        #     -              'membrane properties and enhanced signal processing in human '
+        #     -              'neocortical neurons. Elife, 5, e16553.
+        self.resolve(client, follow_links={"is_part_of": {}, "authors": {}})
+        authors = as_list(self.authors)
+        if len(authors) == 1:
+            author_str = authors[0].full_name
+        elif len(authors) > 1:
+            author_str = ", ".join(au.full_name for au in authors[:-1])
+            author_str += " & " + self.authors[-1].full_name
+        journal, volume, issue = self.get_journal(client, with_volume=True, with_issue=True)
+        title = self.name
+        if title and title[-1] != ".":
+            title += "."
+        journal_name = journal.name if journal else ""
+        volume_number = f"{volume.volume_number}: " if (volume and volume.volume_number != "placeholder") else ""
+        return (
+            f"{author_str} ({self.publication_date.year}). {title} {journal_name}, {volume_number}{self.pagination or ''}."
+        )

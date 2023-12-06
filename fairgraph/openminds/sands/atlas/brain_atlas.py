@@ -4,9 +4,11 @@ Structured information on a brain atlas (concept level).
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
+
+
+from openminds.base import IRI
 
 
 class BrainAtlas(KGObject):
@@ -68,14 +70,6 @@ class BrainAtlas(KGObject):
             required=True,
             doc="no description available",
         ),
-        Field(
-            "versions",
-            "openminds.sands.BrainAtlasVersion",
-            "vocab:hasVersion",
-            multiple=True,
-            required=True,
-            doc="Reference to variants of an original.",
-        ),
         Field("homepage", IRI, "vocab:homepage", doc="Main website of the brain atlas."),
         Field(
             "how_to_cite",
@@ -91,6 +85,14 @@ class BrainAtlas(KGObject):
         ),
         Field(
             "used_species", "openminds.controlledterms.Species", "vocab:usedSpecies", doc="no description available"
+        ),
+        Field(
+            "versions",
+            "openminds.sands.BrainAtlasVersion",
+            "vocab:hasVersion",
+            multiple=True,
+            required=True,
+            doc="Reference to variants of an original.",
         ),
         Field(
             "comments",
@@ -137,11 +139,11 @@ class BrainAtlas(KGObject):
         description=None,
         digital_identifier=None,
         has_terminology=None,
-        versions=None,
         homepage=None,
         how_to_cite=None,
         ontology_identifier=None,
         used_species=None,
+        versions=None,
         comments=None,
         is_input_to=None,
         is_part_of=None,
@@ -164,11 +166,11 @@ class BrainAtlas(KGObject):
             description=description,
             digital_identifier=digital_identifier,
             has_terminology=has_terminology,
-            versions=versions,
             homepage=homepage,
             how_to_cite=how_to_cite,
             ontology_identifier=ontology_identifier,
             used_species=used_species,
+            versions=versions,
             comments=comments,
             is_input_to=is_input_to,
             is_part_of=is_part_of,

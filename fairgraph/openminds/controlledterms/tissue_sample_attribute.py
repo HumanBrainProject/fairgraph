@@ -1,55 +1,19 @@
 """
-
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - stained
-         - A specimen that has been dyed using chemical or biochemical substances for general colorization of e.g., molecules or subcellular components, that can be visualized under the right light exposure.
-       * - labeled
-         - A specimen that has been modified using chemical or biochemical substances for selective tagging of e.g., molecules or subcellular components, which does not necessarily leads to a visual observable colorization.
-       * - unstained
-         - A specimen that was not artificially modified in colorization using chemical or biochemical substances.
-       * - untreated
-         - A specimen that has not been modified or treated (e.g., with chemicals) compared to its natural state.
-       * - fixated
-         - A specimen that was treated with a fixative (e.g., paraformaldehyde) to preserve its existing form and structure.
-       * - free floating
-         - A specimen that has been suspended in solution for further handling or experimental steps (e.g., immunohistochemical staining), or temporary storage before further use.
-       * - mounted
-         - A specimen that has been put ('mounted') on e.g., a glass slide with mounting medium in order to be supported for further handling and/or long term preservation.
-
+<description not available>
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
 
+from openminds.base import IRI
+
+
 class TissueSampleAttribute(KGObject):
     """
-
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - stained
-         - A specimen that has been dyed using chemical or biochemical substances for general colorization of e.g., molecules or subcellular components, that can be visualized under the right light exposure.
-       * - labeled
-         - A specimen that has been modified using chemical or biochemical substances for selective tagging of e.g., molecules or subcellular components, which does not necessarily leads to a visual observable colorization.
-       * - unstained
-         - A specimen that was not artificially modified in colorization using chemical or biochemical substances.
-       * - untreated
-         - A specimen that has not been modified or treated (e.g., with chemicals) compared to its natural state.
-       * - fixated
-         - A specimen that was treated with a fixative (e.g., paraformaldehyde) to preserve its existing form and structure.
-       * - free floating
-         - A specimen that has been suspended in solution for further handling or experimental steps (e.g., immunohistochemical staining), or temporary storage before further use.
-       * - mounted
-         - A specimen that has been put ('mounted') on e.g., a glass slide with mounting medium in order to be supported for further handling and/or long term preservation.
-
+    <description not available>
     """
 
     default_space = "controlled"

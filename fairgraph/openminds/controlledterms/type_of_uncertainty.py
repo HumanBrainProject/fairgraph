@@ -1,35 +1,19 @@
 """
-
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - standard deviation
-         -
-       * - standard error
-         -
-
+<description not available>
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
 
+from openminds.base import IRI
+
+
 class TypeOfUncertainty(KGObject):
     """
-
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - standard deviation
-         -
-       * - standard error
-         -
-
+    <description not available>
     """
 
     default_space = "controlled"
@@ -108,7 +92,15 @@ class TypeOfUncertainty(KGObject):
             reverse="keywords",
             multiple=True,
             doc="reverse of 'keyword'",
-        )
+        ),
+        Field(
+            "value",
+            "openminds.core.QuantitativeValueArray",
+            "^vocab:typeOfUncertainty",
+            reverse="types_of_uncertainty",
+            multiple=True,
+            doc="reverse of 'typeOfUncertainty'",
+        ),
     ]
     existence_query_fields = ("name",)
 
@@ -122,6 +114,7 @@ class TypeOfUncertainty(KGObject):
         preferred_ontology_identifier=None,
         synonyms=None,
         describes=None,
+        value=None,
         id=None,
         data=None,
         space=None,
@@ -140,4 +133,5 @@ class TypeOfUncertainty(KGObject):
             preferred_ontology_identifier=preferred_ontology_identifier,
             synonyms=synonyms,
             describes=describes,
+            value=value,
         )

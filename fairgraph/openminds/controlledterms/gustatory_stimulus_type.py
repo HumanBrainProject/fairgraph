@@ -1,43 +1,19 @@
 """
-
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - sweet substance
-         - Any chemical compound that tastes sweet.
-       * - salty substance
-         - Any chemical compound that tastes salty.
-       * - bitter substance
-         - Any chemical compound that tastes bitter.
-       * - sour substance
-         - Any chemical compound that tastes sour.
-
+<description not available>
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
 
+from openminds.base import IRI
+
+
 class GustatoryStimulusType(KGObject):
     """
-
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - sweet substance
-         - Any chemical compound that tastes sweet.
-       * - salty substance
-         - Any chemical compound that tastes salty.
-       * - bitter substance
-         - Any chemical compound that tastes bitter.
-       * - sour substance
-         - Any chemical compound that tastes sour.
-
+    <description not available>
     """
 
     default_space = "controlled"
@@ -99,7 +75,6 @@ class GustatoryStimulusType(KGObject):
             [
                 "openminds.computation.ValidationTestVersion",
                 "openminds.computation.WorkflowRecipeVersion",
-                "openminds.core.DatasetVersion",
                 "openminds.core.MetaDataModelVersion",
                 "openminds.core.ModelVersion",
                 "openminds.core.SoftwareVersion",
@@ -136,6 +111,7 @@ class GustatoryStimulusType(KGObject):
                 "openminds.computation.Simulation",
                 "openminds.computation.ValidationTest",
                 "openminds.computation.Visualization",
+                "openminds.core.DatasetVersion",
                 "openminds.core.Model",
                 "openminds.core.ProtocolExecution",
                 "openminds.ephys.CellPatching",

@@ -1,0 +1,23 @@
+    @property
+    def full_name(self):
+        return f"{self.given_name} {self.family_name}"
+
+    @classmethod
+    def me(cls, client, allow_multiple=False, follow_links=None):
+        user_info = client.user_info()
+        possible_matches = cls.list(
+            client, scope="in progress", space="common",
+            follow_links=follow_links,
+            family_name=user_info.family_name,
+            given_name=user_info.given_name
+        )
+        if len(possible_matches) == 0:
+            person = Person(family_name=user_info.family_name,
+                            given_name=user_info.given_name)
+        elif len(possible_matches) == 1:
+            person = possible_matches[0]
+        elif allow_multiple:
+            person = possible_matches
+        else:
+            raise Exception("Found multiple matches")
+        return person

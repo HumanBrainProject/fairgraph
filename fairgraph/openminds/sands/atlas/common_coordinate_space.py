@@ -1,16 +1,20 @@
 """
-
+<description not available>
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
 
+from openminds.base import IRI
+
+
 class CommonCoordinateSpace(KGObject):
-    """ """
+    """
+    <description not available>
+    """
 
     default_space = "atlas"
     type_ = ["https://openminds.ebrains.eu/sands/CommonCoordinateSpace"]
@@ -64,14 +68,6 @@ class CommonCoordinateSpace(KGObject):
             "vocab:digitalIdentifier",
             doc="Digital handle to identify objects or legal persons.",
         ),
-        Field(
-            "versions",
-            "openminds.sands.CommonCoordinateSpaceVersion",
-            "vocab:hasVersion",
-            multiple=True,
-            required=True,
-            doc="Reference to variants of an original.",
-        ),
         Field("homepage", IRI, "vocab:homepage", doc="Main website of the common coordinate space."),
         Field(
             "how_to_cite",
@@ -92,6 +88,14 @@ class CommonCoordinateSpace(KGObject):
             "vocab:usedSpecies",
             required=True,
             doc="no description available",
+        ),
+        Field(
+            "versions",
+            "openminds.sands.CommonCoordinateSpaceVersion",
+            "vocab:hasVersion",
+            multiple=True,
+            required=True,
+            doc="Reference to variants of an original.",
         ),
         Field(
             "comments",
@@ -145,11 +149,11 @@ class CommonCoordinateSpace(KGObject):
         custodians=None,
         description=None,
         digital_identifier=None,
-        versions=None,
         homepage=None,
         how_to_cite=None,
         ontology_identifiers=None,
         used_species=None,
+        versions=None,
         comments=None,
         is_input_to=None,
         is_part_of=None,
@@ -172,11 +176,11 @@ class CommonCoordinateSpace(KGObject):
             custodians=custodians,
             description=description,
             digital_identifier=digital_identifier,
-            versions=versions,
             homepage=homepage,
             how_to_cite=how_to_cite,
             ontology_identifiers=ontology_identifiers,
             used_species=used_species,
+            versions=versions,
             comments=comments,
             is_input_to=is_input_to,
             is_part_of=is_part_of,

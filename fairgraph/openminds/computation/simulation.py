@@ -4,9 +4,11 @@ Structured information about a process of running simulations of a computational
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
+
+
+from datetime import datetime, time
 
 
 class Simulation(KGObject):
@@ -38,7 +40,7 @@ class Simulation(KGObject):
             "vocab:description",
             doc="Longer statement or account giving the characteristics of the simulation.",
         ),
-        Field("end_time", datetime, "vocab:endTime", doc="no description available"),
+        Field("end_time", [datetime, time], "vocab:endTime", doc="no description available"),
         Field(
             "environment",
             ["openminds.computation.Environment", "openminds.core.WebServiceVersion"],
@@ -94,7 +96,7 @@ class Simulation(KGObject):
             multiple=True,
             doc="no description available",
         ),
-        Field("start_time", datetime, "vocab:startTime", required=True, doc="no description available"),
+        Field("start_time", [datetime, time], "vocab:startTime", required=True, doc="no description available"),
         Field(
             "started_by",
             ["openminds.computation.SoftwareAgent", "openminds.core.Person"],
@@ -127,6 +129,7 @@ class Simulation(KGObject):
                 "openminds.controlledterms.SubcellularEntity",
                 "openminds.controlledterms.TactileStimulusType",
                 "openminds.controlledterms.TermSuggestion",
+                "openminds.controlledterms.TissueSampleType",
                 "openminds.controlledterms.UBERONParcellation",
                 "openminds.controlledterms.VisualStimulusType",
                 "openminds.sands.CustomAnatomicalEntity",

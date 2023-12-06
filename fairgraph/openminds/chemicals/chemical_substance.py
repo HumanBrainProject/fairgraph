@@ -4,7 +4,6 @@ Structured information about a chemical substance.
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 

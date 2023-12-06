@@ -1,16 +1,21 @@
 """
-
+<description not available>
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
 
+from datetime import date
+from openminds.base import IRI
+
+
 class LearningResource(KGObject):
-    """ """
+    """
+    <description not available>
+    """
 
     default_space = "livepapers"
     type_ = ["https://openminds.ebrains.eu/publications/LearningResource"]
@@ -28,12 +33,6 @@ class LearningResource(KGObject):
             "vocab:name",
             required=True,
             doc="Word or phrase that constitutes the distinctive designation of the learning resource.",
-        ),
-        Field(
-            "iri",
-            IRI,
-            "vocab:IRI",
-            doc="Stands for Internationalized Resource Identifier which is an internet protocol standard that builds on the URI protocol, extending the set of permitted characters to include Unicode/ISO 10646.",
         ),
         Field(
             "about",
@@ -114,6 +113,12 @@ class LearningResource(KGObject):
             doc="Money provided by a legal person for a particular purpose.",
         ),
         Field(
+            "iri",
+            IRI,
+            "vocab:IRI",
+            doc="Stands for Internationalized Resource Identifier which is an internet protocol standard that builds on the URI protocol, extending the set of permitted characters to include Unicode/ISO 10646.",
+        ),
+        Field(
             "keywords",
             [
                 "openminds.controlledterms.ActionStatusType",
@@ -127,6 +132,7 @@ class LearningResource(KGObject):
                 "openminds.controlledterms.AtlasType",
                 "openminds.controlledterms.AuditoryStimulusType",
                 "openminds.controlledterms.BiologicalOrder",
+                "openminds.controlledterms.BiologicalProcess",
                 "openminds.controlledterms.BiologicalSex",
                 "openminds.controlledterms.BreedingType",
                 "openminds.controlledterms.CellCultureType",
@@ -156,6 +162,7 @@ class LearningResource(KGObject):
                 "openminds.controlledterms.Laterality",
                 "openminds.controlledterms.LearningResourceType",
                 "openminds.controlledterms.MeasuredQuantity",
+                "openminds.controlledterms.MeasuredSignalType",
                 "openminds.controlledterms.MetaDataModelType",
                 "openminds.controlledterms.ModelAbstractionLevel",
                 "openminds.controlledterms.ModelScope",
@@ -234,12 +241,11 @@ class LearningResource(KGObject):
             doc="Term or code used to identify the version of something.",
         ),
     ]
-    existence_query_fields = ("name", "about", "publication_date")
+    existence_query_fields = ("about", "name", "publication_date")
 
     def __init__(
         self,
         name=None,
-        iri=None,
         about=None,
         abstract=None,
         authors=None,
@@ -251,6 +257,7 @@ class LearningResource(KGObject):
         editors=None,
         educational_level=None,
         funding=None,
+        iri=None,
         keywords=None,
         learning_outcome=None,
         license=None,
@@ -274,7 +281,6 @@ class LearningResource(KGObject):
             scope=scope,
             data=data,
             name=name,
-            iri=iri,
             about=about,
             abstract=abstract,
             authors=authors,
@@ -286,6 +292,7 @@ class LearningResource(KGObject):
             editors=editors,
             educational_level=educational_level,
             funding=funding,
+            iri=iri,
             keywords=keywords,
             learning_outcome=learning_outcome,
             license=license,

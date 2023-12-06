@@ -4,9 +4,11 @@ Structured information about a short text expressing an opinion on, or giving in
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
+
+
+from datetime import datetime
 
 
 class Comment(KGObject):

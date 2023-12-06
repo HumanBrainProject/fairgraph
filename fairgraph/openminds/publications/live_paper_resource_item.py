@@ -1,16 +1,20 @@
 """
-
+<description not available>
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
 
+from openminds.base import IRI
+
+
 class LivePaperResourceItem(KGObject):
-    """ """
+    """
+    <description not available>
+    """
 
     default_space = "livepapers"
     type_ = ["https://openminds.ebrains.eu/publications/LivePaperResourceItem"]
@@ -30,18 +34,18 @@ class LivePaperResourceItem(KGObject):
             doc="Word or phrase that constitutes the distinctive designation of the live paper resource item.",
         ),
         Field(
+            "hosted_by",
+            ["openminds.core.Organization", "openminds.core.WebService", "openminds.controlledterms.Service"],
+            "vocab:hostedBy",
+            required=True,
+            doc="Reference to an organization that provides facilities and services for something.",
+        ),
+        Field(
             "iri",
             IRI,
             "vocab:IRI",
             required=True,
             doc="Stands for Internationalized Resource Identifier which is an internet protocol standard that builds on the URI protocol, extending the set of permitted characters to include Unicode/ISO 10646.",
-        ),
-        Field(
-            "hosted_by",
-            "openminds.core.Organization",
-            "vocab:hostedBy",
-            required=True,
-            doc="Reference to an organization that provides facilities and services for something.",
         ),
         Field(
             "is_part_of",
@@ -59,13 +63,13 @@ class LivePaperResourceItem(KGObject):
             doc="reverse of 'dataLocation'",
         ),
     ]
-    existence_query_fields = ("name", "iri", "is_part_of")
+    existence_query_fields = ("name", "iri", "is_also_part_of")
 
     def __init__(
         self,
         name=None,
-        iri=None,
         hosted_by=None,
+        iri=None,
         is_part_of=None,
         is_location_of=None,
         id=None,
@@ -79,8 +83,8 @@ class LivePaperResourceItem(KGObject):
             scope=scope,
             data=data,
             name=name,
-            iri=iri,
             hosted_by=hosted_by,
+            iri=iri,
             is_part_of=is_part_of,
             is_location_of=is_location_of,
         )

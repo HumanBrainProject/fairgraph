@@ -688,6 +688,7 @@ def test_field_names():
         "activities",
         "comments",
         "coordinated_projects",
+        "developed",
         "funded",
         "is_custodian_of",
         "is_owner_of",
@@ -742,20 +743,20 @@ def test_file_download():
     file_obj = omcore.File(
         name="installation.rst",
         iri=IRI("https://raw.githubusercontent.com/HumanBrainProject/fairgraph/master/doc/installation.rst"),
-        hash=omcore.Hash(algorithm="SHA1", digest="7c97abf3c007bfa58d58e09c0e497ceffd93bd11"),
+        hashes=omcore.Hash(algorithm="SHA1", digest="7c97abf3c007bfa58d58e09c0e497ceffd93bd11"),
     )
     local_dir = tempfile.mkdtemp()
 
     # test download to a directory
     local_filename = file_obj.download(local_dir, client=None, accept_terms_of_use=True)
     assert str(local_filename) == os.path.join(local_dir, file_obj.name)
-    assert sha1sum(local_filename) == file_obj.hash.digest
+    assert sha1sum(local_filename) == file_obj.hashes.digest
 
     # test download to a specific filename
     local_filename_expected = os.path.join(local_dir, "installation1.rst")
     local_filename = file_obj.download(local_filename_expected, client=None, accept_terms_of_use=True)
     assert str(local_filename) == local_filename_expected
-    assert sha1sum(local_filename) == file_obj.hash.digest
+    assert sha1sum(local_filename) == file_obj.hashes.digest
 
     shutil.rmtree(local_dir)
 
@@ -765,7 +766,7 @@ def test_file_from_local_file():
     assert file_obj.name == "test/utils.py"
     assert file_obj.storage_size.value == float(os.stat("test/utils.py").st_size)
     assert file_obj.format.name == "text/x-python"
-    assert file_obj.hash.digest == sha1sum("test/utils.py")
+    assert file_obj.hashes.digest == sha1sum("test/utils.py")
 
 
 @skip_if_no_connection

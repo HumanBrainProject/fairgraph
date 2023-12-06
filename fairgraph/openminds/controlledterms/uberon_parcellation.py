@@ -1,111 +1,19 @@
 """
-
-    Here we show the first 20 possible values, an additional 813 values are not shown.
-
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - `auditory cortex <http://purl.obolibrary.org/obo/UBERON_0001393>`_
-         - The auditory cortex consists of neocortical areas that are functionally activated predominantly to sound, with the shortest latency.
-       * - `uncinate fasciculus <http://purl.obolibrary.org/obo/UBERON_0003044>`_
-         - 'Uncinate fasciculus' is a fasciculus of brain. It is part of the pontine tegmentum.
-       * - `cortical amygdaloid nucleus <http://purl.obolibrary.org/obo/UBERON_0002891>`_
-         - 'Cortical amygdaloid nucleus' is a telencephalic nucleus. It is part of the corticomedial nuclear complex.
-       * - `cerebellar cortex <http://purl.obolibrary.org/obo/UBERON_0002129>`_
-         - 'Cerebellar cortex' is a gray matter of hindbrain. It is part of the cerebellum.
-       * - `transverse gyrus of Heschl <http://purl.obolibrary.org/obo/UBERON_0003939>`_
-         - 'Transverse gyrus of Heschl' is a gyrus. It is part of the auditory cortex.
-       * - `spinocerebellum <http://purl.obolibrary.org/obo/UBERON_0014643>`_
-         - 'Spinocerebellum' is a regional part of brain. It is part of the cerebellum.
-       * - `septal nuclear complex <http://purl.obolibrary.org/obo/UBERON_0002663>`_
-         - 'Septal nuclear complex' is a cerebral hemisphere gray matter and nuclear complex of neuraxis. It is part of the septum of telencephalon and basal forebrain.
-       * - `lateral superior olivary nucleus <http://purl.obolibrary.org/obo/UBERON_0002779>`_
-         - 'Lateral superior olivary nucleus' is a nucleus of superior olivary complex. It is part of the primary superior olive.
-       * - `lamina of septum pellucidum <http://purl.obolibrary.org/obo/UBERON_0002742>`_
-         - 'Lamina of septum pellucidum' is a central nervous system cell part cluster and nervous system cell part layer. It is part of the septum pellucidum.
-       * - `occipital cortex <http://purl.obolibrary.org/obo/UBERON_0016540>`_
-         - 'Occipital cortex' is a cortex of cerebral lobe. It is part of the occipital lobe.
-       * - `cephalopod optic lobe <http://purl.obolibrary.org/obo/UBERON_0006796>`_
-         - 'Cephalopod optic lobe' is a visual processing part of nervous system. It is part of the brain.
-       * - `choroid plexus of lateral ventricle <http://purl.obolibrary.org/obo/UBERON_0002307>`_
-         - 'Choroid plexus of lateral ventricle' is a choroid plexus. It is part of the telencephalic ventricle.
-       * - `medial globus pallidus <http://purl.obolibrary.org/obo/UBERON_0002477>`_
-         - 'Medial globus pallidus' is a cerebral hemisphere gray matter. It is part of the globus pallidus.
-       * - `brain ependyma <http://purl.obolibrary.org/obo/UBERON_0005357>`_
-         - 'Brain ependyma' is an ependyma. It is part of the brain ventricle.
-       * - `superior temporal sulcus <http://purl.obolibrary.org/obo/UBERON_0002734>`_
-         - The 'superior temporal sulcus' is the sulcus separating the superior temporal gyrus from the middle temporal gyrus in the temporal lobe of the brain. [from [wikipedia](http://en.wikipedia.org/wiki/Superior_temporal_sulcus)]
-       * - `dorsal raphe nucleus <http://purl.obolibrary.org/obo/UBERON_0002043>`_
-         - 'Dorsal raphe nucleus' is a nucleus of midbrain reticular formation. It is part of the raphe nuclei.
-       * - `rhombic lip <http://purl.obolibrary.org/obo/UBERON_0006215>`_
-         - 'Rhombic lip' is part of the future metencephalon.
-       * - `lentiform nucleus <http://purl.obolibrary.org/obo/UBERON_0002263>`_
-         - 'Lentiform nucleus' is a telencephalic nucleus. It is part of the ventral striatum.
-       * - `temporal cortex cingulum <http://purl.obolibrary.org/obo/UBERON_0022429>`_
-         - The 'temporal cortex cingulum' is a white matter fibre bundle. It is part of cingulum of brain.
-       * - `white matter lamina of cerebellum <http://purl.obolibrary.org/obo/UBERON_0014540>`_
-         - 'White matter lamina of cerebellum' is a white matter lamina of neuraxis. It is part of the cerebellum.
-
+<description not available>
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
 
+from openminds.base import IRI
+
+
 class UBERONParcellation(KGObject):
     """
-
-    Here we show the first 20 possible values, an additional 813 values are not shown.
-
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - `auditory cortex <http://purl.obolibrary.org/obo/UBERON_0001393>`_
-         - The auditory cortex consists of neocortical areas that are functionally activated predominantly to sound, with the shortest latency.
-       * - `uncinate fasciculus <http://purl.obolibrary.org/obo/UBERON_0003044>`_
-         - 'Uncinate fasciculus' is a fasciculus of brain. It is part of the pontine tegmentum.
-       * - `cortical amygdaloid nucleus <http://purl.obolibrary.org/obo/UBERON_0002891>`_
-         - 'Cortical amygdaloid nucleus' is a telencephalic nucleus. It is part of the corticomedial nuclear complex.
-       * - `cerebellar cortex <http://purl.obolibrary.org/obo/UBERON_0002129>`_
-         - 'Cerebellar cortex' is a gray matter of hindbrain. It is part of the cerebellum.
-       * - `transverse gyrus of Heschl <http://purl.obolibrary.org/obo/UBERON_0003939>`_
-         - 'Transverse gyrus of Heschl' is a gyrus. It is part of the auditory cortex.
-       * - `spinocerebellum <http://purl.obolibrary.org/obo/UBERON_0014643>`_
-         - 'Spinocerebellum' is a regional part of brain. It is part of the cerebellum.
-       * - `septal nuclear complex <http://purl.obolibrary.org/obo/UBERON_0002663>`_
-         - 'Septal nuclear complex' is a cerebral hemisphere gray matter and nuclear complex of neuraxis. It is part of the septum of telencephalon and basal forebrain.
-       * - `lateral superior olivary nucleus <http://purl.obolibrary.org/obo/UBERON_0002779>`_
-         - 'Lateral superior olivary nucleus' is a nucleus of superior olivary complex. It is part of the primary superior olive.
-       * - `lamina of septum pellucidum <http://purl.obolibrary.org/obo/UBERON_0002742>`_
-         - 'Lamina of septum pellucidum' is a central nervous system cell part cluster and nervous system cell part layer. It is part of the septum pellucidum.
-       * - `occipital cortex <http://purl.obolibrary.org/obo/UBERON_0016540>`_
-         - 'Occipital cortex' is a cortex of cerebral lobe. It is part of the occipital lobe.
-       * - `cephalopod optic lobe <http://purl.obolibrary.org/obo/UBERON_0006796>`_
-         - 'Cephalopod optic lobe' is a visual processing part of nervous system. It is part of the brain.
-       * - `choroid plexus of lateral ventricle <http://purl.obolibrary.org/obo/UBERON_0002307>`_
-         - 'Choroid plexus of lateral ventricle' is a choroid plexus. It is part of the telencephalic ventricle.
-       * - `medial globus pallidus <http://purl.obolibrary.org/obo/UBERON_0002477>`_
-         - 'Medial globus pallidus' is a cerebral hemisphere gray matter. It is part of the globus pallidus.
-       * - `brain ependyma <http://purl.obolibrary.org/obo/UBERON_0005357>`_
-         - 'Brain ependyma' is an ependyma. It is part of the brain ventricle.
-       * - `superior temporal sulcus <http://purl.obolibrary.org/obo/UBERON_0002734>`_
-         - The 'superior temporal sulcus' is the sulcus separating the superior temporal gyrus from the middle temporal gyrus in the temporal lobe of the brain. [from [wikipedia](http://en.wikipedia.org/wiki/Superior_temporal_sulcus)]
-       * - `dorsal raphe nucleus <http://purl.obolibrary.org/obo/UBERON_0002043>`_
-         - 'Dorsal raphe nucleus' is a nucleus of midbrain reticular formation. It is part of the raphe nuclei.
-       * - `rhombic lip <http://purl.obolibrary.org/obo/UBERON_0006215>`_
-         - 'Rhombic lip' is part of the future metencephalon.
-       * - `lentiform nucleus <http://purl.obolibrary.org/obo/UBERON_0002263>`_
-         - 'Lentiform nucleus' is a telencephalic nucleus. It is part of the ventral striatum.
-       * - `temporal cortex cingulum <http://purl.obolibrary.org/obo/UBERON_0022429>`_
-         - The 'temporal cortex cingulum' is a white matter fibre bundle. It is part of cingulum of brain.
-       * - `white matter lamina of cerebellum <http://purl.obolibrary.org/obo/UBERON_0014540>`_
-         - 'White matter lamina of cerebellum' is a white matter lamina of neuraxis. It is part of the cerebellum.
-
+    <description not available>
     """
 
     default_space = "controlled"
@@ -175,7 +83,6 @@ class UBERONParcellation(KGObject):
             [
                 "openminds.computation.ValidationTestVersion",
                 "openminds.computation.WorkflowRecipeVersion",
-                "openminds.core.DatasetVersion",
                 "openminds.core.MetaDataModelVersion",
                 "openminds.core.ModelVersion",
                 "openminds.core.SoftwareVersion",
@@ -203,9 +110,17 @@ class UBERONParcellation(KGObject):
                 "openminds.ephys.PipetteUsage",
             ],
             ["^vocab:anatomicalLocation", "^vocab:anatomicalLocationOfElectrodes"],
-            reverse=["anatomical_locations", "anatomical_location_of_electrodes"],
+            reverse=["anatomical_locations", "anatomical_locations_of_electrodes"],
             multiple=True,
             doc="reverse of anatomicalLocation, anatomicalLocationOfElectrodes",
+        ),
+        Field(
+            "is_target_of",
+            "openminds.sands.AnatomicalTargetPosition",
+            "^vocab:anatomicalTarget",
+            reverse="anatomical_targets",
+            multiple=True,
+            doc="reverse of 'anatomicalTarget'",
         ),
         Field(
             "is_used_to_group",
@@ -226,6 +141,7 @@ class UBERONParcellation(KGObject):
                 "openminds.computation.Simulation",
                 "openminds.computation.ValidationTest",
                 "openminds.computation.Visualization",
+                "openminds.core.DatasetVersion",
                 "openminds.core.Model",
                 "openminds.core.ProtocolExecution",
                 "openminds.ephys.CellPatching",
@@ -256,6 +172,7 @@ class UBERONParcellation(KGObject):
         defines=None,
         describes=None,
         is_location_of=None,
+        is_target_of=None,
         is_used_to_group=None,
         studied_in=None,
         id=None,
@@ -278,6 +195,7 @@ class UBERONParcellation(KGObject):
             defines=defines,
             describes=describes,
             is_location_of=is_location_of,
+            is_target_of=is_target_of,
             is_used_to_group=is_used_to_group,
             studied_in=studied_in,
         )

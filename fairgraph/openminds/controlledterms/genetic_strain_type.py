@@ -1,55 +1,19 @@
 """
-
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - wildtype
-         -
-       * - transgenic
-         -
-       * - knockout
-         -
-       * - knockin
-         -
-       * - conditional knockout ready
-         -
-       * - conditional ready
-         -
-       * - conditional knockin ready
-         -
-
+<description not available>
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
 
+from openminds.base import IRI
+
+
 class GeneticStrainType(KGObject):
     """
-
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - wildtype
-         -
-       * - transgenic
-         -
-       * - knockout
-         -
-       * - knockin
-         -
-       * - conditional knockout ready
-         -
-       * - conditional ready
-         -
-       * - conditional knockin ready
-         -
-
+    <description not available>
     """
 
     default_space = "controlled"
@@ -111,7 +75,6 @@ class GeneticStrainType(KGObject):
             [
                 "openminds.computation.ValidationTestVersion",
                 "openminds.computation.WorkflowRecipeVersion",
-                "openminds.core.DatasetVersion",
                 "openminds.core.MetaDataModelVersion",
                 "openminds.core.ModelVersion",
                 "openminds.core.SoftwareVersion",
@@ -156,6 +119,7 @@ class GeneticStrainType(KGObject):
                 "openminds.computation.Simulation",
                 "openminds.computation.ValidationTest",
                 "openminds.computation.Visualization",
+                "openminds.core.DatasetVersion",
                 "openminds.core.Model",
                 "openminds.core.ProtocolExecution",
                 "openminds.ephys.CellPatching",

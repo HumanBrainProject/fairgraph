@@ -1,16 +1,20 @@
 """
-
+<description not available>
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
 
+from openminds.base import IRI
+
+
 class MetaDataModel(KGObject):
-    """ """
+    """
+    <description not available>
+    """
 
     default_space = "metadatamodel"
     type_ = ["https://openminds.ebrains.eu/core/MetaDataModel"]
@@ -58,6 +62,13 @@ class MetaDataModel(KGObject):
             "vocab:digitalIdentifier",
             doc="Digital handle to identify objects or legal persons.",
         ),
+        Field("homepage", IRI, "vocab:homepage", doc="Main website of the meta data model."),
+        Field(
+            "how_to_cite",
+            str,
+            "vocab:howToCite",
+            doc="Preferred format for citing a particular object or legal person.",
+        ),
         Field(
             "versions",
             "openminds.core.MetaDataModelVersion",
@@ -65,13 +76,6 @@ class MetaDataModel(KGObject):
             multiple=True,
             required=True,
             doc="Reference to variants of an original.",
-        ),
-        Field("homepage", IRI, "vocab:homepage", doc="Main website of the meta data model."),
-        Field(
-            "how_to_cite",
-            str,
-            "vocab:howToCite",
-            doc="Preferred format for citing a particular object or legal person.",
         ),
         Field(
             "comments",
@@ -108,9 +112,9 @@ class MetaDataModel(KGObject):
         description=None,
         developers=None,
         digital_identifier=None,
-        versions=None,
         homepage=None,
         how_to_cite=None,
+        versions=None,
         comments=None,
         is_part_of=None,
         learning_resources=None,
@@ -130,9 +134,9 @@ class MetaDataModel(KGObject):
             description=description,
             developers=developers,
             digital_identifier=digital_identifier,
-            versions=versions,
             homepage=homepage,
             how_to_cite=how_to_cite,
+            versions=versions,
             comments=comments,
             is_part_of=is_part_of,
             learning_resources=learning_resources,

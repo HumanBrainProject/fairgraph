@@ -1,35 +1,19 @@
 """
-
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - `primary cell culture <http://id.nlm.nih.gov/mesh/2018/M0452904>`_
-         - A cell culture comprised of primary cultured cells and the media in which they are being actively propaged or quiescently stored.
-       * - `secondary cell culture <http://purl.obolibrary.org/obo/OBI_0001905>`_
-         - A cultured cell population that is derived through one or more passages in culture.
-
+<description not available>
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
 
+from openminds.base import IRI
+
+
 class CellCultureType(KGObject):
     """
-
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - `primary cell culture <http://id.nlm.nih.gov/mesh/2018/M0452904>`_
-         - A cell culture comprised of primary cultured cells and the media in which they are being actively propaged or quiescently stored.
-       * - `secondary cell culture <http://purl.obolibrary.org/obo/OBI_0001905>`_
-         - A cultured cell population that is derived through one or more passages in culture.
-
+    <description not available>
     """
 
     default_space = "controlled"
@@ -91,7 +75,6 @@ class CellCultureType(KGObject):
             [
                 "openminds.computation.ValidationTestVersion",
                 "openminds.computation.WorkflowRecipeVersion",
-                "openminds.core.DatasetVersion",
                 "openminds.core.MetaDataModelVersion",
                 "openminds.core.ModelVersion",
                 "openminds.core.SoftwareVersion",
@@ -128,6 +111,7 @@ class CellCultureType(KGObject):
                 "openminds.computation.Simulation",
                 "openminds.computation.ValidationTest",
                 "openminds.computation.Visualization",
+                "openminds.core.DatasetVersion",
                 "openminds.core.Model",
                 "openminds.core.ProtocolExecution",
                 "openminds.ephys.CellPatching",

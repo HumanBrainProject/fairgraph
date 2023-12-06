@@ -1,63 +1,19 @@
 """
 Structured information on the available language setting.
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - French
-         -
-       * - English
-         -
-       * - Dutch
-         -
-       * - Norwegian
-         -
-       * - German
-         -
-       * - Greek
-         -
-       * - Italian
-         -
-       * - Spanish
-         -
-       * - Swedish
-         -
-
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
+
+
+from openminds.base import IRI
 
 
 class Language(KGObject):
     """
     Structured information on the available language setting.
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - French
-         -
-       * - English
-         -
-       * - Dutch
-         -
-       * - Norwegian
-         -
-       * - German
-         -
-       * - Greek
-         -
-       * - Italian
-         -
-       * - Spanish
-         -
-       * - Swedish
-         -
-
     """
 
     default_space = "controlled"
@@ -122,7 +78,6 @@ class Language(KGObject):
                 "openminds.core.DatasetVersion",
                 "openminds.core.MetaDataModelVersion",
                 "openminds.core.ModelVersion",
-                "openminds.core.SoftwareVersion",
                 "openminds.core.WebServiceVersion",
                 "openminds.publications.Book",
                 "openminds.publications.Chapter",
@@ -137,6 +92,14 @@ class Language(KGObject):
             multiple=True,
             doc="reverse of 'keyword'",
         ),
+        Field(
+            "used_in",
+            "openminds.core.SoftwareVersion",
+            "^vocab:language",
+            reverse="languages",
+            multiple=True,
+            doc="reverse of 'language'",
+        ),
     ]
     existence_query_fields = ("name",)
 
@@ -150,6 +113,7 @@ class Language(KGObject):
         preferred_ontology_identifier=None,
         synonyms=None,
         describes=None,
+        used_in=None,
         id=None,
         data=None,
         space=None,
@@ -168,4 +132,5 @@ class Language(KGObject):
             preferred_ontology_identifier=preferred_ontology_identifier,
             synonyms=synonyms,
             describes=describes,
+            used_in=used_in,
         )

@@ -4,7 +4,6 @@ Structured information about properties of an entity that are not represented in
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import EmbeddedMetadata, IRI
 from fairgraph.fields import Field
 
@@ -41,7 +40,7 @@ class CustomPropertySet(EmbeddedMetadata):
             ],
             "vocab:relevantFor",
             required=True,
-            doc="Reference to what or whom the custom property set bears siginificance.",
+            doc="Reference to what or whom the custom property set bears significance.",
         ),
     ]
 

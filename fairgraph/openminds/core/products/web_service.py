@@ -1,16 +1,20 @@
 """
-
+<description not available>
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
 
+from openminds.base import IRI
+
+
 class WebService(KGObject):
-    """ """
+    """
+    <description not available>
+    """
 
     default_space = "webservice"
     type_ = ["https://openminds.ebrains.eu/core/WebService"]
@@ -52,6 +56,13 @@ class WebService(KGObject):
             required=True,
             doc="Legal person that creates or improves products or services (e.g., software, applications, etc.).",
         ),
+        Field("homepage", IRI, "vocab:homepage", doc="Main website of the web service."),
+        Field(
+            "how_to_cite",
+            str,
+            "vocab:howToCite",
+            doc="Preferred format for citing a particular object or legal person.",
+        ),
         Field(
             "versions",
             "openminds.core.WebServiceVersion",
@@ -59,13 +70,6 @@ class WebService(KGObject):
             multiple=True,
             required=True,
             doc="Reference to variants of an original.",
-        ),
-        Field("homepage", IRI, "vocab:homepage", doc="Main website of the web service."),
-        Field(
-            "how_to_cite",
-            str,
-            "vocab:howToCite",
-            doc="Preferred format for citing a particular object or legal person.",
         ),
         Field(
             "comments",
@@ -84,6 +88,14 @@ class WebService(KGObject):
             doc="reverse of 'service'",
         ),
         Field(
+            "hosts",
+            "openminds.publications.LivePaperResourceItem",
+            "^vocab:hostedBy",
+            reverse="hosted_by",
+            multiple=True,
+            doc="reverse of 'hostedBy'",
+        ),
+        Field(
             "is_part_of",
             ["openminds.core.Project", "openminds.core.ResearchProductGroup"],
             "^vocab:hasPart",
@@ -100,7 +112,7 @@ class WebService(KGObject):
             doc="reverse of 'about'",
         ),
     ]
-    existence_query_fields = ("name", "alias", "description", "developers", "versions")
+    existence_query_fields = ("description", "developers", "name", "versions", "alias")
 
     def __init__(
         self,
@@ -109,11 +121,12 @@ class WebService(KGObject):
         custodians=None,
         description=None,
         developers=None,
-        versions=None,
         homepage=None,
         how_to_cite=None,
+        versions=None,
         comments=None,
         has_accounts=None,
+        hosts=None,
         is_part_of=None,
         learning_resources=None,
         id=None,
@@ -131,11 +144,12 @@ class WebService(KGObject):
             custodians=custodians,
             description=description,
             developers=developers,
-            versions=versions,
             homepage=homepage,
             how_to_cite=how_to_cite,
+            versions=versions,
             comments=comments,
             has_accounts=has_accounts,
+            hosts=hosts,
             is_part_of=is_part_of,
             learning_resources=learning_resources,
         )

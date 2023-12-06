@@ -1,39 +1,19 @@
 """
-
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - deterministic atlas
-         - A 'deterministic atlas' is an anatomical or anatomopathological atlases based on a definite composite of a single specimen.
-       * - `parcellation scheme <http://uri.neuinfo.org/nif/nifstd/nlx_144019>`_
-         - A 'parcellation scheme' is a set of parcels occupying a part or all of an anatomical entity that has been delineated or annotated using a common approach or set of criteria.
-       * - probabilistic atlas
-         - A 'probabilistic atlas' is an anatomical or anatomopathological atlases based on statistically-weighted composites of many specimens.
-
+<description not available>
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
 
+from openminds.base import IRI
+
+
 class AtlasType(KGObject):
     """
-
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - deterministic atlas
-         - A 'deterministic atlas' is an anatomical or anatomopathological atlases based on a definite composite of a single specimen.
-       * - `parcellation scheme <http://uri.neuinfo.org/nif/nifstd/nlx_144019>`_
-         - A 'parcellation scheme' is a set of parcels occupying a part or all of an anatomical entity that has been delineated or annotated using a common approach or set of criteria.
-       * - probabilistic atlas
-         - A 'probabilistic atlas' is an anatomical or anatomopathological atlases based on statistically-weighted composites of many specimens.
-
+    <description not available>
     """
 
     default_space = "controlled"
@@ -105,13 +85,20 @@ class AtlasType(KGObject):
                 "openminds.publications.LearningResource",
                 "openminds.publications.LivePaperVersion",
                 "openminds.publications.ScholarlyArticle",
-                "openminds.sands.BrainAtlasVersion",
                 "openminds.sands.CommonCoordinateSpaceVersion",
             ],
             "^vocab:keyword",
             reverse="keywords",
             multiple=True,
             doc="reverse of 'keyword'",
+        ),
+        Field(
+            "is_type_of",
+            "openminds.sands.BrainAtlasVersion",
+            "^vocab:type",
+            reverse="types",
+            multiple=True,
+            doc="reverse of 'type'",
         ),
     ]
     existence_query_fields = ("name",)
@@ -126,6 +113,7 @@ class AtlasType(KGObject):
         preferred_ontology_identifier=None,
         synonyms=None,
         describes=None,
+        is_type_of=None,
         id=None,
         data=None,
         space=None,
@@ -144,4 +132,5 @@ class AtlasType(KGObject):
             preferred_ontology_identifier=preferred_ontology_identifier,
             synonyms=synonyms,
             describes=describes,
+            is_type_of=is_type_of,
         )

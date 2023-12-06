@@ -3,8 +3,8 @@ import inspect
 from fairgraph.kgobject import KGObject
 from fairgraph.embedded import EmbeddedMetadata
 
-from .stimulus.ephys_stimulus import EphysStimulus
-from .activity.stimulation_activity import StimulationActivity
+from .stimulus import EphysStimulus
+from .activity import StimulationActivity
 
 
 def list_kg_classes():

@@ -4,12 +4,13 @@ Structured information about a specific implementation of a validation test.
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
 from fairgraph.errors import ResolutionFailure
 from .validation_test import ValidationTest
+from datetime import date
+from openminds.base import IRI
 
 
 class ValidationTestVersion(KGObject):
@@ -141,6 +142,7 @@ class ValidationTestVersion(KGObject):
                 "openminds.controlledterms.AtlasType",
                 "openminds.controlledterms.AuditoryStimulusType",
                 "openminds.controlledterms.BiologicalOrder",
+                "openminds.controlledterms.BiologicalProcess",
                 "openminds.controlledterms.BiologicalSex",
                 "openminds.controlledterms.BreedingType",
                 "openminds.controlledterms.CellCultureType",
@@ -170,6 +172,7 @@ class ValidationTestVersion(KGObject):
                 "openminds.controlledterms.Laterality",
                 "openminds.controlledterms.LearningResourceType",
                 "openminds.controlledterms.MeasuredQuantity",
+                "openminds.controlledterms.MeasuredSignalType",
                 "openminds.controlledterms.MetaDataModelType",
                 "openminds.controlledterms.ModelAbstractionLevel",
                 "openminds.controlledterms.ModelScope",

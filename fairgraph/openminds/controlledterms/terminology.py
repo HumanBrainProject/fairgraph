@@ -1,111 +1,19 @@
 """
-
-    Here we show the first 20 possible values, an additional 62 values are not shown.
-
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - modality
-         -
-       * - analysis technique
-         -
-       * - atlas type
-         -
-       * - operating system
-         -
-       * - biological order
-         -
-       * - `anatomical plane <http://purl.obolibrary.org/obo/UBERON_0035085>`_
-         - A flat anatomical 2D surface that bisects an anatomical structure or an anatomical space.
-       * - dataset type
-         -
-       * - criteria quality type
-         -
-       * - learning resource type
-         - A 'learning resource type' groups persistent resources that explicitly entail learning activities or learning experiences in a certain format (e.g., in a physical or digital presentation).
-       * - technique
-         -
-       * - colormap
-         - A colormap is a lookup table specifying the colors to be used in rendering a palettized image, [adapted from [Wiktionary](https://en.wiktionary.org/wiki/colormap)].
-       * - patch clamp variation
-         - A variation of the patch clamp technique
-       * - `age category <http://purl.obolibrary.org/obo/UBERON_0000105>`_
-         - The age category describes a specific spatiotemporal part of the life cycle of an organism.
-       * - contribution type
-         -
-       * - (meta)data model type
-         -
-       * - species
-         -
-       * - tissue sample attribute
-         -
-       * - handedness
-         -
-       * - operating device
-         -
-       * - type of uncertainty
-         -
-
+<description not available>
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
 
+from openminds.base import IRI
+
+
 class Terminology(KGObject):
     """
-
-    Here we show the first 20 possible values, an additional 62 values are not shown.
-
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - modality
-         -
-       * - analysis technique
-         -
-       * - atlas type
-         -
-       * - operating system
-         -
-       * - biological order
-         -
-       * - `anatomical plane <http://purl.obolibrary.org/obo/UBERON_0035085>`_
-         - A flat anatomical 2D surface that bisects an anatomical structure or an anatomical space.
-       * - dataset type
-         -
-       * - criteria quality type
-         -
-       * - learning resource type
-         - A 'learning resource type' groups persistent resources that explicitly entail learning activities or learning experiences in a certain format (e.g., in a physical or digital presentation).
-       * - technique
-         -
-       * - colormap
-         - A colormap is a lookup table specifying the colors to be used in rendering a palettized image, [adapted from [Wiktionary](https://en.wiktionary.org/wiki/colormap)].
-       * - patch clamp variation
-         - A variation of the patch clamp technique
-       * - `age category <http://purl.obolibrary.org/obo/UBERON_0000105>`_
-         - The age category describes a specific spatiotemporal part of the life cycle of an organism.
-       * - contribution type
-         -
-       * - (meta)data model type
-         -
-       * - species
-         -
-       * - tissue sample attribute
-         -
-       * - handedness
-         -
-       * - operating device
-         -
-       * - type of uncertainty
-         -
-
+    <description not available>
     """
 
     default_space = "controlled"

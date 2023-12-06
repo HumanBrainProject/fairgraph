@@ -4,7 +4,6 @@ An identifiable list of property-value pairs.
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
@@ -45,9 +44,17 @@ class PropertyValueList(KGObject):
             "is_configuration_of",
             "openminds.computation.ValidationTestVersion",
             "^vocab:configuration",
-            reverse="configuration",
+            reverse="configurations",
             multiple=True,
             doc="reverse of 'configuration'",
+        ),
+        Field(
+            "specifies",
+            ["openminds.sands.CustomAnnotation", "openminds.stimulation.EphysStimulus"],
+            "^vocab:specification",
+            reverse="specifications",
+            multiple=True,
+            doc="reverse of 'specification'",
         ),
     ]
     existence_query_fields = ("lookup_label",)
@@ -58,6 +65,7 @@ class PropertyValueList(KGObject):
         property_value_pairs=None,
         defines_environment_of=None,
         is_configuration_of=None,
+        specifies=None,
         id=None,
         data=None,
         space=None,
@@ -72,4 +80,5 @@ class PropertyValueList(KGObject):
             property_value_pairs=property_value_pairs,
             defines_environment_of=defines_environment_of,
             is_configuration_of=is_configuration_of,
+            specifies=specifies,
         )

@@ -1,16 +1,17 @@
 """
-
+<description not available>
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
 
 class IdentifiersDotOrgID(KGObject):
-    """ """
+    """
+    <description not available>
+    """
 
     default_space = "common"
     type_ = ["https://openminds.ebrains.eu/core/IdentifiersDotOrgID"]
@@ -29,8 +30,18 @@ class IdentifiersDotOrgID(KGObject):
             required=True,
             doc="Term or code used to identify the identifiers dot org i d.",
         ),
+        Field(
+            "identifies",
+            ["openminds.core.Dataset", "openminds.core.DatasetVersion"],
+            "^vocab:digitalIdentifier",
+            reverse="digital_identifiers",
+            multiple=True,
+            doc="reverse of 'digitalIdentifier'",
+        ),
     ]
     existence_query_fields = ("identifier",)
 
-    def __init__(self, identifier=None, id=None, data=None, space=None, scope=None):
-        return super().__init__(id=id, space=space, scope=scope, data=data, identifier=identifier)
+    def __init__(self, identifier=None, identifies=None, id=None, data=None, space=None, scope=None):
+        return super().__init__(
+            id=id, space=space, scope=scope, data=data, identifier=identifier, identifies=identifies
+        )

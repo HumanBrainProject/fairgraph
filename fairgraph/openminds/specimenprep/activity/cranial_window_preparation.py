@@ -1,16 +1,20 @@
 """
-
+<description not available>
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
 
+from datetime import datetime, time
+
+
 class CranialWindowPreparation(KGObject):
-    """ """
+    """
+    <description not available>
+    """
 
     default_space = "in-depth"
     type_ = ["https://openminds.ebrains.eu/specimenPrep/CranialWindowPreparation"]
@@ -49,7 +53,7 @@ class CranialWindowPreparation(KGObject):
             "vocab:dimension",
             doc="no description available",
         ),
-        Field("end_time", datetime, "vocab:endTime", doc="no description available"),
+        Field("end_time", [datetime, time], "vocab:endTime", doc="no description available"),
         Field(
             "inputs",
             "openminds.core.SubjectState",
@@ -100,7 +104,7 @@ class CranialWindowPreparation(KGObject):
             "vocab:reinforcementType",
             doc="no description available",
         ),
-        Field("start_time", datetime, "vocab:startTime", doc="no description available"),
+        Field("start_time", [datetime, time], "vocab:startTime", doc="no description available"),
         Field(
             "study_targets",
             [
@@ -126,6 +130,7 @@ class CranialWindowPreparation(KGObject):
                 "openminds.controlledterms.SubcellularEntity",
                 "openminds.controlledterms.TactileStimulusType",
                 "openminds.controlledterms.TermSuggestion",
+                "openminds.controlledterms.TissueSampleType",
                 "openminds.controlledterms.UBERONParcellation",
                 "openminds.controlledterms.VisualStimulusType",
                 "openminds.sands.CustomAnatomicalEntity",

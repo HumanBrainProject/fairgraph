@@ -4,9 +4,12 @@ Structured information on a brain atlas (version level).
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
+
+
+from datetime import date
+from openminds.base import IRI
 
 
 class BrainAtlasVersion(KGObject):
@@ -134,6 +137,7 @@ class BrainAtlasVersion(KGObject):
                 "openminds.controlledterms.AtlasType",
                 "openminds.controlledterms.AuditoryStimulusType",
                 "openminds.controlledterms.BiologicalOrder",
+                "openminds.controlledterms.BiologicalProcess",
                 "openminds.controlledterms.BiologicalSex",
                 "openminds.controlledterms.BreedingType",
                 "openminds.controlledterms.CellCultureType",
@@ -163,6 +167,7 @@ class BrainAtlasVersion(KGObject):
                 "openminds.controlledterms.Laterality",
                 "openminds.controlledterms.LearningResourceType",
                 "openminds.controlledterms.MeasuredQuantity",
+                "openminds.controlledterms.MeasuredSignalType",
                 "openminds.controlledterms.MetaDataModelType",
                 "openminds.controlledterms.ModelAbstractionLevel",
                 "openminds.controlledterms.ModelScope",
@@ -308,7 +313,7 @@ class BrainAtlasVersion(KGObject):
                 "openminds.core.ProtocolExecution",
             ],
             ["^vocab:input", "^vocab:inputData"],
-            reverse=["inputs", "input_data"],
+            reverse=["input_data", "inputs"],
             multiple=True,
             doc="reverse of input, inputData",
         ),

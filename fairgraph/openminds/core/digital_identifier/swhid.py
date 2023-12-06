@@ -1,21 +1,20 @@
 """
-A GRID (Global Research Identifier Database) identifier.
+<description not available>
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
 
-class GRIDID(KGObject):
+class SWHID(KGObject):
     """
-    A GRID (Global Research Identifier Database) identifier.
+    <description not available>
     """
 
-    default_space = "common"
-    type_ = ["https://openminds.ebrains.eu/core/GRIDID"]
+    default_space = "software"
+    type_ = ["https://openminds.ebrains.eu/core/SWHID"]
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",
@@ -24,10 +23,17 @@ class GRIDID(KGObject):
         "core": "https://openminds.ebrains.eu/core/",
     }
     fields = [
-        Field("identifier", str, "vocab:identifier", required=True, doc="Term or code used to identify the GRIDID."),
+        Field("identifier", str, "vocab:identifier", required=True, doc="Term or code used to identify the SWHID."),
         Field(
             "identifies",
-            "openminds.core.Organization",
+            [
+                "openminds.core.MetaDataModel",
+                "openminds.core.MetaDataModelVersion",
+                "openminds.core.Model",
+                "openminds.core.ModelVersion",
+                "openminds.core.Software",
+                "openminds.core.SoftwareVersion",
+            ],
             "^vocab:digitalIdentifier",
             reverse="digital_identifiers",
             multiple=True,

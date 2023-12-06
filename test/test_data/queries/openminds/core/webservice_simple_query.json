@@ -78,6 +78,14 @@
       ]
     },
     {
+      "path": "https://openminds.ebrains.eu/vocab/homepage",
+      "propertyName": "vocab:homepage"
+    },
+    {
+      "path": "https://openminds.ebrains.eu/vocab/howToCite",
+      "propertyName": "vocab:howToCite"
+    },
+    {
       "path": "https://openminds.ebrains.eu/vocab/hasVersion",
       "propertyName": "vocab:hasVersion",
       "ensureOrder": true,
@@ -89,14 +97,6 @@
           "path": "@type"
         }
       ]
-    },
-    {
-      "path": "https://openminds.ebrains.eu/vocab/homepage",
-      "propertyName": "vocab:homepage"
-    },
-    {
-      "path": "https://openminds.ebrains.eu/vocab/howToCite",
-      "propertyName": "vocab:howToCite"
     },
     {
       "path": {
@@ -120,6 +120,22 @@
         "reverse": true
       },
       "propertyName": "vocab:service",
+      "ensureOrder": true,
+      "structure": [
+        {
+          "path": "@id"
+        },
+        {
+          "path": "@type"
+        }
+      ]
+    },
+    {
+      "path": {
+        "@id": "https://openminds.ebrains.eu/vocab/hostedBy",
+        "reverse": true
+      },
+      "propertyName": "vocab:hostedBy",
       "ensureOrder": true,
       "structure": [
         {

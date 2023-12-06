@@ -1,43 +1,19 @@
 """
-
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - common data elements
-         - Common Data Elements (CDEs) define standardized key terms or concepts for diseases in form of a data dictionary that can be used in both relational and graph metadata models.
-       * - data repository model
-         - A data repository model defines the file and folder naming and structure as well as partially the file content (metadata definitions) and preferred format.
-       * - relational metadata model
-         - A relational metadata model defines a set of tabular metadata schemas (including their relations) as architectural base of a relational database for describing the products represented in that database.
-       * - graph metadata model
-         - A graph metadata model defines a set of modular metadata schemas (including their relations) as architectural base of a graph database for describing the products represented in that database.
-
+<description not available>
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
 
+from openminds.base import IRI
+
+
 class MetaDataModelType(KGObject):
     """
-
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - common data elements
-         - Common Data Elements (CDEs) define standardized key terms or concepts for diseases in form of a data dictionary that can be used in both relational and graph metadata models.
-       * - data repository model
-         - A data repository model defines the file and folder naming and structure as well as partially the file content (metadata definitions) and preferred format.
-       * - relational metadata model
-         - A relational metadata model defines a set of tabular metadata schemas (including their relations) as architectural base of a relational database for describing the products represented in that database.
-       * - graph metadata model
-         - A graph metadata model defines a set of modular metadata schemas (including their relations) as architectural base of a graph database for describing the products represented in that database.
-
+    <description not available>
     """
 
     default_space = "controlled"
@@ -100,7 +76,6 @@ class MetaDataModelType(KGObject):
                 "openminds.computation.ValidationTestVersion",
                 "openminds.computation.WorkflowRecipeVersion",
                 "openminds.core.DatasetVersion",
-                "openminds.core.MetaDataModelVersion",
                 "openminds.core.ModelVersion",
                 "openminds.core.SoftwareVersion",
                 "openminds.core.WebServiceVersion",
@@ -117,6 +92,14 @@ class MetaDataModelType(KGObject):
             multiple=True,
             doc="reverse of 'keyword'",
         ),
+        Field(
+            "is_type_of",
+            "openminds.core.MetaDataModelVersion",
+            "^vocab:type",
+            reverse="types",
+            multiple=True,
+            doc="reverse of 'type'",
+        ),
     ]
     existence_query_fields = ("name",)
 
@@ -130,6 +113,7 @@ class MetaDataModelType(KGObject):
         preferred_ontology_identifier=None,
         synonyms=None,
         describes=None,
+        is_type_of=None,
         id=None,
         data=None,
         space=None,
@@ -148,4 +132,5 @@ class MetaDataModelType(KGObject):
             preferred_ontology_identifier=preferred_ontology_identifier,
             synonyms=synonyms,
             describes=describes,
+            is_type_of=is_type_of,
         )

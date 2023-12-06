@@ -4,9 +4,11 @@ Structured information about a process of validating a computational model.
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
+
+
+from datetime import datetime, time
 
 
 class ModelValidation(KGObject):
@@ -38,7 +40,7 @@ class ModelValidation(KGObject):
             "vocab:description",
             doc="Longer statement or account giving the characteristics of the model validation.",
         ),
-        Field("end_time", datetime, "vocab:endTime", doc="no description available"),
+        Field("end_time", [datetime, time], "vocab:endTime", doc="no description available"),
         Field(
             "environment",
             ["openminds.computation.Environment", "openminds.core.WebServiceVersion"],
@@ -91,7 +93,7 @@ class ModelValidation(KGObject):
             doc="no description available",
         ),
         Field("score", float, "vocab:score", doc="no description available"),
-        Field("start_time", datetime, "vocab:startTime", required=True, doc="no description available"),
+        Field("start_time", [datetime, time], "vocab:startTime", required=True, doc="no description available"),
         Field(
             "started_by",
             ["openminds.computation.SoftwareAgent", "openminds.core.Person"],
@@ -124,6 +126,7 @@ class ModelValidation(KGObject):
                 "openminds.controlledterms.SubcellularEntity",
                 "openminds.controlledterms.TactileStimulusType",
                 "openminds.controlledterms.TermSuggestion",
+                "openminds.controlledterms.TissueSampleType",
                 "openminds.controlledterms.UBERONParcellation",
                 "openminds.controlledterms.VisualStimulusType",
                 "openminds.sands.CustomAnatomicalEntity",

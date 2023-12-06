@@ -4,9 +4,11 @@ Structured information on a protocol execution.
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
+
+
+from datetime import datetime, time
 
 
 class ProtocolExecution(KGObject):
@@ -45,7 +47,7 @@ class ProtocolExecution(KGObject):
             "vocab:description",
             doc="Longer statement or account giving the characteristics of the protocol execution.",
         ),
-        Field("end_time", datetime, "vocab:endTime", doc="no description available"),
+        Field("end_time", [datetime, time], "vocab:endTime", doc="no description available"),
         Field(
             "inputs",
             [
@@ -106,7 +108,7 @@ class ProtocolExecution(KGObject):
             required=True,
             doc="Plan that describes the process of a scientific or medical experiment, treatment, or procedure.",
         ),
-        Field("start_time", datetime, "vocab:startTime", doc="no description available"),
+        Field("start_time", [datetime, time], "vocab:startTime", doc="no description available"),
         Field(
             "study_targets",
             [
@@ -132,6 +134,7 @@ class ProtocolExecution(KGObject):
                 "openminds.controlledterms.SubcellularEntity",
                 "openminds.controlledterms.TactileStimulusType",
                 "openminds.controlledterms.TermSuggestion",
+                "openminds.controlledterms.TissueSampleType",
                 "openminds.controlledterms.UBERONParcellation",
                 "openminds.controlledterms.VisualStimulusType",
                 "openminds.sands.CustomAnatomicalEntity",
@@ -141,6 +144,14 @@ class ProtocolExecution(KGObject):
             "vocab:studyTarget",
             multiple=True,
             doc="Structure or function that was targeted within a study.",
+        ),
+        Field(
+            "based_on_protocol_execution",
+            ["openminds.sands.AtlasAnnotation", "openminds.sands.CustomAnnotation"],
+            "^vocab:criteria",
+            reverse="criteria",
+            multiple=True,
+            doc="reverse of 'criteria'",
         ),
     ]
     existence_query_fields = ("lookup_label",)
@@ -160,6 +171,7 @@ class ProtocolExecution(KGObject):
         protocols=None,
         start_time=None,
         study_targets=None,
+        based_on_protocol_execution=None,
         id=None,
         data=None,
         space=None,
@@ -183,4 +195,5 @@ class ProtocolExecution(KGObject):
             protocols=protocols,
             start_time=start_time,
             study_targets=study_targets,
+            based_on_protocol_execution=based_on_protocol_execution,
         )

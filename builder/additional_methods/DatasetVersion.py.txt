@@ -1,0 +1,16 @@
+    def download(self, local_path, client, accept_terms_of_use=False):
+        if accepted_terms_of_use(client, accept_terms_of_use=accept_terms_of_use):
+            repo = self.repository.resolve(client, scope=self.scope or None)
+            if (repo.iri.value.startswith("https://object.cscs.ch/v1/AUTH")
+                or repo.iri.value.startswith("https://data-proxy.ebrains.eu/api/v1/public")
+            ):
+                zip_archive_url = f"https://data.kg.ebrains.eu/zip?container={repo.iri.value}"
+            else:
+                raise NotImplementedError("Download not yet implemented for this repository type")
+            if local_path.endswith(".zip"):
+                local_filename = Path(local_path)
+            else:
+                local_filename = Path(local_path) / (zip_archive_url.split("/")[-1] + ".zip")
+            local_filename.parent.mkdir(parents=True, exist_ok=True)
+            local_filename, headers = urlretrieve(zip_archive_url, local_filename)
+            return local_filename, repo.iri.value

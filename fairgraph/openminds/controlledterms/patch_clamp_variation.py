@@ -1,51 +1,19 @@
 """
-
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - cell-attached patch
-         - A variation of the patch-clamp technique in which the cell membrane remains intact.
-       * - perforated patch
-         - A variation of the patch-clamp technique in which the cell membrane is perforated.
-       * - loose patch
-         - A variation of the patch-clamp technique involving a seal with low electrical resistance.
-       * - inside-out patch
-         - A variation of the patch-clamp technique in which a patch of membrane is excised and the cytosolic surface exposed.
-       * - outside-out patch
-         - A variation of the patch-clamp technique in which a patch of membrane is excised and the external surface exposed.
-       * - whole-cell patch
-         - A variation of the patch-clamp technique in which the patch is ruptured, giving access to the intracellular space.
-
+<description not available>
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
 
+from openminds.base import IRI
+
+
 class PatchClampVariation(KGObject):
     """
-
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - cell-attached patch
-         - A variation of the patch-clamp technique in which the cell membrane remains intact.
-       * - perforated patch
-         - A variation of the patch-clamp technique in which the cell membrane is perforated.
-       * - loose patch
-         - A variation of the patch-clamp technique involving a seal with low electrical resistance.
-       * - inside-out patch
-         - A variation of the patch-clamp technique in which a patch of membrane is excised and the cytosolic surface exposed.
-       * - outside-out patch
-         - A variation of the patch-clamp technique in which a patch of membrane is excised and the external surface exposed.
-       * - whole-cell patch
-         - A variation of the patch-clamp technique in which the patch is ruptured, giving access to the intracellular space.
-
+    <description not available>
     """
 
     default_space = "controlled"

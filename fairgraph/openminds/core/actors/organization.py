@@ -4,9 +4,11 @@ Structured information on an organization.
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
+
+
+from openminds.base import IRI
 
 
 class Organization(KGObject):
@@ -57,6 +59,27 @@ class Organization(KGObject):
             doc="reverse of 'coordinator'",
         ),
         Field(
+            "developed",
+            [
+                "openminds.computation.ValidationTest",
+                "openminds.computation.ValidationTestVersion",
+                "openminds.computation.WorkflowRecipe",
+                "openminds.computation.WorkflowRecipeVersion",
+                "openminds.core.MetaDataModel",
+                "openminds.core.MetaDataModelVersion",
+                "openminds.core.Model",
+                "openminds.core.ModelVersion",
+                "openminds.core.Software",
+                "openminds.core.SoftwareVersion",
+                "openminds.core.WebService",
+                "openminds.core.WebServiceVersion",
+            ],
+            "^vocab:developer",
+            reverse="developers",
+            multiple=True,
+            doc="reverse of 'developer'",
+        ),
+        Field(
             "funded",
             "openminds.core.Funding",
             "^vocab:funder",
@@ -73,6 +96,14 @@ class Organization(KGObject):
             doc="reverse of 'hasParent'",
         ),
         Field(
+            "has_members",
+            "openminds.core.Affiliation",
+            "^vocab:memberOf",
+            reverse="member_of",
+            multiple=True,
+            doc="reverse of 'memberOf'",
+        ),
+        Field(
             "hosts",
             ["openminds.core.FileRepository", "openminds.publications.LivePaperResourceItem"],
             "^vocab:hostedBy",
@@ -83,20 +114,8 @@ class Organization(KGObject):
         Field(
             "is_custodian_of",
             [
-                "openminds.computation.ValidationTest",
-                "openminds.computation.ValidationTestVersion",
-                "openminds.computation.WorkflowRecipe",
-                "openminds.computation.WorkflowRecipeVersion",
                 "openminds.core.Dataset",
                 "openminds.core.DatasetVersion",
-                "openminds.core.MetaDataModel",
-                "openminds.core.MetaDataModelVersion",
-                "openminds.core.Model",
-                "openminds.core.ModelVersion",
-                "openminds.core.Software",
-                "openminds.core.SoftwareVersion",
-                "openminds.core.WebService",
-                "openminds.core.WebServiceVersion",
                 "openminds.publications.LivePaper",
                 "openminds.publications.LivePaperVersion",
                 "openminds.sands.BrainAtlas",
@@ -163,8 +182,10 @@ class Organization(KGObject):
         has_parents=None,
         homepage=None,
         coordinated_projects=None,
+        developed=None,
         funded=None,
         has_children=None,
+        has_members=None,
         hosts=None,
         is_custodian_of=None,
         is_owner_of=None,
@@ -188,8 +209,10 @@ class Organization(KGObject):
             has_parents=has_parents,
             homepage=homepage,
             coordinated_projects=coordinated_projects,
+            developed=developed,
             funded=funded,
             has_children=has_children,
+            has_members=has_members,
             hosts=hosts,
             is_custodian_of=is_custodian_of,
             is_owner_of=is_owner_of,

@@ -1,16 +1,17 @@
 """
-
+<description not available>
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
 
 class PipetteUsage(KGObject):
-    """ """
+    """
+    <description not available>
+    """
 
     default_space = "in-depth"
     type_ = ["https://openminds.ebrains.eu/ephys/PipetteUsage"]
@@ -129,6 +130,14 @@ class PipetteUsage(KGObject):
             doc="no description available",
         ),
         Field(
+            "generation_device",
+            "openminds.stimulation.EphysStimulus",
+            "^vocab:generatedBy",
+            reverse="generated_by",
+            multiple=True,
+            doc="reverse of 'generatedBy'",
+        ),
+        Field(
             "placed_by",
             "openminds.ephys.ElectrodePlacement",
             "^vocab:device",
@@ -145,10 +154,18 @@ class PipetteUsage(KGObject):
             doc="reverse of 'device'",
         ),
         Field(
+            "used_to_measure",
+            "openminds.core.Measurement",
+            "^vocab:measuredWith",
+            reverse="measured_with",
+            multiple=True,
+            doc="reverse of 'measuredWith'",
+        ),
+        Field(
             "used_to_record",
             "openminds.ephys.Recording",
             "^vocab:recordedWith",
-            reverse="recorded_withs",
+            reverse="recorded_with",
             multiple=True,
             doc="reverse of 'recordedWith'",
         ),
@@ -175,8 +192,10 @@ class PipetteUsage(KGObject):
         spatial_location=None,
         start_membrane_potential=None,
         used_specimen=None,
+        generation_device=None,
         placed_by=None,
         used_in=None,
+        used_to_measure=None,
         used_to_record=None,
         id=None,
         data=None,
@@ -206,7 +225,9 @@ class PipetteUsage(KGObject):
             spatial_location=spatial_location,
             start_membrane_potential=start_membrane_potential,
             used_specimen=used_specimen,
+            generation_device=generation_device,
             placed_by=placed_by,
             used_in=used_in,
+            used_to_measure=used_to_measure,
             used_to_record=used_to_record,
         )

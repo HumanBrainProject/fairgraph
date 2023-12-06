@@ -1,43 +1,19 @@
 """
-
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - raw data
-         -
-       * - derived data
-         -
-       * - simulated data
-         -
-       * - experimental data
-         -
-
+<description not available>
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
 
+from openminds.base import IRI
+
+
 class SemanticDataType(KGObject):
     """
-
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - raw data
-         -
-       * - derived data
-         -
-       * - simulated data
-         -
-       * - experimental data
-         -
-
+    <description not available>
     """
 
     default_space = "controlled"

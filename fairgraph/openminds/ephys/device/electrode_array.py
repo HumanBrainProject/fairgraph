@@ -1,16 +1,17 @@
 """
-
+<description not available>
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
 
 class ElectrodeArray(KGObject):
-    """ """
+    """
+    <description not available>
+    """
 
     default_space = "in-depth"
     type_ = ["https://openminds.ebrains.eu/ephys/ElectrodeArray"]
@@ -114,7 +115,7 @@ class ElectrodeArray(KGObject):
             doc="reverse of 'hasPart'",
         ),
         Field(
-            "usages",
+            "usage",
             "openminds.ephys.ElectrodeArrayUsage",
             "^vocab:device",
             reverse="devices",
@@ -141,7 +142,7 @@ class ElectrodeArray(KGObject):
         owners=None,
         serial_number=None,
         is_part_of=None,
-        usages=None,
+        usage=None,
         id=None,
         data=None,
         space=None,
@@ -167,5 +168,5 @@ class ElectrodeArray(KGObject):
             owners=owners,
             serial_number=serial_number,
             is_part_of=is_part_of,
-            usages=usages,
+            usage=usage,
         )

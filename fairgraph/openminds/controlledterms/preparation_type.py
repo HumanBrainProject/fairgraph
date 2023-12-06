@@ -1,51 +1,19 @@
 """
-
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - `in utero <http://uri.interlex.org/tgbugs/uris/indexes/ontologies/methods/90>`_
-         - Something happening in, within, or while inside the uterus.
-       * - `in vivo <http://uri.interlex.org/tgbugs/uris/indexes/ontologies/methods/89>`_
-         - Something happening or existing inside a living body.
-       * - `ex vivo <http://uri.interlex.org/tgbugs/uris/indexes/ontologies/methods/88>`_
-         - Something happening or existing outside a living body.
-       * - `in vitro <http://uri.interlex.org/tgbugs/uris/readable/technique/inVitro>`_
-         - Something happening outside the body in artificial conditions (e.g., in a test tube or culture dish).
-       * - `in silico <http://id.nlm.nih.gov/mesh/2018/M0572590>`_
-         - Conducted or produced by means of computer modelling or simulation.
-       * - `in situ <http://uri.interlex.org/tgbugs/uris/readable/technique/inSitu>`_
-         - Something happening or being examined in the original place instead of being moved to another place
-
+<description not available>
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
 
+from openminds.base import IRI
+
+
 class PreparationType(KGObject):
     """
-
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - `in utero <http://uri.interlex.org/tgbugs/uris/indexes/ontologies/methods/90>`_
-         - Something happening in, within, or while inside the uterus.
-       * - `in vivo <http://uri.interlex.org/tgbugs/uris/indexes/ontologies/methods/89>`_
-         - Something happening or existing inside a living body.
-       * - `ex vivo <http://uri.interlex.org/tgbugs/uris/indexes/ontologies/methods/88>`_
-         - Something happening or existing outside a living body.
-       * - `in vitro <http://uri.interlex.org/tgbugs/uris/readable/technique/inVitro>`_
-         - Something happening outside the body in artificial conditions (e.g., in a test tube or culture dish).
-       * - `in silico <http://id.nlm.nih.gov/mesh/2018/M0572590>`_
-         - Conducted or produced by means of computer modelling or simulation.
-       * - `in situ <http://uri.interlex.org/tgbugs/uris/readable/technique/inSitu>`_
-         - Something happening or being examined in the original place instead of being moved to another place
-
+    <description not available>
     """
 
     default_space = "controlled"
@@ -107,7 +75,6 @@ class PreparationType(KGObject):
             [
                 "openminds.computation.ValidationTestVersion",
                 "openminds.computation.WorkflowRecipeVersion",
-                "openminds.core.DatasetVersion",
                 "openminds.core.MetaDataModelVersion",
                 "openminds.core.ModelVersion",
                 "openminds.core.SoftwareVersion",
@@ -128,6 +95,7 @@ class PreparationType(KGObject):
         Field(
             "used_for",
             [
+                "openminds.core.DatasetVersion",
                 "openminds.core.ProtocolExecution",
                 "openminds.ephys.CellPatching",
                 "openminds.ephys.ElectrodePlacement",

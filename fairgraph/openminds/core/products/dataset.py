@@ -4,9 +4,11 @@ Structured information on data originating from human/animal studies or simulati
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
+
+
+from openminds.base import IRI
 
 
 class Dataset(KGObject):
@@ -52,9 +54,16 @@ class Dataset(KGObject):
         ),
         Field(
             "digital_identifier",
-            "openminds.core.DOI",
+            ["openminds.core.DOI", "openminds.core.IdentifiersDotOrgID"],
             "vocab:digitalIdentifier",
             doc="Digital handle to identify objects or legal persons.",
+        ),
+        Field("homepage", IRI, "vocab:homepage", doc="Main website of the dataset."),
+        Field(
+            "how_to_cite",
+            str,
+            "vocab:howToCite",
+            doc="Preferred format for citing a particular object or legal person.",
         ),
         Field(
             "versions",
@@ -63,13 +72,6 @@ class Dataset(KGObject):
             multiple=True,
             required=True,
             doc="Reference to variants of an original.",
-        ),
-        Field("homepage", IRI, "vocab:homepage", doc="Main website of the dataset."),
-        Field(
-            "how_to_cite",
-            str,
-            "vocab:howToCite",
-            doc="Preferred format for citing a particular object or legal person.",
         ),
         Field(
             "comments",
@@ -106,9 +108,9 @@ class Dataset(KGObject):
         custodians=None,
         description=None,
         digital_identifier=None,
-        versions=None,
         homepage=None,
         how_to_cite=None,
+        versions=None,
         comments=None,
         is_part_of=None,
         learning_resources=None,
@@ -128,9 +130,9 @@ class Dataset(KGObject):
             custodians=custodians,
             description=description,
             digital_identifier=digital_identifier,
-            versions=versions,
             homepage=homepage,
             how_to_cite=how_to_cite,
+            versions=versions,
             comments=comments,
             is_part_of=is_part_of,
             learning_resources=learning_resources,

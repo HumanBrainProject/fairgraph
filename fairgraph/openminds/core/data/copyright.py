@@ -4,7 +4,6 @@ Structured information on the copyright.
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import EmbeddedMetadata, IRI
 from fairgraph.fields import Field
 

@@ -1,83 +1,19 @@
 """
-
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - neurite
-         - A 'neurite' is a small neuronal process on developing neurons that ultimately grow out into axons or dendrites under the control of growth stimulating or inhibiting factors from their direct extracellular environment.
-       * - symmetric synapse
-         - A 'symmetric synapse' has flattened or elongated vesicles, and does not contain a prominent postsynaptic density. Symmetric synapses are typically inhibitory.
-       * - `nerve fiber <http://purl.obolibrary.org/obo/UBERON_0006134>`_
-         - A threadlike extension of a nerve cell within the nervous system which consists of an axon and, if myelinated, a myelin sheath.
-       * - `synaptic vesicle <http://uri.neuinfo.org/nif/nifstd/sao1071221672>`_
-         - A 'synaptic vesicle' is a secretory organelle (~ 50 nm in diameter) released from the pre-synaptic nerve terminal. It accumulates high concentrations of neurotransmitters and secretes these into the synaptic cleft by fusion with the 'active zone' of the pre-synaptic plasma membrane (modified from Gene Ontology).
-       * - `axon terminal <http://uri.neuinfo.org/nif/nifstd/sao2007137787>`_
-         - The distal terminations of axons which are specialized for the release of neurotransmitters.
-       * - `nucleus <http://uri.neuinfo.org/nif/nifstd/sao1702920020>`_
-         - A 'nucleus' is a membrane-bounded organelle of eukaryotic cells that contains the chromosomes. It is the primary site of DNA replication and RNA synthesis in the cell (Gene Ontology)
-       * - `neurofilament <http://uri.neuinfo.org/nif/nifstd/sao1316272517>`_
-         - A 'neurofilament' is a type of intermediate filament found in the core of neuronal axons. Neurofilaments are responsible for the radial growth of an axon and determine axonal diameter.
-       * - `synaptic protein <http://uri.neuinfo.org/nif/nifstd/sao936599761>`_
-         - A 'synaptic protein' belongs to a family of neuron-specific phosphoric proteins associated with synaptic vesicles. Synaptic proteins are present on the surface of almost all synaptic particles and bind to the cytoskeleton.
-       * - asymmetric synapse
-         - An 'asymmetric synapse' is characterized by rounded vesicles in the presynaptic cell and a prominent postsynaptic density. Asymmetric synapses are typically excitatory.
-       * - `synaptic bouton <http://uri.neuinfo.org/nif/nifstd/sao187426937>`_
-         - A 'synaptic bouton' is a terminal pre-synaptic ending of an axon or axon collateral.
-       * - `dendritic spine <http://uri.neuinfo.org/nif/nifstd/sao1799103720>`_
-         - A 'dendritic spine' is a protrusion from a dendrite. Spines are specialised subcellular compartments involved in the synaptic transmission.
-       * - `dendrite <http://uri.neuinfo.org/nif/nifstd/sao1211023249>`_
-         - A 'dendrite' is a branching protoplasmic process of a neuron that receives and integrates signals coming from axons of other neurons, and conveys the resulting signal to the body of the cell (Gene Ontology).
-       * - `mitochondrion <http://uri.neuinfo.org/nif/nifstd/sao1860313010>`_
-         - A 'mitochondrion' is a semiautonomous, self replicating organelle that occurs in varying numbers, shapes, and sizes in the cytoplasm of virtually all eukaryotic cells. It is notably the site of tissue respiration (Gene Ontology).
-       * - `axon <http://uri.neuinfo.org/nif/nifstd/sao1770195789>`_
-         - An 'axon' is the long process of a neuron that conducts nerve impulses, usually away from the cell body to the terminals which are the site of storage and release of neurotransmitter (Gene Ontology).
-
+<description not available>
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
 
+from openminds.base import IRI
+
+
 class SubcellularEntity(KGObject):
     """
-
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - neurite
-         - A 'neurite' is a small neuronal process on developing neurons that ultimately grow out into axons or dendrites under the control of growth stimulating or inhibiting factors from their direct extracellular environment.
-       * - symmetric synapse
-         - A 'symmetric synapse' has flattened or elongated vesicles, and does not contain a prominent postsynaptic density. Symmetric synapses are typically inhibitory.
-       * - `nerve fiber <http://purl.obolibrary.org/obo/UBERON_0006134>`_
-         - A threadlike extension of a nerve cell within the nervous system which consists of an axon and, if myelinated, a myelin sheath.
-       * - `synaptic vesicle <http://uri.neuinfo.org/nif/nifstd/sao1071221672>`_
-         - A 'synaptic vesicle' is a secretory organelle (~ 50 nm in diameter) released from the pre-synaptic nerve terminal. It accumulates high concentrations of neurotransmitters and secretes these into the synaptic cleft by fusion with the 'active zone' of the pre-synaptic plasma membrane (modified from Gene Ontology).
-       * - `axon terminal <http://uri.neuinfo.org/nif/nifstd/sao2007137787>`_
-         - The distal terminations of axons which are specialized for the release of neurotransmitters.
-       * - `nucleus <http://uri.neuinfo.org/nif/nifstd/sao1702920020>`_
-         - A 'nucleus' is a membrane-bounded organelle of eukaryotic cells that contains the chromosomes. It is the primary site of DNA replication and RNA synthesis in the cell (Gene Ontology)
-       * - `neurofilament <http://uri.neuinfo.org/nif/nifstd/sao1316272517>`_
-         - A 'neurofilament' is a type of intermediate filament found in the core of neuronal axons. Neurofilaments are responsible for the radial growth of an axon and determine axonal diameter.
-       * - `synaptic protein <http://uri.neuinfo.org/nif/nifstd/sao936599761>`_
-         - A 'synaptic protein' belongs to a family of neuron-specific phosphoric proteins associated with synaptic vesicles. Synaptic proteins are present on the surface of almost all synaptic particles and bind to the cytoskeleton.
-       * - asymmetric synapse
-         - An 'asymmetric synapse' is characterized by rounded vesicles in the presynaptic cell and a prominent postsynaptic density. Asymmetric synapses are typically excitatory.
-       * - `synaptic bouton <http://uri.neuinfo.org/nif/nifstd/sao187426937>`_
-         - A 'synaptic bouton' is a terminal pre-synaptic ending of an axon or axon collateral.
-       * - `dendritic spine <http://uri.neuinfo.org/nif/nifstd/sao1799103720>`_
-         - A 'dendritic spine' is a protrusion from a dendrite. Spines are specialised subcellular compartments involved in the synaptic transmission.
-       * - `dendrite <http://uri.neuinfo.org/nif/nifstd/sao1211023249>`_
-         - A 'dendrite' is a branching protoplasmic process of a neuron that receives and integrates signals coming from axons of other neurons, and conveys the resulting signal to the body of the cell (Gene Ontology).
-       * - `mitochondrion <http://uri.neuinfo.org/nif/nifstd/sao1860313010>`_
-         - A 'mitochondrion' is a semiautonomous, self replicating organelle that occurs in varying numbers, shapes, and sizes in the cytoplasm of virtually all eukaryotic cells. It is notably the site of tissue respiration (Gene Ontology).
-       * - `axon <http://uri.neuinfo.org/nif/nifstd/sao1770195789>`_
-         - An 'axon' is the long process of a neuron that conducts nerve impulses, usually away from the cell body to the terminals which are the site of storage and release of neurotransmitter (Gene Ontology).
-
+    <description not available>
     """
 
     default_space = "controlled"
@@ -139,7 +75,6 @@ class SubcellularEntity(KGObject):
             [
                 "openminds.computation.ValidationTestVersion",
                 "openminds.computation.WorkflowRecipeVersion",
-                "openminds.core.DatasetVersion",
                 "openminds.core.MetaDataModelVersion",
                 "openminds.core.ModelVersion",
                 "openminds.core.SoftwareVersion",
@@ -167,9 +102,17 @@ class SubcellularEntity(KGObject):
                 "openminds.ephys.PipetteUsage",
             ],
             ["^vocab:anatomicalLocation", "^vocab:anatomicalLocationOfElectrodes"],
-            reverse=["anatomical_locations", "anatomical_location_of_electrodes"],
+            reverse=["anatomical_locations", "anatomical_locations_of_electrodes"],
             multiple=True,
             doc="reverse of anatomicalLocation, anatomicalLocationOfElectrodes",
+        ),
+        Field(
+            "is_target_of",
+            "openminds.sands.AnatomicalTargetPosition",
+            "^vocab:anatomicalTarget",
+            reverse="anatomical_targets",
+            multiple=True,
+            doc="reverse of 'anatomicalTarget'",
         ),
         Field(
             "is_used_to_group",
@@ -190,6 +133,7 @@ class SubcellularEntity(KGObject):
                 "openminds.computation.Simulation",
                 "openminds.computation.ValidationTest",
                 "openminds.computation.Visualization",
+                "openminds.core.DatasetVersion",
                 "openminds.core.Model",
                 "openminds.core.ProtocolExecution",
                 "openminds.ephys.CellPatching",
@@ -219,6 +163,7 @@ class SubcellularEntity(KGObject):
         synonyms=None,
         describes=None,
         is_location_of=None,
+        is_target_of=None,
         is_used_to_group=None,
         studied_in=None,
         id=None,
@@ -240,6 +185,7 @@ class SubcellularEntity(KGObject):
             synonyms=synonyms,
             describes=describes,
             is_location_of=is_location_of,
+            is_target_of=is_target_of,
             is_used_to_group=is_used_to_group,
             studied_in=studied_in,
         )

@@ -4,9 +4,11 @@ Structured information on a file repository.
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
+
+
+from openminds.base import IRI
 
 
 class FileRepository(KGObject):
@@ -30,13 +32,6 @@ class FileRepository(KGObject):
             "vocab:name",
             required=True,
             doc="Word or phrase that constitutes the distinctive designation of the file repository.",
-        ),
-        Field(
-            "iri",
-            IRI,
-            "vocab:IRI",
-            required=True,
-            doc="Stands for Internationalized Resource Identifier which is an internet protocol standard that builds on the URI protocol, extending the set of permitted characters to include Unicode/ISO 10646.",
         ),
         Field(
             "content_type_patterns",
@@ -63,6 +58,13 @@ class FileRepository(KGObject):
             "vocab:hostedBy",
             required=True,
             doc="Reference to an organization that provides facilities and services for something.",
+        ),
+        Field(
+            "iri",
+            IRI,
+            "vocab:IRI",
+            required=True,
+            doc="Stands for Internationalized Resource Identifier which is an internet protocol standard that builds on the URI protocol, extending the set of permitted characters to include Unicode/ISO 10646.",
         ),
         Field(
             "storage_size",
@@ -123,11 +125,11 @@ class FileRepository(KGObject):
     def __init__(
         self,
         name=None,
-        iri=None,
         content_type_patterns=None,
         format=None,
         hash=None,
         hosted_by=None,
+        iri=None,
         storage_size=None,
         structure_pattern=None,
         type=None,
@@ -145,11 +147,11 @@ class FileRepository(KGObject):
             scope=scope,
             data=data,
             name=name,
-            iri=iri,
             content_type_patterns=content_type_patterns,
             format=format,
             hash=hash,
             hosted_by=hosted_by,
+            iri=iri,
             storage_size=storage_size,
             structure_pattern=structure_pattern,
             type=type,

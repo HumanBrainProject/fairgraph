@@ -3,17 +3,9 @@ import inspect
 from fairgraph.kgobject import KGObject
 from fairgraph.embedded import EmbeddedMetadata
 
-from .activity.recording_activity import RecordingActivity
-from .activity.electrode_placement import ElectrodePlacement
-from .activity.cell_patching import CellPatching
-from .entity.channel import Channel
-from .entity.recording import Recording
-from .device.electrode_array import ElectrodeArray
-from .device.pipette_usage import PipetteUsage
-from .device.pipette import Pipette
-from .device.electrode import Electrode
-from .device.electrode_usage import ElectrodeUsage
-from .device.electrode_array_usage import ElectrodeArrayUsage
+from .activity import RecordingActivity, ElectrodePlacement, CellPatching
+from .entity import Channel, Recording
+from .device import ElectrodeArray, PipetteUsage, Pipette, Electrode, ElectrodeArrayUsage, ElectrodeUsage
 
 
 def list_kg_classes():

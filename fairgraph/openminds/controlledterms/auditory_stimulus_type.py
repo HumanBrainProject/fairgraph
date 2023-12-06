@@ -1,31 +1,19 @@
 """
-
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - real spoken word
-         - A speech sound or series of speech sounds that symbolizes and communicates a meaning (usually) without being divisible into smaller units capable of independent use. [adapted from [Merriam-Webster](https://www.merriam-webster.com/dictionary/word)]
-
+<description not available>
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
 
+from openminds.base import IRI
+
+
 class AuditoryStimulusType(KGObject):
     """
-
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - real spoken word
-         - A speech sound or series of speech sounds that symbolizes and communicates a meaning (usually) without being divisible into smaller units capable of independent use. [adapted from [Merriam-Webster](https://www.merriam-webster.com/dictionary/word)]
-
+    <description not available>
     """
 
     default_space = "controlled"
@@ -87,7 +75,6 @@ class AuditoryStimulusType(KGObject):
             [
                 "openminds.computation.ValidationTestVersion",
                 "openminds.computation.WorkflowRecipeVersion",
-                "openminds.core.DatasetVersion",
                 "openminds.core.MetaDataModelVersion",
                 "openminds.core.ModelVersion",
                 "openminds.core.SoftwareVersion",
@@ -124,6 +111,7 @@ class AuditoryStimulusType(KGObject):
                 "openminds.computation.Simulation",
                 "openminds.computation.ValidationTest",
                 "openminds.computation.Visualization",
+                "openminds.core.DatasetVersion",
                 "openminds.core.Model",
                 "openminds.core.ProtocolExecution",
                 "openminds.ephys.CellPatching",

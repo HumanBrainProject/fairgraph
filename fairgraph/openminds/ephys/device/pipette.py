@@ -1,16 +1,17 @@
 """
-
+<description not available>
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
 
 class Pipette(KGObject):
-    """ """
+    """
+    <description not available>
+    """
 
     default_space = "in-depth"
     type_ = ["https://openminds.ebrains.eu/ephys/Pipette"]
@@ -100,6 +101,14 @@ class Pipette(KGObject):
             multiple=True,
             doc="reverse of 'hasPart'",
         ),
+        Field(
+            "usage",
+            "openminds.ephys.PipetteUsage",
+            "^vocab:device",
+            reverse="devices",
+            multiple=True,
+            doc="reverse of 'device'",
+        ),
     ]
     existence_query_fields = ("lookup_label",)
 
@@ -118,6 +127,7 @@ class Pipette(KGObject):
         owners=None,
         serial_number=None,
         is_part_of=None,
+        usage=None,
         id=None,
         data=None,
         space=None,
@@ -141,4 +151,5 @@ class Pipette(KGObject):
             owners=owners,
             serial_number=serial_number,
             is_part_of=is_part_of,
+            usage=usage,
         )

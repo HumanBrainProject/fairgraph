@@ -1,16 +1,17 @@
 """
-
+<description not available>
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
 
 class TissueSampleCollection(KGObject):
-    """ """
+    """
+    <description not available>
+    """
 
     default_space = "dataset"
     type_ = ["https://openminds.ebrains.eu/core/TissueSampleCollection"]
@@ -46,7 +47,7 @@ class TissueSampleCollection(KGObject):
             doc="no description available",
         ),
         Field(
-            "biological_sex",
+            "biological_sexes",
             "openminds.controlledterms.BiologicalSex",
             "vocab:biologicalSex",
             multiple=True,
@@ -142,7 +143,7 @@ class TissueSampleCollection(KGObject):
         lookup_label=None,
         additional_remarks=None,
         anatomical_locations=None,
-        biological_sex=None,
+        biological_sexes=None,
         internal_identifier=None,
         lateralities=None,
         number_of_tissue_samples=None,
@@ -167,7 +168,7 @@ class TissueSampleCollection(KGObject):
             lookup_label=lookup_label,
             additional_remarks=additional_remarks,
             anatomical_locations=anatomical_locations,
-            biological_sex=biological_sex,
+            biological_sexes=biological_sexes,
             internal_identifier=internal_identifier,
             lateralities=lateralities,
             number_of_tissue_samples=number_of_tissue_samples,

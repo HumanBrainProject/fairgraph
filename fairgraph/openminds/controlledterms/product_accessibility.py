@@ -1,43 +1,19 @@
 """
-
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - restricted access
-         - With 'restricted access' selected, metadata are released, but data remain on an access restricted server.
-       * - under embargo
-         - With 'under embargo' selected, metadata are released, but data remain unavailable for the public until the embargo is lifted.
-       * - free access
-         - With 'free access' selected, data and metadata are both released and become immediately available without any access restrictions.
-       * - controlled access
-         - With 'controlled access' selected, data and metadata are both released, but data are only available for users after they loged in and authenticated themselves.
-
+<description not available>
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
 
+from openminds.base import IRI
+
+
 class ProductAccessibility(KGObject):
     """
-
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - restricted access
-         - With 'restricted access' selected, metadata are released, but data remain on an access restricted server.
-       * - under embargo
-         - With 'under embargo' selected, metadata are released, but data remain unavailable for the public until the embargo is lifted.
-       * - free access
-         - With 'free access' selected, data and metadata are both released and become immediately available without any access restrictions.
-       * - controlled access
-         - With 'controlled access' selected, data and metadata are both released, but data are only available for users after they loged in and authenticated themselves.
-
+    <description not available>
     """
 
     default_space = "controlled"

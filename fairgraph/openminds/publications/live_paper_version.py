@@ -1,19 +1,23 @@
 """
-
+<description not available>
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
 from fairgraph.errors import ResolutionFailure
 from .live_paper import LivePaper
+from datetime import date
+from datetime import datetime
+from openminds.base import IRI
 
 
 class LivePaperVersion(KGObject):
-    """ """
+    """
+    <description not available>
+    """
 
     default_space = "livepapers"
     type_ = ["https://openminds.ebrains.eu/publications/LivePaperVersion"]
@@ -128,6 +132,7 @@ class LivePaperVersion(KGObject):
                 "openminds.controlledterms.AtlasType",
                 "openminds.controlledterms.AuditoryStimulusType",
                 "openminds.controlledterms.BiologicalOrder",
+                "openminds.controlledterms.BiologicalProcess",
                 "openminds.controlledterms.BiologicalSex",
                 "openminds.controlledterms.BreedingType",
                 "openminds.controlledterms.CellCultureType",
@@ -157,6 +162,7 @@ class LivePaperVersion(KGObject):
                 "openminds.controlledterms.Laterality",
                 "openminds.controlledterms.LearningResourceType",
                 "openminds.controlledterms.MeasuredQuantity",
+                "openminds.controlledterms.MeasuredSignalType",
                 "openminds.controlledterms.MetaDataModelType",
                 "openminds.controlledterms.ModelAbstractionLevel",
                 "openminds.controlledterms.ModelScope",

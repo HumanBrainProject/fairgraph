@@ -1,19 +1,20 @@
 """
-
+A persistent identifier for a research organization, provided by the Research Organization Registry.
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
 
-class SWHID(KGObject):
-    """ """
+class RORID(KGObject):
+    """
+    A persistent identifier for a research organization, provided by the Research Organization Registry.
+    """
 
-    default_space = "software"
-    type_ = ["https://openminds.ebrains.eu/core/SWHID"]
+    default_space = "common"
+    type_ = ["https://openminds.ebrains.eu/core/RORID"]
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",
@@ -22,17 +23,10 @@ class SWHID(KGObject):
         "core": "https://openminds.ebrains.eu/core/",
     }
     fields = [
-        Field("identifier", str, "vocab:identifier", required=True, doc="Term or code used to identify the SWHID."),
+        Field("identifier", str, "vocab:identifier", required=True, doc="Term or code used to identify the RORID."),
         Field(
             "identifies",
-            [
-                "openminds.core.MetaDataModel",
-                "openminds.core.MetaDataModelVersion",
-                "openminds.core.Model",
-                "openminds.core.ModelVersion",
-                "openminds.core.Software",
-                "openminds.core.SoftwareVersion",
-            ],
+            "openminds.core.Organization",
             "^vocab:digitalIdentifier",
             reverse="digital_identifiers",
             multiple=True,

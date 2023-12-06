@@ -1,16 +1,20 @@
 """
-
+<description not available>
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
 
+from datetime import datetime, time
+
+
 class StimulationActivity(KGObject):
-    """ """
+    """
+    <description not available>
+    """
 
     default_space = "in-depth"
     type_ = ["https://openminds.ebrains.eu/stimulation/StimulationActivity"]
@@ -36,7 +40,7 @@ class StimulationActivity(KGObject):
             "vocab:description",
             doc="Longer statement or account giving the characteristics of the stimulation activity.",
         ),
-        Field("end_time", datetime, "vocab:endTime", doc="no description available"),
+        Field("end_time", [datetime, time], "vocab:endTime", doc="no description available"),
         Field(
             "inputs",
             [
@@ -92,9 +96,9 @@ class StimulationActivity(KGObject):
             doc="Plan that describes the process of a scientific or medical experiment, treatment, or procedure.",
         ),
         Field("setup", "openminds.core.Setup", "vocab:setup", doc="no description available"),
-        Field("start_time", datetime, "vocab:startTime", doc="no description available"),
+        Field("start_time", [datetime, time], "vocab:startTime", doc="no description available"),
         Field(
-            "stimulus",
+            "stimuli",
             "openminds.stimulation.EphysStimulus",
             "vocab:stimulus",
             multiple=True,
@@ -126,6 +130,7 @@ class StimulationActivity(KGObject):
                 "openminds.controlledterms.SubcellularEntity",
                 "openminds.controlledterms.TactileStimulusType",
                 "openminds.controlledterms.TermSuggestion",
+                "openminds.controlledterms.TissueSampleType",
                 "openminds.controlledterms.UBERONParcellation",
                 "openminds.controlledterms.VisualStimulusType",
                 "openminds.sands.CustomAnatomicalEntity",
@@ -153,7 +158,7 @@ class StimulationActivity(KGObject):
         protocols=None,
         setup=None,
         start_time=None,
-        stimulus=None,
+        stimuli=None,
         study_targets=None,
         id=None,
         data=None,
@@ -177,6 +182,6 @@ class StimulationActivity(KGObject):
             protocols=protocols,
             setup=setup,
             start_time=start_time,
-            stimulus=stimulus,
+            stimuli=stimuli,
             study_targets=study_targets,
         )

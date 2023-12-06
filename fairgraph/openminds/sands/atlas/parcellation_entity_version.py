@@ -1,16 +1,17 @@
 """
-
+<description not available>
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
 
 class ParcellationEntityVersion(KGObject):
-    """ """
+    """
+    <description not available>
+    """
 
     default_space = "atlas"
     type_ = ["https://openminds.ebrains.eu/sands/ParcellationEntityVersion"]
@@ -98,10 +99,26 @@ class ParcellationEntityVersion(KGObject):
                 "openminds.ephys.ElectrodeUsage",
                 "openminds.ephys.PipetteUsage",
             ],
-            ["^vocab:anatomicalLocation", "^vocab:dataLocation", "^vocab:anatomicalLocationOfElectrodes"],
-            reverse=["anatomical_locations", "data_locations", "anatomical_location_of_electrodes"],
+            ["^vocab:anatomicalLocation", "^vocab:anatomicalLocationOfElectrodes", "^vocab:dataLocation"],
+            reverse=["anatomical_locations", "anatomical_locations_of_electrodes", "data_locations"],
             multiple=True,
-            doc="reverse of anatomicalLocation, dataLocation, anatomicalLocationOfElectrodes",
+            doc="reverse of anatomicalLocation, anatomicalLocationOfElectrodes, dataLocation",
+        ),
+        Field(
+            "is_part_of",
+            "openminds.sands.ParcellationTerminologyVersion",
+            "^vocab:hasEntity",
+            reverse="has_entities",
+            multiple=True,
+            doc="reverse of 'hasEntity'",
+        ),
+        Field(
+            "is_target_of",
+            "openminds.sands.AnatomicalTargetPosition",
+            "^vocab:anatomicalTarget",
+            reverse="anatomical_targets",
+            multiple=True,
+            doc="reverse of 'anatomicalTarget'",
         ),
         Field(
             "is_used_to_group",
@@ -165,6 +182,8 @@ class ParcellationEntityVersion(KGObject):
         version_innovation=None,
         has_children=None,
         is_location_of=None,
+        is_part_of=None,
+        is_target_of=None,
         is_used_to_group=None,
         is_version_of=None,
         studied_in=None,
@@ -192,6 +211,8 @@ class ParcellationEntityVersion(KGObject):
             version_innovation=version_innovation,
             has_children=has_children,
             is_location_of=is_location_of,
+            is_part_of=is_part_of,
+            is_target_of=is_target_of,
             is_used_to_group=is_used_to_group,
             is_version_of=is_version_of,
             studied_in=studied_in,

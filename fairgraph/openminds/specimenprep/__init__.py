@@ -3,11 +3,8 @@ import inspect
 from fairgraph.kgobject import KGObject
 from fairgraph.embedded import EmbeddedMetadata
 
-from .activity.cranial_window_preparation import CranialWindowPreparation
-from .activity.tissue_culture_preparation import TissueCulturePreparation
-from .activity.tissue_sample_slicing import TissueSampleSlicing
-from .device.slicing_device import SlicingDevice
-from .device.slicing_device_usage import SlicingDeviceUsage
+from .activity import CranialWindowPreparation, TissueCulturePreparation, TissueSampleSlicing
+from .device import SlicingDevice, SlicingDeviceUsage
 
 
 def list_kg_classes():

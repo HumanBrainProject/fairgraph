@@ -1,51 +1,19 @@
 """
-
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - annotation mask
-         - An 'annotation mask' is a filled object masking an area or volume of interest.
-       * - annotation point
-         - 'Annotation point(s)' are individual point(s) that are annotated with the same label.
-       * - annotation contour line
-         - An 'annotation contour line' is a two-dimensional boundary of an area of interest.
-       * - deterministic annotation
-         - A 'deterministic annotation' provides an exact assignment of an entity or a list of entities to a defined annotation. The assingment itself can be based on a deterministic or maximum probability assumption.
-       * - probabalistic annotation
-         - A 'probabalistic annotation' provides the probability or probabilites to which an entity or a list of entities belong(s) to a defined annotation.
-       * - annotation surface
-         - An 'annotation surface' is a three-dimensional boundary of a volume of interest.
-
+<description not available>
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
 
+from openminds.base import IRI
+
+
 class AnnotationType(KGObject):
     """
-
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - annotation mask
-         - An 'annotation mask' is a filled object masking an area or volume of interest.
-       * - annotation point
-         - 'Annotation point(s)' are individual point(s) that are annotated with the same label.
-       * - annotation contour line
-         - An 'annotation contour line' is a two-dimensional boundary of an area of interest.
-       * - deterministic annotation
-         - A 'deterministic annotation' provides an exact assignment of an entity or a list of entities to a defined annotation. The assingment itself can be based on a deterministic or maximum probability assumption.
-       * - probabalistic annotation
-         - A 'probabalistic annotation' provides the probability or probabilites to which an entity or a list of entities belong(s) to a defined annotation.
-       * - annotation surface
-         - An 'annotation surface' is a three-dimensional boundary of a volume of interest.
-
+    <description not available>
     """
 
     default_space = "controlled"
@@ -125,6 +93,14 @@ class AnnotationType(KGObject):
             multiple=True,
             doc="reverse of 'keyword'",
         ),
+        Field(
+            "is_type_of",
+            ["openminds.sands.AtlasAnnotation", "openminds.sands.CustomAnnotation"],
+            "^vocab:type",
+            reverse="types",
+            multiple=True,
+            doc="reverse of 'type'",
+        ),
     ]
     existence_query_fields = ("name",)
 
@@ -138,6 +114,7 @@ class AnnotationType(KGObject):
         preferred_ontology_identifier=None,
         synonyms=None,
         describes=None,
+        is_type_of=None,
         id=None,
         data=None,
         space=None,
@@ -156,4 +133,5 @@ class AnnotationType(KGObject):
             preferred_ontology_identifier=preferred_ontology_identifier,
             synonyms=synonyms,
             describes=describes,
+            is_type_of=is_type_of,
         )

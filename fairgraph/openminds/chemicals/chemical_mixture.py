@@ -4,7 +4,6 @@ Structured information about a mixture of chemical substances.
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
@@ -73,10 +72,10 @@ class ChemicalMixture(KGObject):
                 "openminds.specimenprep.TissueCulturePreparation",
                 "openminds.specimenprep.TissueSampleSlicing",
             ],
-            ["^vocab:cultureMedium", "^vocab:tissueBathSolution", "^vocab:pipetteSolution"],
-            reverse=["culture_mediums", "tissue_bath_solutions", "pipette_solutions"],
+            ["^vocab:cultureMedium", "^vocab:pipetteSolution", "^vocab:tissueBathSolution"],
+            reverse=["culture_media", "pipette_solutions", "tissue_bath_solutions"],
             multiple=True,
-            doc="reverse of cultureMedium, tissueBathSolution, pipetteSolution",
+            doc="reverse of cultureMedium, pipetteSolution, tissueBathSolution",
         ),
     ]
     existence_query_fields = ("has_parts", "type")

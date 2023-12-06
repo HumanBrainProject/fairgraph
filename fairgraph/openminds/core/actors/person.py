@@ -4,7 +4,6 @@ Structured information on a person.
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
@@ -63,13 +62,6 @@ class Person(KGObject):
         Field(
             "activities",
             [
-                "openminds.computation.DataAnalysis",
-                "openminds.computation.DataCopy",
-                "openminds.computation.GenericComputation",
-                "openminds.computation.ModelValidation",
-                "openminds.computation.Optimization",
-                "openminds.computation.Simulation",
-                "openminds.computation.Visualization",
                 "openminds.core.ProtocolExecution",
                 "openminds.ephys.CellPatching",
                 "openminds.ephys.ElectrodePlacement",
@@ -101,6 +93,27 @@ class Person(KGObject):
             doc="reverse of 'coordinator'",
         ),
         Field(
+            "developed",
+            [
+                "openminds.computation.ValidationTest",
+                "openminds.computation.ValidationTestVersion",
+                "openminds.computation.WorkflowRecipe",
+                "openminds.computation.WorkflowRecipeVersion",
+                "openminds.core.MetaDataModel",
+                "openminds.core.MetaDataModelVersion",
+                "openminds.core.Model",
+                "openminds.core.ModelVersion",
+                "openminds.core.Software",
+                "openminds.core.SoftwareVersion",
+                "openminds.core.WebService",
+                "openminds.core.WebServiceVersion",
+            ],
+            "^vocab:developer",
+            reverse="developers",
+            multiple=True,
+            doc="reverse of 'developer'",
+        ),
+        Field(
             "funded",
             "openminds.core.Funding",
             "^vocab:funder",
@@ -111,20 +124,8 @@ class Person(KGObject):
         Field(
             "is_custodian_of",
             [
-                "openminds.computation.ValidationTest",
-                "openminds.computation.ValidationTestVersion",
-                "openminds.computation.WorkflowRecipe",
-                "openminds.computation.WorkflowRecipeVersion",
                 "openminds.core.Dataset",
                 "openminds.core.DatasetVersion",
-                "openminds.core.MetaDataModel",
-                "openminds.core.MetaDataModelVersion",
-                "openminds.core.Model",
-                "openminds.core.ModelVersion",
-                "openminds.core.Software",
-                "openminds.core.SoftwareVersion",
-                "openminds.core.WebService",
-                "openminds.core.WebServiceVersion",
                 "openminds.publications.LivePaper",
                 "openminds.publications.LivePaperVersion",
                 "openminds.sands.BrainAtlas",
@@ -181,7 +182,16 @@ class Person(KGObject):
         ),
         Field(
             "started",
-            "openminds.computation.WorkflowExecution",
+            [
+                "openminds.computation.DataAnalysis",
+                "openminds.computation.DataCopy",
+                "openminds.computation.GenericComputation",
+                "openminds.computation.ModelValidation",
+                "openminds.computation.Optimization",
+                "openminds.computation.Simulation",
+                "openminds.computation.Visualization",
+                "openminds.computation.WorkflowExecution",
+            ],
             "^vocab:startedBy",
             reverse="started_by",
             multiple=True,
@@ -202,6 +212,7 @@ class Person(KGObject):
         activities=None,
         comments=None,
         coordinated_projects=None,
+        developed=None,
         funded=None,
         is_custodian_of=None,
         is_owner_of=None,
@@ -229,6 +240,7 @@ class Person(KGObject):
             activities=activities,
             comments=comments,
             coordinated_projects=coordinated_projects,
+            developed=developed,
             funded=funded,
             is_custodian_of=is_custodian_of,
             is_owner_of=is_owner_of,

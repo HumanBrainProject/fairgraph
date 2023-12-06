@@ -102,19 +102,6 @@
       ]
     },
     {
-      "path": "https://openminds.ebrains.eu/vocab/hasVersion",
-      "propertyName": "vocab:hasVersion",
-      "ensureOrder": true,
-      "structure": [
-        {
-          "path": "@id"
-        },
-        {
-          "path": "@type"
-        }
-      ]
-    },
-    {
       "path": "https://openminds.ebrains.eu/vocab/homepage",
       "propertyName": "vocab:homepage"
     },
@@ -137,6 +124,19 @@
     {
       "path": "https://openminds.ebrains.eu/vocab/studyTarget",
       "propertyName": "vocab:studyTarget",
+      "ensureOrder": true,
+      "structure": [
+        {
+          "path": "@id"
+        },
+        {
+          "path": "@type"
+        }
+      ]
+    },
+    {
+      "path": "https://openminds.ebrains.eu/vocab/hasVersion",
+      "propertyName": "vocab:hasVersion",
       "ensureOrder": true,
       "structure": [
         {

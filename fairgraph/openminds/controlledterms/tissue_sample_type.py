@@ -1,79 +1,19 @@
 """
 Structured information on the general type of the tissue sample.
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - homogeneous cell population
-         - A sample of multiple cells/a population of cells that are of the same cell type.
-       * - nerve
-         - A nerve sample (i.e. a whole nerve or a part of a nerve) from a living or deceased multicellular organism body.
-       * - hemisphere
-         - One of the symmetric halves excised from a bilateral organ tissue sample (e.g., a brain) from a living or deceased multicellular organism body.
-       * - single cell
-         - A single cell sample from a living or deceased multicellular organism body.
-       * - `biopsy sample <http://purl.obolibrary.org/obo/OBI_0002650>`_
-         - Typically very small sample of tissue that was excised from a living or deceased multicellular organism body.
-       * - brain hemisphere
-         -
-       * - tissue slice
-         - A thin and often flat sample of tissue that was excised from a larger tissue sample (e.g., a tissue block or a whole organ) from a living or deceased multicellular organism body.
-       * - fluid specimen
-         - A fluid sample either taken directly from a living or deceased multicellular organism body (i.e. body fluids) or produced in a laboratory.
-       * - `cell culture <http://purl.obolibrary.org/obo/BTO_0000214>`_
-         - Cells taken from a living organism and grown under controlled conditions (in culture).
-       * - tissue block
-         - A cube-like sample of tissue that was excised from a larger tissue sample (e.g., a whole organ) from a living or deceased multicellular organism body.
-       * - whole brain
-         -
-       * - heterogeneous cell population
-         - A sample of multiple cells/a population of cells that are of two or more different cell types.
-       * - whole organ
-         - A whole organ sample from a living or deceased multicellular organism body.
-
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
+
+
+from openminds.base import IRI
 
 
 class TissueSampleType(KGObject):
     """
     Structured information on the general type of the tissue sample.
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - homogeneous cell population
-         - A sample of multiple cells/a population of cells that are of the same cell type.
-       * - nerve
-         - A nerve sample (i.e. a whole nerve or a part of a nerve) from a living or deceased multicellular organism body.
-       * - hemisphere
-         - One of the symmetric halves excised from a bilateral organ tissue sample (e.g., a brain) from a living or deceased multicellular organism body.
-       * - single cell
-         - A single cell sample from a living or deceased multicellular organism body.
-       * - `biopsy sample <http://purl.obolibrary.org/obo/OBI_0002650>`_
-         - Typically very small sample of tissue that was excised from a living or deceased multicellular organism body.
-       * - brain hemisphere
-         -
-       * - tissue slice
-         - A thin and often flat sample of tissue that was excised from a larger tissue sample (e.g., a tissue block or a whole organ) from a living or deceased multicellular organism body.
-       * - fluid specimen
-         - A fluid sample either taken directly from a living or deceased multicellular organism body (i.e. body fluids) or produced in a laboratory.
-       * - `cell culture <http://purl.obolibrary.org/obo/BTO_0000214>`_
-         - Cells taken from a living organism and grown under controlled conditions (in culture).
-       * - tissue block
-         - A cube-like sample of tissue that was excised from a larger tissue sample (e.g., a whole organ) from a living or deceased multicellular organism body.
-       * - whole brain
-         -
-       * - heterogeneous cell population
-         - A sample of multiple cells/a population of cells that are of two or more different cell types.
-       * - whole organ
-         - A whole organ sample from a living or deceased multicellular organism body.
-
     """
 
     default_space = "controlled"
@@ -135,7 +75,6 @@ class TissueSampleType(KGObject):
             [
                 "openminds.computation.ValidationTestVersion",
                 "openminds.computation.WorkflowRecipeVersion",
-                "openminds.core.DatasetVersion",
                 "openminds.core.MetaDataModelVersion",
                 "openminds.core.ModelVersion",
                 "openminds.core.SoftwareVersion",
@@ -161,6 +100,41 @@ class TissueSampleType(KGObject):
             multiple=True,
             doc="reverse of 'type'",
         ),
+        Field(
+            "is_used_to_group",
+            "openminds.core.FileBundle",
+            "^vocab:groupedBy",
+            reverse="grouped_by",
+            multiple=True,
+            doc="reverse of 'groupedBy'",
+        ),
+        Field(
+            "studied_in",
+            [
+                "openminds.computation.DataAnalysis",
+                "openminds.computation.DataCopy",
+                "openminds.computation.GenericComputation",
+                "openminds.computation.ModelValidation",
+                "openminds.computation.Optimization",
+                "openminds.computation.Simulation",
+                "openminds.computation.ValidationTest",
+                "openminds.computation.Visualization",
+                "openminds.core.DatasetVersion",
+                "openminds.core.Model",
+                "openminds.core.ProtocolExecution",
+                "openminds.ephys.CellPatching",
+                "openminds.ephys.ElectrodePlacement",
+                "openminds.ephys.RecordingActivity",
+                "openminds.specimenprep.CranialWindowPreparation",
+                "openminds.specimenprep.TissueCulturePreparation",
+                "openminds.specimenprep.TissueSampleSlicing",
+                "openminds.stimulation.StimulationActivity",
+            ],
+            "^vocab:studyTarget",
+            reverse="study_targets",
+            multiple=True,
+            doc="reverse of 'studyTarget'",
+        ),
     ]
     existence_query_fields = ("name",)
 
@@ -175,6 +149,8 @@ class TissueSampleType(KGObject):
         synonyms=None,
         describes=None,
         is_type_of=None,
+        is_used_to_group=None,
+        studied_in=None,
         id=None,
         data=None,
         space=None,
@@ -194,4 +170,6 @@ class TissueSampleType(KGObject):
             synonyms=synonyms,
             describes=describes,
             is_type_of=is_type_of,
+            is_used_to_group=is_used_to_group,
+            studied_in=studied_in,
         )

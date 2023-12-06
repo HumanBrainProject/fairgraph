@@ -4,7 +4,6 @@ Structured information on used funding.
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
@@ -28,7 +27,7 @@ class Funding(KGObject):
             "acknowledgement",
             str,
             "vocab:acknowledgement",
-            doc="Offical declaration or avowal of appreciation of an act or achievement.",
+            doc="Official declaration or avowal of appreciation of an act or achievement.",
         ),
         Field(
             "award_number",

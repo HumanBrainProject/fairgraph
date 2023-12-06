@@ -1,16 +1,20 @@
 """
-
+<description not available>
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
 
+from openminds.base import IRI
+
+
 class FileArchive(KGObject):
-    """ """
+    """
+    <description not available>
+    """
 
     default_space = "dataset"
     type_ = ["https://openminds.ebrains.eu/core/FileArchive"]
@@ -23,18 +27,18 @@ class FileArchive(KGObject):
     }
     fields = [
         Field(
-            "iri",
-            IRI,
-            "vocab:IRI",
-            required=True,
-            doc="Stands for Internationalized Resource Identifier which is an internet protocol standard that builds on the URI protocol, extending the set of permitted characters to include Unicode/ISO 10646.",
-        ),
-        Field(
             "format",
             "openminds.core.ContentType",
             "vocab:format",
             required=True,
             doc="Method of digitally organizing and structuring data or information.",
+        ),
+        Field(
+            "iri",
+            IRI,
+            "vocab:IRI",
+            required=True,
+            doc="Stands for Internationalized Resource Identifier which is an internet protocol standard that builds on the URI protocol, extending the set of permitted characters to include Unicode/ISO 10646.",
         ),
         Field("source_data", "openminds.core.File", "vocab:sourceData", multiple=True, doc="no description available"),
         Field(
@@ -63,8 +67,8 @@ class FileArchive(KGObject):
 
     def __init__(
         self,
-        iri=None,
         format=None,
+        iri=None,
         source_data=None,
         is_location_of=None,
         is_output_of=None,
@@ -78,8 +82,8 @@ class FileArchive(KGObject):
             space=space,
             scope=scope,
             data=data,
-            iri=iri,
             format=format,
+            iri=iri,
             source_data=source_data,
             is_location_of=is_location_of,
             is_output_of=is_output_of,

@@ -1,35 +1,19 @@
 """
 Structured information on the quality type of the defined criteria for a measurement.
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - processive
-         - If a criteria is 'processive' it is based on a repeatable and often automated process.
-       * - asserted
-         - If a criteria is 'asserted' it is based on an opinion or claim, usually made by an expert.
-
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
+
+
+from openminds.base import IRI
 
 
 class CriteriaQualityType(KGObject):
     """
     Structured information on the quality type of the defined criteria for a measurement.
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - processive
-         - If a criteria is 'processive' it is based on a repeatable and often automated process.
-       * - asserted
-         - If a criteria is 'asserted' it is based on an opinion or claim, usually made by an expert.
-
     """
 
     default_space = "controlled"
@@ -109,6 +93,14 @@ class CriteriaQualityType(KGObject):
             multiple=True,
             doc="reverse of 'keyword'",
         ),
+        Field(
+            "used_by_annotation",
+            ["openminds.sands.AtlasAnnotation", "openminds.sands.CustomAnnotation"],
+            "^vocab:criteriaQualityType",
+            reverse="criteria_quality_types",
+            multiple=True,
+            doc="reverse of 'criteriaQualityType'",
+        ),
     ]
     existence_query_fields = ("name",)
 
@@ -122,6 +114,7 @@ class CriteriaQualityType(KGObject):
         preferred_ontology_identifier=None,
         synonyms=None,
         describes=None,
+        used_by_annotation=None,
         id=None,
         data=None,
         space=None,
@@ -140,4 +133,5 @@ class CriteriaQualityType(KGObject):
             preferred_ontology_identifier=preferred_ontology_identifier,
             synonyms=synonyms,
             describes=describes,
+            used_by_annotation=used_by_annotation,
         )

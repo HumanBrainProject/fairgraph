@@ -4,7 +4,6 @@ Structured information about a piece of software or web service that can perform
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
@@ -42,13 +41,6 @@ class SoftwareAgent(KGObject):
         Field(
             "activities",
             [
-                "openminds.computation.DataAnalysis",
-                "openminds.computation.DataCopy",
-                "openminds.computation.GenericComputation",
-                "openminds.computation.ModelValidation",
-                "openminds.computation.Optimization",
-                "openminds.computation.Simulation",
-                "openminds.computation.Visualization",
                 "openminds.core.ProtocolExecution",
                 "openminds.ephys.CellPatching",
                 "openminds.ephys.ElectrodePlacement",
@@ -65,7 +57,16 @@ class SoftwareAgent(KGObject):
         ),
         Field(
             "started",
-            "openminds.computation.WorkflowExecution",
+            [
+                "openminds.computation.DataAnalysis",
+                "openminds.computation.DataCopy",
+                "openminds.computation.GenericComputation",
+                "openminds.computation.ModelValidation",
+                "openminds.computation.Optimization",
+                "openminds.computation.Simulation",
+                "openminds.computation.Visualization",
+                "openminds.computation.WorkflowExecution",
+            ],
             "^vocab:startedBy",
             reverse="started_by",
             multiple=True,

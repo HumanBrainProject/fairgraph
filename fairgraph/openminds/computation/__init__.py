@@ -3,23 +3,23 @@ import inspect
 from fairgraph.kgobject import KGObject
 from fairgraph.embedded import EmbeddedMetadata
 
-from .launch_configuration import LaunchConfiguration
-from .data_copy import DataCopy
-from .workflow_recipe_version import WorkflowRecipeVersion
-from .optimization import Optimization
-from .local_file import LocalFile
-from .visualization import Visualization
 from .data_analysis import DataAnalysis
+from .data_copy import DataCopy
 from .environment import Environment
-from .workflow_execution import WorkflowExecution
+from .generic_computation import GenericComputation
+from .hardware_system import HardwareSystem
+from .launch_configuration import LaunchConfiguration
+from .local_file import LocalFile
+from .model_validation import ModelValidation
+from .optimization import Optimization
+from .simulation import Simulation
 from .software_agent import SoftwareAgent
 from .validation_test import ValidationTest
-from .model_validation import ModelValidation
-from .workflow_recipe import WorkflowRecipe
-from .hardware_system import HardwareSystem
 from .validation_test_version import ValidationTestVersion
-from .simulation import Simulation
-from .generic_computation import GenericComputation
+from .visualization import Visualization
+from .workflow_execution import WorkflowExecution
+from .workflow_recipe import WorkflowRecipe
+from .workflow_recipe_version import WorkflowRecipeVersion
 
 
 def list_kg_classes():

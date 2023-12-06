@@ -1,51 +1,19 @@
 """
-
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - Kolmogorov-Smirnov statistic
-         - Quantification of a distance between the empirical distribution function of the sample and the cumulative distribution function of the reference distribution, or between the empirical distribution functions of two samples.
-       * - mean squared error
-         - The mean squared difference between two series of values.
-       * - z-score
-         - The number of standard deviations by which an observed value is above or below the mean value.
-       * - Kullback-Leibler divergence
-         - A measure of how one probability distribution is different from a second, reference probability distribution.
-       * - chi-squared statistic
-         - Test statistic resulting from a chi-squared test.
-       * - t-statistic
-         - The ratio of the departure of the estimated value of a parameter from its hypothesized value to its standard error.
-
+<description not available>
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
 
+from openminds.base import IRI
+
+
 class DifferenceMeasure(KGObject):
     """
-
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - Kolmogorov-Smirnov statistic
-         - Quantification of a distance between the empirical distribution function of the sample and the cumulative distribution function of the reference distribution, or between the empirical distribution functions of two samples.
-       * - mean squared error
-         - The mean squared difference between two series of values.
-       * - z-score
-         - The number of standard deviations by which an observed value is above or below the mean value.
-       * - Kullback-Leibler divergence
-         - A measure of how one probability distribution is different from a second, reference probability distribution.
-       * - chi-squared statistic
-         - Test statistic resulting from a chi-squared test.
-       * - t-statistic
-         - The ratio of the departure of the estimated value of a parameter from its hypothesized value to its standard error.
-
+    <description not available>
     """
 
     default_space = "controlled"

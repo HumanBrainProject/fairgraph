@@ -1,51 +1,19 @@
 """
-
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - Didelphimorphia
-         - The biological order *Didelphimorphia* (opossums) belongs to the class *Mammalia* (mammals).
-       * - `Rodentia <http://purl.obolibrary.org/obo/NCBITaxon_9989>`_
-         - The biological order *Rodentia* (rodents) belongs to the class *Mammalia* (mammals).
-       * - `Nudibranchia <http://purl.obolibrary.org/obo/NCBITaxon_70849>`_
-         - The biological order *Nudibranchia* (nudibranchs) belongs to the class *Gastropoda* (gastropods).
-       * - `Carnivora <http://purl.obolibrary.org/obo/NCBITaxon_33554>`_
-         - The biological order *Carnivora* (carnivore) belongs to the class *Mammalia* (mammals).
-       * - `Primates <http://id.nlm.nih.gov/mesh/2018/M0017579>`_
-         - The biological order *Primates* belongs to the class *Mammalia* (mammals).
-       * - `Cypriniformes <http://id.nlm.nih.gov/mesh/2018/M0005508>`_
-         - The biological order *Cypriniformes* belongs to the class *Actinopterygii* (ray-finned fishes).
-
+<description not available>
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
 
+from openminds.base import IRI
+
+
 class BiologicalOrder(KGObject):
     """
-
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - Didelphimorphia
-         - The biological order *Didelphimorphia* (opossums) belongs to the class *Mammalia* (mammals).
-       * - `Rodentia <http://purl.obolibrary.org/obo/NCBITaxon_9989>`_
-         - The biological order *Rodentia* (rodents) belongs to the class *Mammalia* (mammals).
-       * - `Nudibranchia <http://purl.obolibrary.org/obo/NCBITaxon_70849>`_
-         - The biological order *Nudibranchia* (nudibranchs) belongs to the class *Gastropoda* (gastropods).
-       * - `Carnivora <http://purl.obolibrary.org/obo/NCBITaxon_33554>`_
-         - The biological order *Carnivora* (carnivore) belongs to the class *Mammalia* (mammals).
-       * - `Primates <http://id.nlm.nih.gov/mesh/2018/M0017579>`_
-         - The biological order *Primates* belongs to the class *Mammalia* (mammals).
-       * - `Cypriniformes <http://id.nlm.nih.gov/mesh/2018/M0005508>`_
-         - The biological order *Cypriniformes* belongs to the class *Actinopterygii* (ray-finned fishes).
-
+    <description not available>
     """
 
     default_space = "controlled"
@@ -107,7 +75,6 @@ class BiologicalOrder(KGObject):
             [
                 "openminds.computation.ValidationTestVersion",
                 "openminds.computation.WorkflowRecipeVersion",
-                "openminds.core.DatasetVersion",
                 "openminds.core.MetaDataModelVersion",
                 "openminds.core.ModelVersion",
                 "openminds.core.SoftwareVersion",
@@ -144,6 +111,7 @@ class BiologicalOrder(KGObject):
                 "openminds.computation.Simulation",
                 "openminds.computation.ValidationTest",
                 "openminds.computation.Visualization",
+                "openminds.core.DatasetVersion",
                 "openminds.core.Model",
                 "openminds.core.ProtocolExecution",
                 "openminds.ephys.CellPatching",

@@ -41,6 +41,22 @@
     {
       "path": "https://openminds.ebrains.eu/vocab/identifier",
       "propertyName": "vocab:identifier"
+    },
+    {
+      "path": {
+        "@id": "https://openminds.ebrains.eu/vocab/digitalIdentifier",
+        "reverse": true
+      },
+      "propertyName": "vocab:digitalIdentifier",
+      "ensureOrder": true,
+      "structure": [
+        {
+          "path": "@id"
+        },
+        {
+          "path": "@type"
+        }
+      ]
     }
   ]
 }

@@ -1,47 +1,19 @@
 """
-
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - ambilevous handedness
-         - Handedness where the organism exhibits equally poor dexterity in the use of right or left hand or foot in the performance of tasks that require one (dominant) hand or foot.
-       * - ambidextrous handedness
-         - Handedness where the organism exhibits no overall dominance in the use of right or left hand or foot in the performance of tasks that require one (dominant) hand or foot.
-       * - left handedness
-         - Handedness where the organism preferentially uses the left hand or foot for tasks requiring the use of a single hand or foot.
-       * - right handedness
-         - Handedness where the organism preferentially uses the right hand or foot for tasks requiring the use of a single hand or foot.
-       * - mixed handedness
-         - Handedness where the organism exhibits dominance in the use of right or left hand or foot differently in the performance of different tasks that require one (dominant) hand or foot.
-
+<description not available>
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
 
+from openminds.base import IRI
+
+
 class Handedness(KGObject):
     """
-
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - ambilevous handedness
-         - Handedness where the organism exhibits equally poor dexterity in the use of right or left hand or foot in the performance of tasks that require one (dominant) hand or foot.
-       * - ambidextrous handedness
-         - Handedness where the organism exhibits no overall dominance in the use of right or left hand or foot in the performance of tasks that require one (dominant) hand or foot.
-       * - left handedness
-         - Handedness where the organism preferentially uses the left hand or foot for tasks requiring the use of a single hand or foot.
-       * - right handedness
-         - Handedness where the organism preferentially uses the right hand or foot for tasks requiring the use of a single hand or foot.
-       * - mixed handedness
-         - Handedness where the organism exhibits dominance in the use of right or left hand or foot differently in the performance of different tasks that require one (dominant) hand or foot.
-
+    <description not available>
     """
 
     default_space = "controlled"
@@ -103,7 +75,6 @@ class Handedness(KGObject):
             [
                 "openminds.computation.ValidationTestVersion",
                 "openminds.computation.WorkflowRecipeVersion",
-                "openminds.core.DatasetVersion",
                 "openminds.core.MetaDataModelVersion",
                 "openminds.core.ModelVersion",
                 "openminds.core.SoftwareVersion",
@@ -140,6 +111,7 @@ class Handedness(KGObject):
                 "openminds.computation.Simulation",
                 "openminds.computation.ValidationTest",
                 "openminds.computation.Visualization",
+                "openminds.core.DatasetVersion",
                 "openminds.core.Model",
                 "openminds.core.ProtocolExecution",
                 "openminds.ephys.CellPatching",

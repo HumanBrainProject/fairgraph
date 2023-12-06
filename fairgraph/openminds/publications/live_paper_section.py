@@ -1,16 +1,17 @@
 """
-
+<description not available>
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
 
 class LivePaperSection(KGObject):
-    """ """
+    """
+    <description not available>
+    """
 
     default_space = "livepapers"
     type_ = ["https://openminds.ebrains.eu/publications/LivePaperSection"]
@@ -59,7 +60,7 @@ class LivePaperSection(KGObject):
             doc="reverse of 'isPartOf'",
         ),
     ]
-    existence_query_fields = ("name", "is_part_of", "order", "type")
+    existence_query_fields = ("is_part_of", "name", "order", "type")
 
     def __init__(
         self,

@@ -1,16 +1,17 @@
 """
-
+<description not available>
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
 
 class FileRepositoryStructure(KGObject):
-    """ """
+    """
+    <description not available>
+    """
 
     default_space = "files"
     type_ = ["https://openminds.ebrains.eu/core/FileRepositoryStructure"]

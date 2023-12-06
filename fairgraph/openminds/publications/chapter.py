@@ -1,16 +1,21 @@
 """
-
+<description not available>
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
 
+from datetime import date
+from openminds.base import IRI
+
+
 class Chapter(KGObject):
-    """ """
+    """
+    <description not available>
+    """
 
     default_space = "livepapers"
     type_ = ["https://openminds.ebrains.eu/publications/Chapter"]
@@ -28,12 +33,6 @@ class Chapter(KGObject):
             "vocab:name",
             required=True,
             doc="Word or phrase that constitutes the distinctive designation of the chapter.",
-        ),
-        Field(
-            "iri",
-            IRI,
-            "vocab:IRI",
-            doc="Stands for Internationalized Resource Identifier which is an internet protocol standard that builds on the URI protocol, extending the set of permitted characters to include Unicode/ISO 10646.",
         ),
         Field("abstract", str, "vocab:abstract", doc="no description available"),
         Field(
@@ -80,6 +79,12 @@ class Chapter(KGObject):
             doc="Money provided by a legal person for a particular purpose.",
         ),
         Field(
+            "iri",
+            IRI,
+            "vocab:IRI",
+            doc="Stands for Internationalized Resource Identifier which is an internet protocol standard that builds on the URI protocol, extending the set of permitted characters to include Unicode/ISO 10646.",
+        ),
+        Field(
             "is_part_of",
             "openminds.publications.Book",
             "vocab:isPartOf",
@@ -100,6 +105,7 @@ class Chapter(KGObject):
                 "openminds.controlledterms.AtlasType",
                 "openminds.controlledterms.AuditoryStimulusType",
                 "openminds.controlledterms.BiologicalOrder",
+                "openminds.controlledterms.BiologicalProcess",
                 "openminds.controlledterms.BiologicalSex",
                 "openminds.controlledterms.BreedingType",
                 "openminds.controlledterms.CellCultureType",
@@ -129,6 +135,7 @@ class Chapter(KGObject):
                 "openminds.controlledterms.Laterality",
                 "openminds.controlledterms.LearningResourceType",
                 "openminds.controlledterms.MeasuredQuantity",
+                "openminds.controlledterms.MeasuredSignalType",
                 "openminds.controlledterms.MetaDataModelType",
                 "openminds.controlledterms.ModelAbstractionLevel",
                 "openminds.controlledterms.ModelScope",
@@ -211,12 +218,11 @@ class Chapter(KGObject):
             doc="reverse of 'relatedPublication'",
         ),
     ]
-    existence_query_fields = ("name", "authors", "is_part_of", "publication_date")
+    existence_query_fields = ("authors", "is_part_of", "name", "publication_date")
 
     def __init__(
         self,
         name=None,
-        iri=None,
         abstract=None,
         authors=None,
         cited_publications=None,
@@ -226,6 +232,7 @@ class Chapter(KGObject):
         digital_identifier=None,
         editors=None,
         funding=None,
+        iri=None,
         is_part_of=None,
         keywords=None,
         license=None,
@@ -246,7 +253,6 @@ class Chapter(KGObject):
             scope=scope,
             data=data,
             name=name,
-            iri=iri,
             abstract=abstract,
             authors=authors,
             cited_publications=cited_publications,
@@ -256,6 +262,7 @@ class Chapter(KGObject):
             digital_identifier=digital_identifier,
             editors=editors,
             funding=funding,
+            iri=iri,
             is_part_of=is_part_of,
             keywords=keywords,
             license=license,

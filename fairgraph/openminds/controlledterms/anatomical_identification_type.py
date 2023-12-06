@@ -1,35 +1,19 @@
 """
-
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - landmark based
-         - 'Landmark based' identification makes use of distinct anatomical structures as a point of orientation in locating other structures in the body.
-       * - stereotactic
-         - 'Stereotactic' identification makes use of three-dimensional coordinate system to loacte specific targets inside the body. [adapted from [wikipedia](https://en.wikipedia.org/wiki/Stereotactic_surgery)]
-
+<description not available>
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
 
+from openminds.base import IRI
+
+
 class AnatomicalIdentificationType(KGObject):
     """
-
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - landmark based
-         - 'Landmark based' identification makes use of distinct anatomical structures as a point of orientation in locating other structures in the body.
-       * - stereotactic
-         - 'Stereotactic' identification makes use of three-dimensional coordinate system to loacte specific targets inside the body. [adapted from [wikipedia](https://en.wikipedia.org/wiki/Stereotactic_surgery)]
-
+    <description not available>
     """
 
     default_space = "controlled"
@@ -109,6 +93,14 @@ class AnatomicalIdentificationType(KGObject):
             multiple=True,
             doc="reverse of 'keyword'",
         ),
+        Field(
+            "is_type_of",
+            "openminds.sands.AnatomicalTargetPosition",
+            "^vocab:targetIdentificationType",
+            reverse="target_identification_types",
+            multiple=True,
+            doc="reverse of 'targetIdentificationType'",
+        ),
     ]
     existence_query_fields = ("name",)
 
@@ -122,6 +114,7 @@ class AnatomicalIdentificationType(KGObject):
         preferred_ontology_identifier=None,
         synonyms=None,
         describes=None,
+        is_type_of=None,
         id=None,
         data=None,
         space=None,
@@ -140,4 +133,5 @@ class AnatomicalIdentificationType(KGObject):
             preferred_ontology_identifier=preferred_ontology_identifier,
             synonyms=synonyms,
             describes=describes,
+            is_type_of=is_type_of,
         )

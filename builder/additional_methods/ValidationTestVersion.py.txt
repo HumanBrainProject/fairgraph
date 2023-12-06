@@ -1,0 +1,7 @@
+    def is_version_of(self, client):
+        parents = ValidationTest.list(client, scope=self.scope, space=self.space, versions=self)
+        if len(parents) == 0:
+            raise ResolutionFailure("Unable to find parent")
+        else:
+            assert len(parents) == 1
+            return parents[0]

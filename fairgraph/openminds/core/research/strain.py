@@ -1,16 +1,17 @@
 """
-
+<description not available>
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
 
 class Strain(KGObject):
-    """ """
+    """
+    <description not available>
+    """
 
     default_space = "dataset"
     type_ = ["https://openminds.ebrains.eu/core/Strain"]
@@ -117,7 +118,7 @@ class Strain(KGObject):
             doc="reverse of 'species'",
         ),
     ]
-    existence_query_fields = ("name", "genetic_strain_type", "species")
+    existence_query_fields = ("genetic_strain_type", "name", "species")
 
     def __init__(
         self,

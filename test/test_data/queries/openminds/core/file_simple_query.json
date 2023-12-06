@@ -44,10 +44,6 @@
       "sort": true
     },
     {
-      "path": "https://openminds.ebrains.eu/vocab/IRI",
-      "propertyName": "vocab:IRI"
-    },
-    {
       "path": "https://openminds.ebrains.eu/vocab/contentDescription",
       "propertyName": "vocab:contentDescription"
     },
@@ -105,6 +101,10 @@
           "propertyName": "vocab:digest"
         }
       ]
+    },
+    {
+      "path": "https://openminds.ebrains.eu/vocab/IRI",
+      "propertyName": "vocab:IRI"
     },
     {
       "path": "https://openminds.ebrains.eu/vocab/isPartOf",
@@ -207,6 +207,22 @@
     },
     {
       "path": {
+        "@id": "https://openminds.ebrains.eu/vocab/hasPart",
+        "reverse": true
+      },
+      "propertyName": "vocab:hasPart",
+      "ensureOrder": true,
+      "structure": [
+        {
+          "path": "@id"
+        },
+        {
+          "path": "@type"
+        }
+      ]
+    },
+    {
+      "path": {
         "@id": "https://openminds.ebrains.eu/vocab/configuration",
         "reverse": true
       },
@@ -239,26 +255,10 @@
     },
     {
       "path": {
-        "@id": "https://openminds.ebrains.eu/vocab/dataLocation",
+        "@id": "https://openminds.ebrains.eu/vocab/inputData",
         "reverse": true
       },
-      "propertyName": "vocab:dataLocation",
-      "ensureOrder": true,
-      "structure": [
-        {
-          "path": "@id"
-        },
-        {
-          "path": "@type"
-        }
-      ]
-    },
-    {
-      "path": {
-        "@id": "https://openminds.ebrains.eu/vocab/output",
-        "reverse": true
-      },
-      "propertyName": "vocab:output",
+      "propertyName": "vocab:inputData",
       "ensureOrder": true,
       "structure": [
         {
@@ -275,6 +275,22 @@
         "reverse": true
       },
       "propertyName": "vocab:previewImage",
+      "ensureOrder": true,
+      "structure": [
+        {
+          "path": "@id"
+        },
+        {
+          "path": "@type"
+        }
+      ]
+    },
+    {
+      "path": {
+        "@id": "https://openminds.ebrains.eu/vocab/referenceData",
+        "reverse": true
+      },
+      "propertyName": "vocab:referenceData",
       "ensureOrder": true,
       "structure": [
         {

@@ -15,7 +15,7 @@ name_map = {
     "shortName": "alias",
     "fullName": "name",
     "scope": "model_scope",
-    "hasVersion": "versions",
+    "hasVersions": "versions",
     "hasEntity": "entities",
     "controlledTerms": "controlledterms",
     "specimenPrep": "specimenprep",
@@ -25,8 +25,9 @@ name_map = {
 reverse_name_map = {
     "RRID": "identifies",
     "about": {
-        "https://openminds.ebrains.eu/publications/LearningResource": "learningResource",
-        "https://openminds.ebrains.eu/core/Comment": "comment",
+        "https://openminds.ebrains.eu/publications/LearningResource": "learningResources",
+        "https://openminds.ebrains.eu/core/Comment": "comments",
+        "https://openminds.ebrains.eu/publications/LivePaperVersion": "publication",
     },
     "abstractionLevel": "isAbstractionLevelOf",
     "accessibility": "isAccessibilityOf",
@@ -47,7 +48,7 @@ reverse_name_map = {
     "breedingType": "isBreedingTypeOf",
     "chemicalProduct": "usedInAmount",
     "citedPublication": "citedIn",
-    "commenter": "comment",
+    "commenter": "comments",
     "components": "isComponentOf",  # or "is_part_of" (TODO "components" redundant with "hasComponent"?)
     "conductorMaterial": "isConductorOf",
     "configuration": "isConfigurationOf",
@@ -57,8 +58,8 @@ reverse_name_map = {
     "contentTypePattern": "identifiesContentOf",
     "contributor": "contribution",
     "coordinateSpace": "isCoordinateSpaceOf",
-    "coordinator": "coordinatedProject",
-    "copyOf": "hasCopy",
+    "coordinator": "coordinatedProjects",
+    "copyOf": "hasCopies",
     "criteria": "basedOnProtocolExecution",
     "criteriaQualityType": "usedByAnnotation",  # or "isCriteriaQualityTypeOf"
     "criteriaType": "usedByAnnotation",
@@ -69,7 +70,8 @@ reverse_name_map = {
     "dataType": "isDataTypeOf",
     "defaultImage": "isDefaultImageFor",
     "definedIn": "defines",  # or "containsDefinitionOf",
-    "descendedFrom": "hasChild",  # equivalent to "hasParent" ?
+    "deliveredBy": "stimulationDevice",
+    "descendedFrom": "hasChildren",  # equivalent to "hasParent" ?
     "describedIn": "describes",
     "developer": "developed",
     "device": {
@@ -79,6 +81,10 @@ reverse_name_map = {
         "https://openminds.ebrains.eu/ephys/CellPatching": "usedIn",
         "https://openminds.ebrains.eu/ephys/Recording": "usedFor",
         "https://openminds.ebrains.eu/core/Measurement": "usedFor",
+        "https://openminds.ebrains.eu/specimenPrep/TissueSampleSlicing": "usedFor",
+        "https://openminds.ebrains.eu/specimenPrep/SlicingDeviceUsage": "usage",
+        "https://openminds.ebrains.eu/ephys/PipetteUsage": "usage",
+        "https://openminds.ebrains.eu/ephys/ElectrodeUsage": "usage",
     },
     "deviceType": "isTypeOf",  # TODO: replace with "type"?
     "digitalIdentifier": "identifies",
@@ -95,6 +101,7 @@ reverse_name_map = {
     "fullDocumentation": "fullyDocuments",
     "funder": "funded",
     "funding": "funded",
+    "generatedBy": "generationDevice",
     "geneticStrainType": "isGeneticStrainTypeOf",  # or "strain"
     "groupedBy": "isUsedToGroup",
     "groupingType": {
@@ -105,7 +112,7 @@ reverse_name_map = {
     "hardware": "usedBy",  # or "isPartOfEnvironment"
     "hasComponent": "isPartOf",
     "hasEntity": "isPartOf",
-    "hasParent": "hasChild",  # equivalent to "descendedFrom"
+    "hasParent": "hasChildren",  # equivalent to "descendedFrom"
     "hasPart": "isPartOf",
     "hasVersion": "isVersionOf",
     "holder": "holdsCopyright",  # or "intellectualProperty",
@@ -118,7 +125,7 @@ reverse_name_map = {
     "insulatorMaterial": "composes",
     "isAlternativeVersionOf": "isAlternativeVersionOf",  # ??!!
     "isNewVersionOf": "isOldVersionOf",
-    "isPartOf": "hasPart",  # hasComponent ?
+    "isPartOf": "hasParts",  # hasComponent ?
     "keyword": "describes",
     "labelingCompound": "labels",
     "language": "usedIn",
@@ -129,7 +136,7 @@ reverse_name_map = {
     "material": "composes",
     "measuredQuantity": "measurement",
     "measuredWith": "usedToMeasure",
-    "memberOf": "hasMember",
+    "memberOf": "hasMembers",
     "metadataLocation": "describes",
     "minValueUnit": "range",
     "maxValueUnit": "range",
@@ -142,7 +149,7 @@ reverse_name_map = {
     "outputFormat": "isOutputFormatOf",
     "owner": "isOwnerOf",  # or "devices"
     "pathology": "specimenState",
-    "performedBy": "activity",
+    "performedBy": "activities",
     "pipetteSolution": "usedIn",
     "preferredDisplayColor": "preferredBy",
     "preparationDesign": "usedFor",
@@ -168,7 +175,7 @@ reverse_name_map = {
     "serializationFormat": "usedBy",
     "service": {
         "https://openminds.ebrains.eu/core/ServiceLink": "linkedFrom",
-        "https://openminds.ebrains.eu/core/AccountInformation": "hasAccount",
+        "https://openminds.ebrains.eu/core/AccountInformation": "hasAccounts",
     },
     "setup": "usedIn",
     "slicingDevice": "usedIn",  # TODO: slicingDevice --> device?
@@ -411,7 +418,7 @@ custom_existence_queries = {
     "ValidationTestVersion": ("alias", "version_identifier"),
     "LivePaper": ("name", "alias"),
     "LivePaperVersion": ("alias", "version_identifier"),
-    "LivePaperResourceItem": ("name", "iri", "is_part_of"),
+    "LivePaperResourceItem": ("name", "iri", "is_also_part_of"),
     "ScholarlyArticle": ("name",),
     "WorkflowExecution": ("stages",),
     "Configuration": ("configuration",),
@@ -451,6 +458,100 @@ def generate_class_name(iri):
     for i in range(len(parts) - 1):
         parts[i] = parts[i].lower()
     return "openminds." + ".".join(parts)
+
+
+def get_controlled_terms_table(type_):
+    # todo: reimplement this using instances repo from Github rather than accessing KG
+    # from kg_core.kg import kg
+    # from kg_core.request import Stage, Pagination
+
+    # host = "core.kg.ebrains.eu"
+    # limit = 20
+    # try:
+    #     token = os.environ["KG_AUTH_TOKEN"]
+    # except KeyError:
+    #     warnings.warn(
+    #         "Cannot get controlled terms."
+    #         "Please obtain an EBRAINS auth token and put it in an environment variable 'KG_AUTH_TOKEN'"
+    #     )
+    #     return ""
+    # kg_client = kg(host).with_token(token).build()
+    # response = kg_client.instances.list(
+    #     stage=Stage.RELEASED,
+    #     target_type=type_,
+    #     space="controlled",
+    #     pagination=Pagination(start=0, size=limit),
+    # )
+    # if response.error:
+    #     warnings.warn(f"Error trying to retrieve values for {type_}: {response.error}")
+    #     return ""
+    # else:
+    #     if response.total == 0:
+    #         return ""
+    #     lines = []
+    #     if response.total > response.size:
+    #         assert response.size == limit
+    #         lines.extend(
+    #             [
+    #                 "",
+    #                 f"    Here we show the first {limit} possible values, an additional {response.total - limit} values are not shown.",
+    #             ]
+    #         )
+    #     lines.extend(
+    #         [
+    #             "",
+    #             "    .. list-table:: **Possible values**",
+    #             "       :widths: 20 80",
+    #             "       :header-rows: 0",
+    #             "",
+    #         ]
+    #     )
+    #     for item in response.data:
+    #         vocab = "https://openminds.ebrains.eu/vocab"
+    #         name = item[f"{vocab}/name"]
+    #         definition = item.get(f"{vocab}/definition", None)
+    #         link = item.get(f"{vocab}/preferredOntologyIdentifier", None)
+    #         if definition is None:
+    #             definition = link or " "
+    #         if link:
+    #             name = f"`{name} <{link}>`_"
+    #         lines.append(f"       * - {name}")
+    #         lines.append(f"         - {definition}")
+    #     lines.append("")
+    #     return "\n".join(lines)
+    return ""
+
+
+preamble = {
+    "File": """import os
+import mimetypes
+from pathlib import Path
+from urllib.request import urlretrieve
+from urllib.parse import quote, urlparse, urlunparse
+from .hash import Hash
+from .content_type import ContentType
+from ..miscellaneous.quantitative_value import QuantitativeValue
+from ...controlledterms.unit_of_measurement import UnitOfMeasurement
+from fairgraph.utility import accepted_terms_of_use, sha1sum
+
+mimetypes.init()""",
+    "DatasetVersion": """from urllib.request import urlretrieve
+from pathlib import Path
+from ....utility import accepted_terms_of_use""",
+    "ModelVersion": """from fairgraph.errors import ResolutionFailure
+from .model import Model""",
+    "ValidationTestVersion": """from fairgraph.errors import ResolutionFailure
+from .validation_test import ValidationTest""",
+    "LivePaperVersion": """from fairgraph.errors import ResolutionFailure
+from .live_paper import LivePaper""",
+    "ScholarlyArticle": """from fairgraph.utility import as_list
+from .publication_issue import PublicationIssue
+from .periodical import Periodical""",
+    "SoftwareVersion": """from fairgraph.errors import ResolutionFailure
+from .software import Software""",
+    "WebServiceVersion": """from fairgraph.errors import ResolutionFailure
+from .web_service import WebService""",
+}
 
 
 class FairgraphClassBuilder:
@@ -534,10 +635,16 @@ class FairgraphClassBuilder:
             default_space = get_default_space(module_name, class_name)
             standard_init_fields = "id=id, space=space, scope=scope, "
         properties = []
+        plurals_special_cases = {
+            # because this is a single item (PropertyValueList), but that item contains a list
+            "environmentVariable": "environmentVariables",
+        }
         for iri, property in self._schema_payload["properties"].items():
             allow_multiple = property.get("type", "") == "array"
             if allow_multiple:
                 property_name = property["namePlural"]
+            elif property["name"] in plurals_special_cases:
+                property_name = plurals_special_cases[property["name"]]
             else:
                 property_name = property["name"]
             properties.append(
@@ -557,6 +664,10 @@ class FairgraphClassBuilder:
                 }
             )
         reverse_properties = []
+        forward_field_names = set(field["name"] for field in properties)
+        conflict_resolution = {
+            "is_part_of": "is_also_part_of",
+        }
         if linked:
             linked_from = linked[self._schema_payload["_type"]]
             for reverse_link_name in linked_from:
@@ -585,9 +696,18 @@ class FairgraphClassBuilder:
                     _forward_link_name_python = [generate_python_name(name) for name in forward_link_name_plural]
                     iri = [f"^vocab:{name}" for name in forward_link_name]
                     doc = "reverse of " + ", ".join(name for name in forward_link_name)  # use _plural?
+                reverse_name_python = generate_python_name(reverse_link_name)
+                if reverse_name_python in forward_field_names:
+                    if reverse_name_python in conflict_resolution:
+                        reverse_name_python = conflict_resolution[reverse_name_python]
+                    else:
+                        raise Exception(
+                            "The following name appears as both a forward and reverse name "
+                            f"for {class_name}: {reverse_name_python}"
+                        )
                 reverse_properties.append(
                     {
-                        "name": generate_python_name(reverse_link_name),
+                        "name": reverse_name_python,
                         "type_str": types_str,
                         "_forward_name_python": _forward_link_name_python,
                         "iri": iri,
@@ -596,10 +716,15 @@ class FairgraphClassBuilder:
                         "doc": doc,
                     }
                 )
+
+        additional_methods = ""
+        if os.path.exists(f"additional_methods/{class_name}.py.txt"):
+            with open(f"additional_methods/{class_name}.py.txt") as fp:
+                additional_methods = fp.read()
         self.context = {
             "docstring": self._schema_payload.get("description", "<description not available>"),
             "base_class": base_class,
-            "preamble": "",  # default value, may be updated below
+            "preamble": preamble.get(class_name, ""),  # default value, may be updated below
             "class_name": class_name,
             "default_space": default_space,
             "openminds_type": self._schema_payload["_type"],
@@ -608,6 +733,7 @@ class FairgraphClassBuilder:
             "additional_methods": "",
             "existence_query_fields": get_existence_query(class_name, properties),
             "standard_init_fields": standard_init_fields,
+            "additional_methods": additional_methods,
         }
         import_map = {
             "date": "from datetime import date",
@@ -627,8 +753,10 @@ class FairgraphClassBuilder:
                 imp = import_map.get(property["type_str"], None)
                 if imp:
                     extra_imports.add(imp)
-            if extra_imports:
-                self.context["preamble"] = "\n".join(sorted(extra_imports))
+        if extra_imports:
+            self.context["preamble"] += "\n" + "\n".join(sorted(extra_imports))
+        if module_name == "controlledterms":
+            self.context["docstring"] += get_controlled_terms_table(self._schema_payload["_type"])
 
     def build(self, embedded=None, linked=None):
         target_file_path = os.path.join(self.target_path_root, f"{self._target_file_without_extension()}.py")
@@ -677,10 +805,9 @@ def main(openminds_root, ignore=[]):
         embedded_in, linked_from = FairgraphClassBuilder(schema_file_path, openminds_root, target_path).get_edges()
         embedded.update(embedded_in)
         for openminds_type, (link_type, property_name, property_name_plural, reverse_name) in linked_from.items():
-            if isinstance(reverse_name, dict):
-                print("todo")
-                continue
             if link_type not in embedded:
+                if isinstance(reverse_name, dict):
+                    reverse_name = reverse_name[link_type]
                 if reverse_name in linked[openminds_type]:
                     linked[openminds_type][reverse_name][0].append(property_name)
                     linked[openminds_type][reverse_name][1].append(property_name_plural)
@@ -712,18 +839,37 @@ def main(openminds_root, ignore=[]):
     for path, classes in python_modules.items():
         dir_path = path.split(".")
         openminds_modules.add(dir_path[0])
+        # first write __init__ for submodule (or top-level module if no submodules)
         init_file_path = os.path.join(target_path, *(dir_path + ["__init__.py"]))
         with open(init_file_path, "w") as fp:
-            contents = env.get_template("init_template.py.txt").render({"classes": sorted(classes)})
-            fp.write(contents)
-        while len(dir_path) > 1:
-            child_dir = dir_path[-1]
-            dir_path = dir_path[:-1]
+            for class_module, class_name in sorted(classes, key=lambda entry: entry[0]):
+                fp.write(f"from .{class_module} import {class_name}\n")
+
+        # now write __init__ for top-level module if submodules
+        child_dir = dir_path[-1]
+        dir_path = dir_path[:-1]
+        if len(dir_path) == 1:
             init_file_path = os.path.join(target_path, *(dir_path + ["__init__.py"]))
             with open(init_file_path, "a") as fp:
-                if len(dir_path) > 0:
-                    class_names = ", ".join(class_name for _, class_name in classes)
-                    fp.write(f"from .{child_dir} import ({class_names})\n")
+                class_names = ", ".join(class_name for _, class_name in classes)
+                fp.write(f"from .{child_dir} import ({class_names})\n")
+
+    for om_module in openminds_modules:
+        with open("init_template.py.txt") as fp:
+            om_module_functions = fp.read()
+        init_file_path = os.path.join("..", "fairgraph", "openminds", om_module, "__init__.py")
+        with open(init_file_path, "r") as fp:
+            content = fp.read()
+        with open(init_file_path, "w") as fp:
+            om_module_header = [
+                "import sys\n",
+                "import inspect\n",
+                "from fairgraph.kgobject import KGObject\n",
+                "from fairgraph.embedded import EmbeddedMetadata\n\n",
+            ]
+            fp.writelines(om_module_header)
+            fp.write(content)
+            fp.write(om_module_functions)
 
     init_file_path = os.path.join("..", "fairgraph", "openminds", "__init__.py")
     with open(init_file_path, "w") as fp:

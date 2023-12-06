@@ -39,10 +39,6 @@
       "path": "@type"
     },
     {
-      "path": "https://openminds.ebrains.eu/vocab/IRI",
-      "propertyName": "vocab:IRI"
-    },
-    {
       "path": "https://openminds.ebrains.eu/vocab/contentDescription",
       "propertyName": "vocab:contentDescription"
     },
@@ -57,6 +53,10 @@
           "path": "@type"
         }
       ]
+    },
+    {
+      "path": "https://openminds.ebrains.eu/vocab/IRI",
+      "propertyName": "vocab:IRI"
     },
     {
       "path": {
@@ -80,6 +80,54 @@
         "reverse": true
       },
       "propertyName": "vocab:fullDocumentation",
+      "ensureOrder": true,
+      "structure": [
+        {
+          "path": "@id"
+        },
+        {
+          "path": "@type"
+        }
+      ]
+    },
+    {
+      "path": {
+        "@id": "https://openminds.ebrains.eu/vocab/license",
+        "reverse": true
+      },
+      "propertyName": "vocab:license",
+      "ensureOrder": true,
+      "structure": [
+        {
+          "path": "@id"
+        },
+        {
+          "path": "@type"
+        }
+      ]
+    },
+    {
+      "path": {
+        "@id": "https://openminds.ebrains.eu/vocab/outputData",
+        "reverse": true
+      },
+      "propertyName": "vocab:outputData",
+      "ensureOrder": true,
+      "structure": [
+        {
+          "path": "@id"
+        },
+        {
+          "path": "@type"
+        }
+      ]
+    },
+    {
+      "path": {
+        "@id": "https://openminds.ebrains.eu/vocab/referenceData",
+        "reverse": true
+      },
+      "propertyName": "vocab:referenceData",
       "ensureOrder": true,
       "structure": [
         {

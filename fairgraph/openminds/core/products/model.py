@@ -4,9 +4,11 @@ Structured information on a computational model (concept level).
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
+
+
+from openminds.base import IRI
 
 
 class Model(KGObject):
@@ -61,14 +63,6 @@ class Model(KGObject):
             "vocab:digitalIdentifier",
             doc="Digital handle to identify objects or legal persons.",
         ),
-        Field(
-            "versions",
-            "openminds.core.ModelVersion",
-            "vocab:hasVersion",
-            multiple=True,
-            required=True,
-            doc="Reference to variants of an original.",
-        ),
         Field("homepage", IRI, "vocab:homepage", doc="Main website of the model."),
         Field(
             "how_to_cite",
@@ -108,6 +102,7 @@ class Model(KGObject):
                 "openminds.controlledterms.SubcellularEntity",
                 "openminds.controlledterms.TactileStimulusType",
                 "openminds.controlledterms.TermSuggestion",
+                "openminds.controlledterms.TissueSampleType",
                 "openminds.controlledterms.UBERONParcellation",
                 "openminds.controlledterms.VisualStimulusType",
                 "openminds.sands.CustomAnatomicalEntity",
@@ -118,6 +113,14 @@ class Model(KGObject):
             multiple=True,
             required=True,
             doc="Structure or function that was targeted within a study.",
+        ),
+        Field(
+            "versions",
+            "openminds.core.ModelVersion",
+            "vocab:hasVersion",
+            multiple=True,
+            required=True,
+            doc="Reference to variants of an original.",
         ),
         Field(
             "comments",
@@ -155,11 +158,11 @@ class Model(KGObject):
         description=None,
         developers=None,
         digital_identifier=None,
-        versions=None,
         homepage=None,
         how_to_cite=None,
         model_scope=None,
         study_targets=None,
+        versions=None,
         comments=None,
         is_part_of=None,
         learning_resources=None,
@@ -180,11 +183,11 @@ class Model(KGObject):
             description=description,
             developers=developers,
             digital_identifier=digital_identifier,
-            versions=versions,
             homepage=homepage,
             how_to_cite=how_to_cite,
             model_scope=model_scope,
             study_targets=study_targets,
+            versions=versions,
             comments=comments,
             is_part_of=is_part_of,
             learning_resources=learning_resources,

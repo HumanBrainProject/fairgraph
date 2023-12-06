@@ -1,67 +1,19 @@
 """
 Structured information on the grouping mechanism of a file bundle.
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - technique
-         -
-       * - subject group
-         -
-       * - tissue sample
-         -
-       * - behavioral task
-         -
-       * - coordinate space
-         -
-       * - protocol
-         -
-       * - behavioral protocol
-         -
-       * - study target
-         -
-       * - subject
-         -
-       * - tissue sample collection
-         -
-
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
+
+
+from openminds.base import IRI
 
 
 class FileBundleGrouping(KGObject):
     """
     Structured information on the grouping mechanism of a file bundle.
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - technique
-         -
-       * - subject group
-         -
-       * - tissue sample
-         -
-       * - behavioral task
-         -
-       * - coordinate space
-         -
-       * - protocol
-         -
-       * - behavioral protocol
-         -
-       * - study target
-         -
-       * - subject
-         -
-       * - tissue sample collection
-         -
-
     """
 
     default_space = "controlled"
@@ -142,6 +94,14 @@ class FileBundleGrouping(KGObject):
             doc="reverse of 'keyword'",
         ),
         Field(
+            "is_defined_by",
+            "openminds.core.FilePathPattern",
+            "^vocab:groupingType",
+            reverse="grouping_types",
+            multiple=True,
+            doc="reverse of 'groupingType'",
+        ),
+        Field(
             "is_used_to_group",
             "openminds.core.FileBundle",
             "^vocab:groupingType",
@@ -162,6 +122,7 @@ class FileBundleGrouping(KGObject):
         preferred_ontology_identifier=None,
         synonyms=None,
         describes=None,
+        is_defined_by=None,
         is_used_to_group=None,
         id=None,
         data=None,
@@ -181,5 +142,6 @@ class FileBundleGrouping(KGObject):
             preferred_ontology_identifier=preferred_ontology_identifier,
             synonyms=synonyms,
             describes=describes,
+            is_defined_by=is_defined_by,
             is_used_to_group=is_used_to_group,
         )

@@ -1,16 +1,17 @@
 """
-
+<description not available>
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
 
 class Setup(KGObject):
-    """ """
+    """
+    <description not available>
+    """
 
     default_space = "dataset"
     type_ = ["https://openminds.ebrains.eu/core/Setup"]
@@ -83,7 +84,7 @@ class Setup(KGObject):
             doc="reverse of 'setup'",
         ),
     ]
-    existence_query_fields = ("name", "description", "has_parts")
+    existence_query_fields = ("description", "has_parts", "name")
 
     def __init__(
         self,

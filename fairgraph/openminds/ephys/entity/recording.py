@@ -1,16 +1,17 @@
 """
-
+<description not available>
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
 
 class Recording(KGObject):
-    """ """
+    """
+    <description not available>
+    """
 
     default_space = "in-depth"
     type_ = ["https://openminds.ebrains.eu/ephys/Recording"]
@@ -81,7 +82,7 @@ class Recording(KGObject):
             doc="no description available",
         ),
         Field(
-            "next_recordings",
+            "next_recording",
             "openminds.ephys.Recording",
             "^vocab:previousRecording",
             reverse="previous_recordings",
@@ -101,7 +102,7 @@ class Recording(KGObject):
         previous_recording=None,
         recorded_with=None,
         sampling_frequency=None,
-        next_recordings=None,
+        next_recording=None,
         id=None,
         data=None,
         space=None,
@@ -120,5 +121,5 @@ class Recording(KGObject):
             previous_recording=previous_recording,
             recorded_with=recorded_with,
             sampling_frequency=sampling_frequency,
-            next_recordings=next_recordings,
+            next_recording=next_recording,
         )

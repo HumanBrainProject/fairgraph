@@ -90,6 +90,14 @@
       ]
     },
     {
+      "path": "https://openminds.ebrains.eu/vocab/homepage",
+      "propertyName": "vocab:homepage"
+    },
+    {
+      "path": "https://openminds.ebrains.eu/vocab/howToCite",
+      "propertyName": "vocab:howToCite"
+    },
+    {
       "path": "https://openminds.ebrains.eu/vocab/hasVersion",
       "propertyName": "vocab:hasVersion",
       "ensureOrder": true,
@@ -101,14 +109,6 @@
           "path": "@type"
         }
       ]
-    },
-    {
-      "path": "https://openminds.ebrains.eu/vocab/homepage",
-      "propertyName": "vocab:homepage"
-    },
-    {
-      "path": "https://openminds.ebrains.eu/vocab/howToCite",
-      "propertyName": "vocab:howToCite"
     },
     {
       "path": {

@@ -4,9 +4,11 @@ Structured information about the definition of a process for validating a comput
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
+
+
+from openminds.base import IRI
 
 
 class ValidationTest(KGObject):
@@ -60,14 +62,6 @@ class ValidationTest(KGObject):
             "vocab:digitalIdentifier",
             doc="Digital handle to identify objects or legal persons.",
         ),
-        Field(
-            "versions",
-            "openminds.computation.ValidationTestVersion",
-            "vocab:hasVersion",
-            multiple=True,
-            required=True,
-            doc="Reference to variants of an original.",
-        ),
         Field("homepage", IRI, "vocab:homepage", doc="Main website of the validation test."),
         Field(
             "how_to_cite",
@@ -75,6 +69,7 @@ class ValidationTest(KGObject):
             "vocab:howToCite",
             doc="Preferred format for citing a particular object or legal person.",
         ),
+        Field("model_scope", "openminds.controlledterms.ModelScope", "vocab:scope", doc="Extent of something."),
         Field(
             "reference_data_acquisitions",
             "openminds.controlledterms.Technique",
@@ -82,7 +77,6 @@ class ValidationTest(KGObject):
             multiple=True,
             doc="no description available",
         ),
-        Field("model_scope", "openminds.controlledterms.ModelScope", "vocab:scope", doc="Extent of something."),
         Field(
             "score_type",
             "openminds.controlledterms.DifferenceMeasure",
@@ -114,6 +108,7 @@ class ValidationTest(KGObject):
                 "openminds.controlledterms.SubcellularEntity",
                 "openminds.controlledterms.TactileStimulusType",
                 "openminds.controlledterms.TermSuggestion",
+                "openminds.controlledterms.TissueSampleType",
                 "openminds.controlledterms.UBERONParcellation",
                 "openminds.controlledterms.VisualStimulusType",
                 "openminds.sands.CustomAnatomicalEntity",
@@ -123,6 +118,14 @@ class ValidationTest(KGObject):
             "vocab:studyTarget",
             multiple=True,
             doc="Structure or function that was targeted within a study.",
+        ),
+        Field(
+            "versions",
+            "openminds.computation.ValidationTestVersion",
+            "vocab:hasVersion",
+            multiple=True,
+            required=True,
+            doc="Reference to variants of an original.",
         ),
         Field(
             "comments",
@@ -159,13 +162,13 @@ class ValidationTest(KGObject):
         description=None,
         developers=None,
         digital_identifier=None,
-        versions=None,
         homepage=None,
         how_to_cite=None,
-        reference_data_acquisitions=None,
         model_scope=None,
+        reference_data_acquisitions=None,
         score_type=None,
         study_targets=None,
+        versions=None,
         comments=None,
         is_part_of=None,
         learning_resources=None,
@@ -185,13 +188,13 @@ class ValidationTest(KGObject):
             description=description,
             developers=developers,
             digital_identifier=digital_identifier,
-            versions=versions,
             homepage=homepage,
             how_to_cite=how_to_cite,
-            reference_data_acquisitions=reference_data_acquisitions,
             model_scope=model_scope,
+            reference_data_acquisitions=reference_data_acquisitions,
             score_type=score_type,
             study_targets=study_targets,
+            versions=versions,
             comments=comments,
             is_part_of=is_part_of,
             learning_resources=learning_resources,

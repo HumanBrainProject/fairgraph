@@ -125,6 +125,22 @@
     },
     {
       "path": {
+        "@id": "https://openminds.ebrains.eu/vocab/developer",
+        "reverse": true
+      },
+      "propertyName": "vocab:developer",
+      "ensureOrder": true,
+      "structure": [
+        {
+          "path": "@id"
+        },
+        {
+          "path": "@type"
+        }
+      ]
+    },
+    {
+      "path": {
         "@id": "https://openminds.ebrains.eu/vocab/funder",
         "reverse": true
       },
@@ -152,6 +168,39 @@
         },
         {
           "path": "@type"
+        }
+      ]
+    },
+    {
+      "path": {
+        "@id": "https://openminds.ebrains.eu/vocab/memberOf",
+        "reverse": true
+      },
+      "propertyName": "vocab:memberOf",
+      "ensureOrder": true,
+      "structure": [
+        {
+          "path": "@type"
+        },
+        {
+          "path": "https://openminds.ebrains.eu/vocab/endDate",
+          "propertyName": "vocab:endDate"
+        },
+        {
+          "path": "https://openminds.ebrains.eu/vocab/memberOf",
+          "propertyName": "vocab:memberOf",
+          "structure": [
+            {
+              "path": "@id"
+            },
+            {
+              "path": "@type"
+            }
+          ]
+        },
+        {
+          "path": "https://openminds.ebrains.eu/vocab/startDate",
+          "propertyName": "vocab:startDate"
         }
       ]
     },

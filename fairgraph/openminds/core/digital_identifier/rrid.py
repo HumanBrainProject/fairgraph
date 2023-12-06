@@ -4,7 +4,6 @@ A persistent identifier for a research resource provided by the Resource Identif
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 

@@ -1,47 +1,19 @@
 """
 Structured information on the ethics assessment of a dataset.
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - not required
-         - An ethics assessment is 'not required' when no ethics approval was needed to conduct the study.
-       * - EU compliant
-         - Data are ethically approved in compliance with EU law. No additional ethics assessment was made by the data sharing initiative.
-       * - EU compliant, non sensitive
-         - 'EU compliant, non sensitive' data should be able to provide an ethics approval as part of the metadata. An EBRAINS ethics compliance check is not required.
-       * - EU compliant +
-         - Data are ethically approved in compliance with EU law and an additional assessment was made by the data sharing initiative.
-       * - EU compliant, sensitive
-         - 'EU compliant, sensitive' data should be able to provide an ethics approval as part of the metadata and conduct an EBRAINS ethics compliance check.
-
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
+
+
+from openminds.base import IRI
 
 
 class EthicsAssessment(KGObject):
     """
     Structured information on the ethics assessment of a dataset.
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - not required
-         - An ethics assessment is 'not required' when no ethics approval was needed to conduct the study.
-       * - EU compliant
-         - Data are ethically approved in compliance with EU law. No additional ethics assessment was made by the data sharing initiative.
-       * - EU compliant, non sensitive
-         - 'EU compliant, non sensitive' data should be able to provide an ethics approval as part of the metadata. An EBRAINS ethics compliance check is not required.
-       * - EU compliant +
-         - Data are ethically approved in compliance with EU law and an additional assessment was made by the data sharing initiative.
-       * - EU compliant, sensitive
-         - 'EU compliant, sensitive' data should be able to provide an ethics approval as part of the metadata and conduct an EBRAINS ethics compliance check.
-
     """
 
     default_space = "controlled"

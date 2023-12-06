@@ -4,7 +4,6 @@ Structured information about the properties or parameters of an entity or proces
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
@@ -41,9 +40,17 @@ class Configuration(KGObject):
                 "openminds.computation.WorkflowExecution",
             ],
             "^vocab:configuration",
-            reverse="configuration",
+            reverse="configurations",
             multiple=True,
             doc="reverse of 'configuration'",
+        ),
+        Field(
+            "specifies",
+            "openminds.stimulation.EphysStimulus",
+            "^vocab:specification",
+            reverse="specifications",
+            multiple=True,
+            doc="reverse of 'specification'",
         ),
     ]
     existence_query_fields = ("configuration",)
@@ -54,6 +61,7 @@ class Configuration(KGObject):
         configuration=None,
         format=None,
         is_configuration_of=None,
+        specifies=None,
         id=None,
         data=None,
         space=None,
@@ -68,4 +76,5 @@ class Configuration(KGObject):
             configuration=configuration,
             format=format,
             is_configuration_of=is_configuration_of,
+            specifies=specifies,
         )

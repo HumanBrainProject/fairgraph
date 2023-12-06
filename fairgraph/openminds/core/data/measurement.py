@@ -4,9 +4,11 @@ Structured information about a measurement performed during a scientific experim
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import EmbeddedMetadata, IRI
 from fairgraph.fields import Field
+
+
+from datetime import datetime
 
 
 class Measurement(EmbeddedMetadata):

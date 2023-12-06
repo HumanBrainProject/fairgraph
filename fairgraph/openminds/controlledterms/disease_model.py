@@ -1,59 +1,19 @@
 """
-
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - autism spectrum disorder model
-         - An animal or cell displaying all or some of the pathological processes that are observed in the actual human or animal autism sprectrum disorder.
-       * - Alzheimer's disease model
-         - An animal or cell displaying all or some of the pathological processes that are observed in the actual human or animal Alzheimer's disease.
-       * - Huntington's disease model
-         - An animal or cell displaying all or some of the pathological processes that are observed in the actual human or animal Huntington's disease.
-       * - fragile X syndrome model
-         - An animal or cell displaying all or some of the pathological processes that are observed in the actual human or animal fragile X syndrome.
-       * - Williams-Beuren syndrome model
-         - An animal or cell displaying all or some of the pathological processes that are observed in the actual human or animal Williams-Beuren syndrome.
-       * - stroke model
-         - An animal or cell displaying all or some of the pathological processes that are observed during stroke in humans or animals.
-       * - Parkinson's disease model
-         - An animal or cell displaying all or some of the pathological processes that are observed in the actual human or animal Parkinson's disease.
-       * - epilepsy model
-         - An animal or cell displaying all or some of the pathological processes that are observed for epilepsy in humans or animals.
-
+<description not available>
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
 
+from openminds.base import IRI
+
+
 class DiseaseModel(KGObject):
     """
-
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - autism spectrum disorder model
-         - An animal or cell displaying all or some of the pathological processes that are observed in the actual human or animal autism sprectrum disorder.
-       * - Alzheimer's disease model
-         - An animal or cell displaying all or some of the pathological processes that are observed in the actual human or animal Alzheimer's disease.
-       * - Huntington's disease model
-         - An animal or cell displaying all or some of the pathological processes that are observed in the actual human or animal Huntington's disease.
-       * - fragile X syndrome model
-         - An animal or cell displaying all or some of the pathological processes that are observed in the actual human or animal fragile X syndrome.
-       * - Williams-Beuren syndrome model
-         - An animal or cell displaying all or some of the pathological processes that are observed in the actual human or animal Williams-Beuren syndrome.
-       * - stroke model
-         - An animal or cell displaying all or some of the pathological processes that are observed during stroke in humans or animals.
-       * - Parkinson's disease model
-         - An animal or cell displaying all or some of the pathological processes that are observed in the actual human or animal Parkinson's disease.
-       * - epilepsy model
-         - An animal or cell displaying all or some of the pathological processes that are observed for epilepsy in humans or animals.
-
+    <description not available>
     """
 
     default_space = "controlled"
@@ -115,7 +75,6 @@ class DiseaseModel(KGObject):
             [
                 "openminds.computation.ValidationTestVersion",
                 "openminds.computation.WorkflowRecipeVersion",
-                "openminds.core.DatasetVersion",
                 "openminds.core.MetaDataModelVersion",
                 "openminds.core.ModelVersion",
                 "openminds.core.SoftwareVersion",
@@ -150,7 +109,7 @@ class DiseaseModel(KGObject):
             doc="reverse of 'groupedBy'",
         ),
         Field(
-            "specimen_states",
+            "specimen_state",
             [
                 "openminds.core.SubjectGroupState",
                 "openminds.core.SubjectState",
@@ -173,6 +132,7 @@ class DiseaseModel(KGObject):
                 "openminds.computation.Simulation",
                 "openminds.computation.ValidationTest",
                 "openminds.computation.Visualization",
+                "openminds.core.DatasetVersion",
                 "openminds.core.Model",
                 "openminds.core.ProtocolExecution",
                 "openminds.ephys.CellPatching",
@@ -203,7 +163,7 @@ class DiseaseModel(KGObject):
         describes=None,
         is_modeled_by=None,
         is_used_to_group=None,
-        specimen_states=None,
+        specimen_state=None,
         studied_in=None,
         id=None,
         data=None,
@@ -225,6 +185,6 @@ class DiseaseModel(KGObject):
             describes=describes,
             is_modeled_by=is_modeled_by,
             is_used_to_group=is_used_to_group,
-            specimen_states=specimen_states,
+            specimen_state=specimen_state,
             studied_in=studied_in,
         )

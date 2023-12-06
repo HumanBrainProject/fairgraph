@@ -1,47 +1,19 @@
 """
-
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - GRIN lens-based cranial window
-         - A cranial window reinforced by an implanted GRIN lens.
-       * - crystalline-based cranial window
-         - A cranial window reinforced by an implantation of a crystalline material.
-       * - prism-based cranial window
-         - A cranial window reinforced by an implanted prism.
-       * - glass coverslip cranial window
-         - A cranial window reinforced by an implantation of a glass coverslip.
-       * - polymer-based cranial window
-         - A cranial window reinforced by an implantation of a polymer material.
-
+<description not available>
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
 
+from openminds.base import IRI
+
+
 class CranialWindowReinforcementType(KGObject):
     """
-
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - GRIN lens-based cranial window
-         - A cranial window reinforced by an implanted GRIN lens.
-       * - crystalline-based cranial window
-         - A cranial window reinforced by an implantation of a crystalline material.
-       * - prism-based cranial window
-         - A cranial window reinforced by an implanted prism.
-       * - glass coverslip cranial window
-         - A cranial window reinforced by an implantation of a glass coverslip.
-       * - polymer-based cranial window
-         - A cranial window reinforced by an implantation of a polymer material.
-
+    <description not available>
     """
 
     default_space = "controlled"

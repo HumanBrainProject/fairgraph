@@ -1,16 +1,21 @@
 """
-
+<description not available>
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
 
+from datetime import date
+from openminds.base import IRI
+
+
 class CommonCoordinateSpaceVersion(KGObject):
-    """ """
+    """
+    <description not available>
+    """
 
     default_space = "atlas"
     type_ = ["https://openminds.ebrains.eu/sands/CommonCoordinateSpaceVersion"]
@@ -142,6 +147,7 @@ class CommonCoordinateSpaceVersion(KGObject):
                 "openminds.controlledterms.AtlasType",
                 "openminds.controlledterms.AuditoryStimulusType",
                 "openminds.controlledterms.BiologicalOrder",
+                "openminds.controlledterms.BiologicalProcess",
                 "openminds.controlledterms.BiologicalSex",
                 "openminds.controlledterms.BreedingType",
                 "openminds.controlledterms.CellCultureType",
@@ -171,6 +177,7 @@ class CommonCoordinateSpaceVersion(KGObject):
                 "openminds.controlledterms.Laterality",
                 "openminds.controlledterms.LearningResourceType",
                 "openminds.controlledterms.MeasuredQuantity",
+                "openminds.controlledterms.MeasuredSignalType",
                 "openminds.controlledterms.MetaDataModelType",
                 "openminds.controlledterms.ModelAbstractionLevel",
                 "openminds.controlledterms.ModelScope",
@@ -310,7 +317,7 @@ class CommonCoordinateSpaceVersion(KGObject):
         ),
         Field(
             "is_coordinate_space_of",
-            "openminds.sands.BrainAtlasVersion",
+            ["openminds.sands.BrainAtlasVersion", "openminds.sands.CustomAnnotation"],
             "^vocab:coordinateSpace",
             reverse="coordinate_spaces",
             multiple=True,
@@ -324,7 +331,7 @@ class CommonCoordinateSpaceVersion(KGObject):
                 "openminds.core.ProtocolExecution",
             ],
             ["^vocab:input", "^vocab:inputData"],
-            reverse=["inputs", "input_data"],
+            reverse=["input_data", "inputs"],
             multiple=True,
             doc="reverse of input, inputData",
         ),
@@ -370,13 +377,13 @@ class CommonCoordinateSpaceVersion(KGObject):
         ),
     ]
     existence_query_fields = (
-        "alias",
         "accessibility",
         "anatomical_axes_orientation",
         "axes_origins",
         "full_documentation",
         "native_unit",
         "release_date",
+        "alias",
         "version_identifier",
         "version_innovation",
     )

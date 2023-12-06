@@ -4,7 +4,6 @@ Structured information about computing hardware.
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
@@ -47,7 +46,7 @@ class HardwareSystem(KGObject):
             "used_by",
             "openminds.computation.Environment",
             "^vocab:hardware",
-            reverse="hardwares",
+            reverse="hardware",
             multiple=True,
             doc="reverse of 'hardware'",
         ),

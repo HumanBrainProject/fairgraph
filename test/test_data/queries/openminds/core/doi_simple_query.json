@@ -44,42 +44,10 @@
     },
     {
       "path": {
-        "@id": "https://openminds.ebrains.eu/vocab/citedPublication",
-        "reverse": true
-      },
-      "propertyName": "vocab:citedPublication",
-      "ensureOrder": true,
-      "structure": [
-        {
-          "path": "@id"
-        },
-        {
-          "path": "@type"
-        }
-      ]
-    },
-    {
-      "path": {
         "@id": "https://openminds.ebrains.eu/vocab/describedIn",
         "reverse": true
       },
       "propertyName": "vocab:describedIn",
-      "ensureOrder": true,
-      "structure": [
-        {
-          "path": "@id"
-        },
-        {
-          "path": "@type"
-        }
-      ]
-    },
-    {
-      "path": {
-        "@id": "https://openminds.ebrains.eu/vocab/fullDocumentation",
-        "reverse": true
-      },
-      "propertyName": "vocab:fullDocumentation",
       "ensureOrder": true,
       "structure": [
         {

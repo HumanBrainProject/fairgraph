@@ -1,16 +1,17 @@
 """
-
+<description not available>
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
 
 class SingleColor(KGObject):
-    """ """
+    """
+    <description not available>
+    """
 
     default_space = "atlas"
     type_ = ["https://openminds.ebrains.eu/sands/SingleColor"]

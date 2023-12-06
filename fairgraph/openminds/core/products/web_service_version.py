@@ -1,19 +1,22 @@
 """
-
+<description not available>
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
 from fairgraph.errors import ResolutionFailure
 from .web_service import WebService
+from datetime import date
+from openminds.base import IRI
 
 
 class WebServiceVersion(KGObject):
-    """ """
+    """
+    <description not available>
+    """
 
     default_space = "webservice"
     type_ = ["https://openminds.ebrains.eu/core/WebServiceVersion"]
@@ -128,6 +131,7 @@ class WebServiceVersion(KGObject):
                 "openminds.controlledterms.AtlasType",
                 "openminds.controlledterms.AuditoryStimulusType",
                 "openminds.controlledterms.BiologicalOrder",
+                "openminds.controlledterms.BiologicalProcess",
                 "openminds.controlledterms.BiologicalSex",
                 "openminds.controlledterms.BreedingType",
                 "openminds.controlledterms.CellCultureType",
@@ -157,6 +161,7 @@ class WebServiceVersion(KGObject):
                 "openminds.controlledterms.Laterality",
                 "openminds.controlledterms.LearningResourceType",
                 "openminds.controlledterms.MeasuredQuantity",
+                "openminds.controlledterms.MeasuredSignalType",
                 "openminds.controlledterms.MetaDataModelType",
                 "openminds.controlledterms.ModelAbstractionLevel",
                 "openminds.controlledterms.ModelScope",
@@ -319,10 +324,10 @@ class WebServiceVersion(KGObject):
         ),
     ]
     existence_query_fields = (
-        "alias",
         "accessibility",
         "full_documentation",
         "release_date",
+        "alias",
         "version_identifier",
         "version_innovation",
     )

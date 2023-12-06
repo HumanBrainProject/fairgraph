@@ -1,16 +1,17 @@
 """
-
+<description not available>
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
 
 class CustomAnatomicalEntity(KGObject):
-    """ """
+    """
+    <description not available>
+    """
 
     default_space = "spatial"
     type_ = ["https://openminds.ebrains.eu/sands/CustomAnatomicalEntity"]
@@ -59,9 +60,17 @@ class CustomAnatomicalEntity(KGObject):
                 "openminds.ephys.PipetteUsage",
             ],
             ["^vocab:anatomicalLocation", "^vocab:anatomicalLocationOfElectrodes"],
-            reverse=["anatomical_locations", "anatomical_location_of_electrodes"],
+            reverse=["anatomical_locations", "anatomical_locations_of_electrodes"],
             multiple=True,
             doc="reverse of anatomicalLocation, anatomicalLocationOfElectrodes",
+        ),
+        Field(
+            "is_target_of",
+            "openminds.sands.AnatomicalTargetPosition",
+            "^vocab:anatomicalTarget",
+            reverse="anatomical_targets",
+            multiple=True,
+            doc="reverse of 'anatomicalTarget'",
         ),
         Field(
             "is_used_to_group",
@@ -108,6 +117,7 @@ class CustomAnatomicalEntity(KGObject):
         related_uberon_term=None,
         relation_assessments=None,
         is_location_of=None,
+        is_target_of=None,
         is_used_to_group=None,
         studied_in=None,
         id=None,
@@ -125,6 +135,7 @@ class CustomAnatomicalEntity(KGObject):
             related_uberon_term=related_uberon_term,
             relation_assessments=relation_assessments,
             is_location_of=is_location_of,
+            is_target_of=is_target_of,
             is_used_to_group=is_used_to_group,
             studied_in=studied_in,
         )

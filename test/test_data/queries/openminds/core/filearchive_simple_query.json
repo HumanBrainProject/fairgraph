@@ -39,10 +39,6 @@
       "path": "@type"
     },
     {
-      "path": "https://openminds.ebrains.eu/vocab/IRI",
-      "propertyName": "vocab:IRI"
-    },
-    {
       "path": "https://openminds.ebrains.eu/vocab/format",
       "propertyName": "vocab:format",
       "structure": [
@@ -53,6 +49,10 @@
           "path": "@type"
         }
       ]
+    },
+    {
+      "path": "https://openminds.ebrains.eu/vocab/IRI",
+      "propertyName": "vocab:IRI"
     },
     {
       "path": "https://openminds.ebrains.eu/vocab/sourceData",

@@ -1,16 +1,17 @@
 """
-
+<description not available>
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
 
 class SubjectGroup(KGObject):
-    """ """
+    """
+    <description not available>
+    """
 
     default_space = "dataset"
     type_ = ["https://openminds.ebrains.eu/core/SubjectGroup"]
@@ -30,7 +31,7 @@ class SubjectGroup(KGObject):
             doc="Mention of what deserves additional attention or notice.",
         ),
         Field(
-            "biological_sex",
+            "biological_sexes",
             "openminds.controlledterms.BiologicalSex",
             "vocab:biologicalSex",
             multiple=True,
@@ -98,7 +99,7 @@ class SubjectGroup(KGObject):
         self,
         lookup_label=None,
         additional_remarks=None,
-        biological_sex=None,
+        biological_sexes=None,
         internal_identifier=None,
         number_of_subjects=None,
         species=None,
@@ -119,7 +120,7 @@ class SubjectGroup(KGObject):
             data=data,
             lookup_label=lookup_label,
             additional_remarks=additional_remarks,
-            biological_sex=biological_sex,
+            biological_sexes=biological_sexes,
             internal_identifier=internal_identifier,
             number_of_subjects=number_of_subjects,
             species=species,

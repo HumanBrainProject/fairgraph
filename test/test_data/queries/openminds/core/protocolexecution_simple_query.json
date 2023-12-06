@@ -194,6 +194,580 @@
           "path": "@type"
         }
       ]
+    },
+    {
+      "path": {
+        "@id": "https://openminds.ebrains.eu/vocab/criteria",
+        "typeFilter": {
+          "@id": "https://openminds.ebrains.eu/sands/AtlasAnnotation"
+        },
+        "reverse": true
+      },
+      "propertyName": "vocab:criteria__AtlasAnnotation",
+      "ensureOrder": true,
+      "structure": [
+        {
+          "path": "@type"
+        },
+        {
+          "path": "https://openminds.ebrains.eu/vocab/anchorPoint",
+          "propertyName": "vocab:anchorPoint",
+          "ensureOrder": true,
+          "structure": [
+            {
+              "path": "@type"
+            },
+            {
+              "path": "https://openminds.ebrains.eu/vocab/typeOfUncertainty",
+              "propertyName": "vocab:typeOfUncertainty",
+              "structure": [
+                {
+                  "path": "@id"
+                },
+                {
+                  "path": "@type"
+                }
+              ]
+            },
+            {
+              "path": "https://openminds.ebrains.eu/vocab/uncertainty",
+              "propertyName": "vocab:uncertainty",
+              "ensureOrder": true
+            },
+            {
+              "path": "https://openminds.ebrains.eu/vocab/unit",
+              "propertyName": "vocab:unit",
+              "structure": [
+                {
+                  "path": "@id"
+                },
+                {
+                  "path": "@type"
+                }
+              ]
+            },
+            {
+              "path": "https://openminds.ebrains.eu/vocab/value",
+              "propertyName": "vocab:value"
+            }
+          ]
+        },
+        {
+          "path": "https://openminds.ebrains.eu/vocab/criteria",
+          "propertyName": "vocab:criteria",
+          "structure": [
+            {
+              "path": "@id"
+            },
+            {
+              "path": "@type"
+            }
+          ]
+        },
+        {
+          "path": "https://openminds.ebrains.eu/vocab/criteriaQualityType",
+          "propertyName": "vocab:criteriaQualityType",
+          "structure": [
+            {
+              "path": "@id"
+            },
+            {
+              "path": "@type"
+            }
+          ]
+        },
+        {
+          "path": "https://openminds.ebrains.eu/vocab/criteriaType",
+          "propertyName": "vocab:criteriaType",
+          "structure": [
+            {
+              "path": "@id"
+            },
+            {
+              "path": "@type"
+            }
+          ]
+        },
+        {
+          "path": "https://openminds.ebrains.eu/vocab/inspiredBy",
+          "propertyName": "vocab:inspiredBy",
+          "ensureOrder": true,
+          "structure": [
+            {
+              "path": "@id"
+            },
+            {
+              "path": "@type"
+            }
+          ]
+        },
+        {
+          "path": "https://openminds.ebrains.eu/vocab/internalIdentifier",
+          "propertyName": "vocab:internalIdentifier"
+        },
+        {
+          "path": "https://openminds.ebrains.eu/vocab/laterality",
+          "propertyName": "vocab:laterality",
+          "ensureOrder": true,
+          "structure": [
+            {
+              "path": "@id"
+            },
+            {
+              "path": "@type"
+            }
+          ]
+        },
+        {
+          "path": "https://openminds.ebrains.eu/vocab/preferredVisualization",
+          "propertyName": "vocab:preferredVisualization",
+          "structure": [
+            {
+              "path": "@type"
+            },
+            {
+              "path": "https://openminds.ebrains.eu/vocab/additionalRemarks",
+              "propertyName": "vocab:additionalRemarks"
+            },
+            {
+              "path": "https://openminds.ebrains.eu/vocab/anchorPoint",
+              "propertyName": "vocab:anchorPoint",
+              "ensureOrder": true,
+              "structure": [
+                {
+                  "path": "@type"
+                },
+                {
+                  "path": "https://openminds.ebrains.eu/vocab/typeOfUncertainty",
+                  "propertyName": "vocab:typeOfUncertainty",
+                  "structure": [
+                    {
+                      "path": "@id"
+                    },
+                    {
+                      "path": "@type"
+                    }
+                  ]
+                },
+                {
+                  "path": "https://openminds.ebrains.eu/vocab/uncertainty",
+                  "propertyName": "vocab:uncertainty",
+                  "ensureOrder": true
+                },
+                {
+                  "path": "https://openminds.ebrains.eu/vocab/unit",
+                  "propertyName": "vocab:unit",
+                  "structure": [
+                    {
+                      "path": "@id"
+                    },
+                    {
+                      "path": "@type"
+                    }
+                  ]
+                },
+                {
+                  "path": "https://openminds.ebrains.eu/vocab/value",
+                  "propertyName": "vocab:value"
+                }
+              ]
+            },
+            {
+              "path": "https://openminds.ebrains.eu/vocab/cameraPosition",
+              "propertyName": "vocab:cameraPosition",
+              "structure": [
+                {
+                  "path": "@type"
+                },
+                {
+                  "path": "https://openminds.ebrains.eu/vocab/coordinateSpace",
+                  "propertyName": "vocab:coordinateSpace",
+                  "structure": [
+                    {
+                      "path": "@id"
+                    },
+                    {
+                      "path": "@type"
+                    }
+                  ]
+                },
+                {
+                  "path": "https://openminds.ebrains.eu/vocab/coordinates",
+                  "propertyName": "vocab:coordinates",
+                  "ensureOrder": true,
+                  "structure": [
+                    {
+                      "path": "@type"
+                    },
+                    {
+                      "path": "https://openminds.ebrains.eu/vocab/typeOfUncertainty",
+                      "propertyName": "vocab:typeOfUncertainty",
+                      "structure": [
+                        {
+                          "path": "@id"
+                        },
+                        {
+                          "path": "@type"
+                        }
+                      ]
+                    },
+                    {
+                      "path": "https://openminds.ebrains.eu/vocab/uncertainty",
+                      "propertyName": "vocab:uncertainty",
+                      "ensureOrder": true
+                    },
+                    {
+                      "path": "https://openminds.ebrains.eu/vocab/unit",
+                      "propertyName": "vocab:unit",
+                      "structure": [
+                        {
+                          "path": "@id"
+                        },
+                        {
+                          "path": "@type"
+                        }
+                      ]
+                    },
+                    {
+                      "path": "https://openminds.ebrains.eu/vocab/value",
+                      "propertyName": "vocab:value"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "path": "https://openminds.ebrains.eu/vocab/preferredDisplayColor",
+              "propertyName": "vocab:preferredDisplayColor",
+              "structure": [
+                {
+                  "path": "@id"
+                },
+                {
+                  "path": "@type"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "https://openminds.ebrains.eu/vocab/specification",
+          "propertyName": "vocab:specification",
+          "structure": [
+            {
+              "path": "@id"
+            },
+            {
+              "path": "@type"
+            }
+          ]
+        },
+        {
+          "path": "https://openminds.ebrains.eu/vocab/type",
+          "propertyName": "vocab:type",
+          "structure": [
+            {
+              "path": "@id"
+            },
+            {
+              "path": "@type"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": {
+        "@id": "https://openminds.ebrains.eu/vocab/criteria",
+        "typeFilter": {
+          "@id": "https://openminds.ebrains.eu/sands/CustomAnnotation"
+        },
+        "reverse": true
+      },
+      "propertyName": "vocab:criteria__CustomAnnotation",
+      "ensureOrder": true,
+      "structure": [
+        {
+          "path": "@type"
+        },
+        {
+          "path": "https://openminds.ebrains.eu/vocab/anchorPoint",
+          "propertyName": "vocab:anchorPoint",
+          "ensureOrder": true,
+          "structure": [
+            {
+              "path": "@type"
+            },
+            {
+              "path": "https://openminds.ebrains.eu/vocab/typeOfUncertainty",
+              "propertyName": "vocab:typeOfUncertainty",
+              "structure": [
+                {
+                  "path": "@id"
+                },
+                {
+                  "path": "@type"
+                }
+              ]
+            },
+            {
+              "path": "https://openminds.ebrains.eu/vocab/uncertainty",
+              "propertyName": "vocab:uncertainty",
+              "ensureOrder": true
+            },
+            {
+              "path": "https://openminds.ebrains.eu/vocab/unit",
+              "propertyName": "vocab:unit",
+              "structure": [
+                {
+                  "path": "@id"
+                },
+                {
+                  "path": "@type"
+                }
+              ]
+            },
+            {
+              "path": "https://openminds.ebrains.eu/vocab/value",
+              "propertyName": "vocab:value"
+            }
+          ]
+        },
+        {
+          "path": "https://openminds.ebrains.eu/vocab/coordinateSpace",
+          "propertyName": "vocab:coordinateSpace",
+          "structure": [
+            {
+              "path": "@id"
+            },
+            {
+              "path": "@type"
+            }
+          ]
+        },
+        {
+          "path": "https://openminds.ebrains.eu/vocab/criteria",
+          "propertyName": "vocab:criteria",
+          "structure": [
+            {
+              "path": "@id"
+            },
+            {
+              "path": "@type"
+            }
+          ]
+        },
+        {
+          "path": "https://openminds.ebrains.eu/vocab/criteriaQualityType",
+          "propertyName": "vocab:criteriaQualityType",
+          "structure": [
+            {
+              "path": "@id"
+            },
+            {
+              "path": "@type"
+            }
+          ]
+        },
+        {
+          "path": "https://openminds.ebrains.eu/vocab/criteriaType",
+          "propertyName": "vocab:criteriaType",
+          "structure": [
+            {
+              "path": "@id"
+            },
+            {
+              "path": "@type"
+            }
+          ]
+        },
+        {
+          "path": "https://openminds.ebrains.eu/vocab/inspiredBy",
+          "propertyName": "vocab:inspiredBy",
+          "ensureOrder": true,
+          "structure": [
+            {
+              "path": "@id"
+            },
+            {
+              "path": "@type"
+            }
+          ]
+        },
+        {
+          "path": "https://openminds.ebrains.eu/vocab/internalIdentifier",
+          "propertyName": "vocab:internalIdentifier"
+        },
+        {
+          "path": "https://openminds.ebrains.eu/vocab/laterality",
+          "propertyName": "vocab:laterality",
+          "ensureOrder": true,
+          "structure": [
+            {
+              "path": "@id"
+            },
+            {
+              "path": "@type"
+            }
+          ]
+        },
+        {
+          "path": "https://openminds.ebrains.eu/vocab/preferredVisualization",
+          "propertyName": "vocab:preferredVisualization",
+          "structure": [
+            {
+              "path": "@type"
+            },
+            {
+              "path": "https://openminds.ebrains.eu/vocab/additionalRemarks",
+              "propertyName": "vocab:additionalRemarks"
+            },
+            {
+              "path": "https://openminds.ebrains.eu/vocab/anchorPoint",
+              "propertyName": "vocab:anchorPoint",
+              "ensureOrder": true,
+              "structure": [
+                {
+                  "path": "@type"
+                },
+                {
+                  "path": "https://openminds.ebrains.eu/vocab/typeOfUncertainty",
+                  "propertyName": "vocab:typeOfUncertainty",
+                  "structure": [
+                    {
+                      "path": "@id"
+                    },
+                    {
+                      "path": "@type"
+                    }
+                  ]
+                },
+                {
+                  "path": "https://openminds.ebrains.eu/vocab/uncertainty",
+                  "propertyName": "vocab:uncertainty",
+                  "ensureOrder": true
+                },
+                {
+                  "path": "https://openminds.ebrains.eu/vocab/unit",
+                  "propertyName": "vocab:unit",
+                  "structure": [
+                    {
+                      "path": "@id"
+                    },
+                    {
+                      "path": "@type"
+                    }
+                  ]
+                },
+                {
+                  "path": "https://openminds.ebrains.eu/vocab/value",
+                  "propertyName": "vocab:value"
+                }
+              ]
+            },
+            {
+              "path": "https://openminds.ebrains.eu/vocab/cameraPosition",
+              "propertyName": "vocab:cameraPosition",
+              "structure": [
+                {
+                  "path": "@type"
+                },
+                {
+                  "path": "https://openminds.ebrains.eu/vocab/coordinateSpace",
+                  "propertyName": "vocab:coordinateSpace",
+                  "structure": [
+                    {
+                      "path": "@id"
+                    },
+                    {
+                      "path": "@type"
+                    }
+                  ]
+                },
+                {
+                  "path": "https://openminds.ebrains.eu/vocab/coordinates",
+                  "propertyName": "vocab:coordinates",
+                  "ensureOrder": true,
+                  "structure": [
+                    {
+                      "path": "@type"
+                    },
+                    {
+                      "path": "https://openminds.ebrains.eu/vocab/typeOfUncertainty",
+                      "propertyName": "vocab:typeOfUncertainty",
+                      "structure": [
+                        {
+                          "path": "@id"
+                        },
+                        {
+                          "path": "@type"
+                        }
+                      ]
+                    },
+                    {
+                      "path": "https://openminds.ebrains.eu/vocab/uncertainty",
+                      "propertyName": "vocab:uncertainty",
+                      "ensureOrder": true
+                    },
+                    {
+                      "path": "https://openminds.ebrains.eu/vocab/unit",
+                      "propertyName": "vocab:unit",
+                      "structure": [
+                        {
+                          "path": "@id"
+                        },
+                        {
+                          "path": "@type"
+                        }
+                      ]
+                    },
+                    {
+                      "path": "https://openminds.ebrains.eu/vocab/value",
+                      "propertyName": "vocab:value"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "path": "https://openminds.ebrains.eu/vocab/preferredDisplayColor",
+              "propertyName": "vocab:preferredDisplayColor",
+              "structure": [
+                {
+                  "path": "@id"
+                },
+                {
+                  "path": "@type"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "https://openminds.ebrains.eu/vocab/specification",
+          "propertyName": "vocab:specification",
+          "structure": [
+            {
+              "path": "@id"
+            },
+            {
+              "path": "@type"
+            }
+          ]
+        },
+        {
+          "path": "https://openminds.ebrains.eu/vocab/type",
+          "propertyName": "vocab:type",
+          "structure": [
+            {
+              "path": "@id"
+            },
+            {
+              "path": "@type"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

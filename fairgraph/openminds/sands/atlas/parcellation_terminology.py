@@ -1,16 +1,17 @@
 """
-
+<description not available>
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import EmbeddedMetadata, IRI
 from fairgraph.fields import Field
 
 
 class ParcellationTerminology(EmbeddedMetadata):
-    """ """
+    """
+    <description not available>
+    """
 
     type_ = ["https://openminds.ebrains.eu/sands/ParcellationTerminology"]
     context = {
@@ -29,7 +30,7 @@ class ParcellationTerminology(EmbeddedMetadata):
             doc="no description available",
         ),
         Field(
-            "entities",
+            "has_entities",
             "openminds.sands.ParcellationEntity",
             "vocab:hasEntity",
             multiple=True,
@@ -46,8 +47,18 @@ class ParcellationTerminology(EmbeddedMetadata):
     ]
 
     def __init__(
-        self, data_locations=None, entities=None, ontology_identifiers=None, id=None, data=None, space=None, scope=None
+        self,
+        data_locations=None,
+        has_entities=None,
+        ontology_identifiers=None,
+        id=None,
+        data=None,
+        space=None,
+        scope=None,
     ):
         return super().__init__(
-            data=data, data_locations=data_locations, entities=entities, ontology_identifiers=ontology_identifiers
+            data=data,
+            data_locations=data_locations,
+            has_entities=has_entities,
+            ontology_identifiers=ontology_identifiers,
         )

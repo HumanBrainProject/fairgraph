@@ -4,7 +4,6 @@ Structured information about a protocol used in an experiment studying human or 
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
@@ -35,6 +34,7 @@ class BehavioralProtocol(KGObject):
             "described_in",
             ["openminds.core.DOI", "openminds.core.File", "openminds.core.WebResource"],
             "vocab:describedIn",
+            multiple=True,
             doc="no description available",
         ),
         Field(
@@ -89,7 +89,7 @@ class BehavioralProtocol(KGObject):
             doc="reverse of 'behavioralProtocol'",
         ),
     ]
-    existence_query_fields = ("name", "description")
+    existence_query_fields = ("description", "name")
 
     def __init__(
         self,

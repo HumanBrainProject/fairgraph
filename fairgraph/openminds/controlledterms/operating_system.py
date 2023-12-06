@@ -1,63 +1,19 @@
 """
 Structured information on the operating system.
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - `platform independent <https://www.wikidata.org/wiki/Q174666>`_
-         - https://www.wikidata.org/wiki/Q174666
-       * - `Android <https://www.wikidata.org/wiki/Q94>`_
-         - https://www.wikidata.org/wiki/Q94
-       * - `Windows Phone <https://www.wikidata.org/wiki/Q4885200>`_
-         - https://www.wikidata.org/wiki/Q4885200
-       * - `Unix <https://www.wikidata.org/wiki/Q11368>`_
-         - https://www.wikidata.org/wiki/Q11368
-       * - `iOS <https://www.wikidata.org/wiki/Q48493>`_
-         - https://www.wikidata.org/wiki/Q48493
-       * - `Linux <https://www.wikidata.org/wiki/Q388>`_
-         - https://www.wikidata.org/wiki/Q388
-       * - `Solaris <https://www.wikidata.org/wiki/Q14646>`_
-         - https://www.wikidata.org/wiki/Q14646
-       * - `Windows <https://www.wikidata.org/wiki/Q1406>`_
-         - https://www.wikidata.org/wiki/Q1406
-       * - `MacOS <https://www.wikidata.org/wiki/Q43627>`_
-         - https://www.wikidata.org/wiki/Q43627
-
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
+
+
+from openminds.base import IRI
 
 
 class OperatingSystem(KGObject):
     """
     Structured information on the operating system.
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - `platform independent <https://www.wikidata.org/wiki/Q174666>`_
-         - https://www.wikidata.org/wiki/Q174666
-       * - `Android <https://www.wikidata.org/wiki/Q94>`_
-         - https://www.wikidata.org/wiki/Q94
-       * - `Windows Phone <https://www.wikidata.org/wiki/Q4885200>`_
-         - https://www.wikidata.org/wiki/Q4885200
-       * - `Unix <https://www.wikidata.org/wiki/Q11368>`_
-         - https://www.wikidata.org/wiki/Q11368
-       * - `iOS <https://www.wikidata.org/wiki/Q48493>`_
-         - https://www.wikidata.org/wiki/Q48493
-       * - `Linux <https://www.wikidata.org/wiki/Q388>`_
-         - https://www.wikidata.org/wiki/Q388
-       * - `Solaris <https://www.wikidata.org/wiki/Q14646>`_
-         - https://www.wikidata.org/wiki/Q14646
-       * - `Windows <https://www.wikidata.org/wiki/Q1406>`_
-         - https://www.wikidata.org/wiki/Q1406
-       * - `MacOS <https://www.wikidata.org/wiki/Q43627>`_
-         - https://www.wikidata.org/wiki/Q43627
-
     """
 
     default_space = "controlled"
@@ -122,7 +78,6 @@ class OperatingSystem(KGObject):
                 "openminds.core.DatasetVersion",
                 "openminds.core.MetaDataModelVersion",
                 "openminds.core.ModelVersion",
-                "openminds.core.SoftwareVersion",
                 "openminds.core.WebServiceVersion",
                 "openminds.publications.Book",
                 "openminds.publications.Chapter",
@@ -137,6 +92,14 @@ class OperatingSystem(KGObject):
             multiple=True,
             doc="reverse of 'keyword'",
         ),
+        Field(
+            "used_by",
+            "openminds.core.SoftwareVersion",
+            "^vocab:operatingSystem",
+            reverse="operating_systems",
+            multiple=True,
+            doc="reverse of 'operatingSystem'",
+        ),
     ]
     existence_query_fields = ("name",)
 
@@ -150,6 +113,7 @@ class OperatingSystem(KGObject):
         preferred_ontology_identifier=None,
         synonyms=None,
         describes=None,
+        used_by=None,
         id=None,
         data=None,
         space=None,
@@ -168,4 +132,5 @@ class OperatingSystem(KGObject):
             preferred_ontology_identifier=preferred_ontology_identifier,
             synonyms=synonyms,
             describes=describes,
+            used_by=used_by,
         )

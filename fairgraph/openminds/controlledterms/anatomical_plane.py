@@ -1,51 +1,19 @@
 """
-
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - longitudinal plane
-         - The 'longitudinal plane' is always perpendicular to the axial and frontal plane of an organism, extremity or organ, running parallel to the 'median plane' and dividing it into a left and right part.
-       * - axial plane
-         - An anatomical plane which divides the body into cranial and caudal (head and tail) parts.
-       * - frontal plane
-         - The 'frontal plane' is always perpendicular to the axial and longitudinal plane of an organism, extremity or organ, dividing it into an anterior, rostral or front part, and a posterior, caudal or back part.
-       * - sagittal plane
-         - An anatomical plane which divides the body into right and left parts.
-       * - coronal plane
-         - An anatomical plane which divides the body into divides the body into dorsal and ventral (back and front, or posterior and anterior) parts.
-       * - axial plane
-         - The 'axial plane' is always perpendicular to the longitudinal and the frontal plane of an organism, extremity or organ, dividing it into a dorsal, superior, above or top part, and a ventral, inferior, below or bottom part.
-
+<description not available>
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
 
+from openminds.base import IRI
+
+
 class AnatomicalPlane(KGObject):
     """
-
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - longitudinal plane
-         - The 'longitudinal plane' is always perpendicular to the axial and frontal plane of an organism, extremity or organ, running parallel to the 'median plane' and dividing it into a left and right part.
-       * - axial plane
-         - An anatomical plane which divides the body into cranial and caudal (head and tail) parts.
-       * - frontal plane
-         - The 'frontal plane' is always perpendicular to the axial and longitudinal plane of an organism, extremity or organ, dividing it into an anterior, rostral or front part, and a posterior, caudal or back part.
-       * - sagittal plane
-         - An anatomical plane which divides the body into right and left parts.
-       * - coronal plane
-         - An anatomical plane which divides the body into divides the body into dorsal and ventral (back and front, or posterior and anterior) parts.
-       * - axial plane
-         - The 'axial plane' is always perpendicular to the longitudinal and the frontal plane of an organism, extremity or organ, dividing it into a dorsal, superior, above or top part, and a ventral, inferior, below or bottom part.
-
+    <description not available>
     """
 
     default_space = "controlled"

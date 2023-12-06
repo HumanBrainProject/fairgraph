@@ -1,16 +1,17 @@
 """
-
+<description not available>
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
 
 class ParcellationEntity(KGObject):
-    """ """
+    """
+    <description not available>
+    """
 
     default_space = "atlas"
     type_ = ["https://openminds.ebrains.eu/sands/ParcellationEntity"]
@@ -46,13 +47,6 @@ class ParcellationEntity(KGObject):
             doc="Reference to a parent object or legal person.",
         ),
         Field(
-            "versions",
-            "openminds.sands.ParcellationEntityVersion",
-            "vocab:hasVersion",
-            multiple=True,
-            doc="Reference to variants of an original.",
-        ),
-        Field(
             "ontology_identifiers",
             str,
             "vocab:ontologyIdentifier",
@@ -64,6 +58,13 @@ class ParcellationEntity(KGObject):
             ["openminds.controlledterms.Organ", "openminds.controlledterms.UBERONParcellation"],
             "vocab:relatedUBERONTerm",
             doc="no description available",
+        ),
+        Field(
+            "versions",
+            "openminds.sands.ParcellationEntityVersion",
+            "vocab:hasVersion",
+            multiple=True,
+            doc="Reference to variants of an original.",
         ),
         Field(
             "has_children",
@@ -83,9 +84,17 @@ class ParcellationEntity(KGObject):
                 "openminds.ephys.PipetteUsage",
             ],
             ["^vocab:anatomicalLocation", "^vocab:anatomicalLocationOfElectrodes"],
-            reverse=["anatomical_locations", "anatomical_location_of_electrodes"],
+            reverse=["anatomical_locations", "anatomical_locations_of_electrodes"],
             multiple=True,
             doc="reverse of anatomicalLocation, anatomicalLocationOfElectrodes",
+        ),
+        Field(
+            "is_target_of",
+            "openminds.sands.AnatomicalTargetPosition",
+            "^vocab:anatomicalTarget",
+            reverse="anatomical_targets",
+            multiple=True,
+            doc="reverse of 'anatomicalTarget'",
         ),
         Field(
             "is_used_to_group",
@@ -133,11 +142,12 @@ class ParcellationEntity(KGObject):
         alternate_names=None,
         definition=None,
         has_parents=None,
-        versions=None,
         ontology_identifiers=None,
         related_uberon_term=None,
+        versions=None,
         has_children=None,
         is_location_of=None,
+        is_target_of=None,
         is_used_to_group=None,
         studied_in=None,
         id=None,
@@ -156,11 +166,12 @@ class ParcellationEntity(KGObject):
             alternate_names=alternate_names,
             definition=definition,
             has_parents=has_parents,
-            versions=versions,
             ontology_identifiers=ontology_identifiers,
             related_uberon_term=related_uberon_term,
+            versions=versions,
             has_children=has_children,
             is_location_of=is_location_of,
+            is_target_of=is_target_of,
             is_used_to_group=is_used_to_group,
             studied_in=studied_in,
         )

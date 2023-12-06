@@ -1,75 +1,19 @@
 """
-
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - EBRAINS Model Catalog
-         - The EBRAINS Model Catalog contains information about models developed and/or used within the EBRAINS research infrastructure.
-       * - EBRAINS Collaboratory Wiki
-         - The Collaboratory Wiki is the main interface to access all other Collaboratory service provided by the EBRAINS research infrastructure.
-       * - Neuroglancer
-         - 'Neuroglancer' is a WebGL-based viewer for volumetric data.
-       * - Zenodo
-         - Zenodo is a general-purpose open repository developed under the European OpenAIRE program and operated by CERN.
-       * - Multi-Image-OSd
-         - Web application for viewing of series of high-resolution 2D images.
-       * - siibra-explorer
-         - 'siibra-explorer' is an interactive viewer for multilevel brain atlases
-       * - Allen Institute Cell Types Data Portal
-         - Web application for visualizing and browsing the Allen Cell Types Database.
-       * - LocaliZoom
-         - Web application for viewing of series of high-resolution 2D images that have been anchored to reference atlases.
-       * - NeuroMorpho.Org
-         - A web-based inventory dedicated to densely archive and organize all publicly shared digital reconstructions of neuronal morphology.
-       * - ModelDB
-         - ModelDB is a curated database of published models in the broad domain of computational neuroscience.
-       * - EBRAINS Knowledge Graph Search UI
-         - The EBRAINS Knowledge Graph Search User Interface is a web application for searching the EBRAINS Knowledge Graph.
-       * - EBRAINS Collaboratory Lab
-         - The Collaboratory Lab is a web-based JupyterLab service provided by the EBRAINS research infrastructure.
-
+<description not available>
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
 
+from openminds.base import IRI
+
+
 class Service(KGObject):
     """
-
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - EBRAINS Model Catalog
-         - The EBRAINS Model Catalog contains information about models developed and/or used within the EBRAINS research infrastructure.
-       * - EBRAINS Collaboratory Wiki
-         - The Collaboratory Wiki is the main interface to access all other Collaboratory service provided by the EBRAINS research infrastructure.
-       * - Neuroglancer
-         - 'Neuroglancer' is a WebGL-based viewer for volumetric data.
-       * - Zenodo
-         - Zenodo is a general-purpose open repository developed under the European OpenAIRE program and operated by CERN.
-       * - Multi-Image-OSd
-         - Web application for viewing of series of high-resolution 2D images.
-       * - siibra-explorer
-         - 'siibra-explorer' is an interactive viewer for multilevel brain atlases
-       * - Allen Institute Cell Types Data Portal
-         - Web application for visualizing and browsing the Allen Cell Types Database.
-       * - LocaliZoom
-         - Web application for viewing of series of high-resolution 2D images that have been anchored to reference atlases.
-       * - NeuroMorpho.Org
-         - A web-based inventory dedicated to densely archive and organize all publicly shared digital reconstructions of neuronal morphology.
-       * - ModelDB
-         - ModelDB is a curated database of published models in the broad domain of computational neuroscience.
-       * - EBRAINS Knowledge Graph Search UI
-         - The EBRAINS Knowledge Graph Search User Interface is a web application for searching the EBRAINS Knowledge Graph.
-       * - EBRAINS Collaboratory Lab
-         - The Collaboratory Lab is a web-based JupyterLab service provided by the EBRAINS research infrastructure.
-
+    <description not available>
     """
 
     default_space = "controlled"
@@ -150,6 +94,14 @@ class Service(KGObject):
             doc="reverse of 'keyword'",
         ),
         Field(
+            "hosts",
+            "openminds.publications.LivePaperResourceItem",
+            "^vocab:hostedBy",
+            reverse="hosted_by",
+            multiple=True,
+            doc="reverse of 'hostedBy'",
+        ),
+        Field(
             "linked_from",
             "openminds.core.ServiceLink",
             "^vocab:service",
@@ -170,6 +122,7 @@ class Service(KGObject):
         preferred_ontology_identifier=None,
         synonyms=None,
         describes=None,
+        hosts=None,
         linked_from=None,
         id=None,
         data=None,
@@ -189,5 +142,6 @@ class Service(KGObject):
             preferred_ontology_identifier=preferred_ontology_identifier,
             synonyms=synonyms,
             describes=describes,
+            hosts=hosts,
             linked_from=linked_from,
         )

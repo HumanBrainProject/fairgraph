@@ -4,13 +4,14 @@ Structured information on data originating from human/animal studies or simulati
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
 from urllib.request import urlretrieve
 from pathlib import Path
 from ....utility import accepted_terms_of_use
+from datetime import date
+from openminds.base import IRI
 
 
 class DatasetVersion(KGObject):
@@ -86,7 +87,7 @@ class DatasetVersion(KGObject):
         ),
         Field(
             "digital_identifier",
-            "openminds.core.DOI",
+            ["openminds.core.DOI", "openminds.core.IdentifiersDotOrgID"],
             "vocab:digitalIdentifier",
             required=True,
             doc="Digital handle to identify objects or legal persons.",
@@ -170,6 +171,7 @@ class DatasetVersion(KGObject):
                 "openminds.controlledterms.AtlasType",
                 "openminds.controlledterms.AuditoryStimulusType",
                 "openminds.controlledterms.BiologicalOrder",
+                "openminds.controlledterms.BiologicalProcess",
                 "openminds.controlledterms.BiologicalSex",
                 "openminds.controlledterms.BreedingType",
                 "openminds.controlledterms.CellCultureType",
@@ -199,6 +201,7 @@ class DatasetVersion(KGObject):
                 "openminds.controlledterms.Laterality",
                 "openminds.controlledterms.LearningResourceType",
                 "openminds.controlledterms.MeasuredQuantity",
+                "openminds.controlledterms.MeasuredSignalType",
                 "openminds.controlledterms.MetaDataModelType",
                 "openminds.controlledterms.ModelAbstractionLevel",
                 "openminds.controlledterms.ModelScope",
@@ -333,6 +336,7 @@ class DatasetVersion(KGObject):
                 "openminds.controlledterms.SubcellularEntity",
                 "openminds.controlledterms.TactileStimulusType",
                 "openminds.controlledterms.TermSuggestion",
+                "openminds.controlledterms.TissueSampleType",
                 "openminds.controlledterms.UBERONParcellation",
                 "openminds.controlledterms.VisualStimulusType",
                 "openminds.sands.CustomAnatomicalEntity",
@@ -442,6 +446,14 @@ class DatasetVersion(KGObject):
             multiple=True,
             doc="reverse of 'about'",
         ),
+        Field(
+            "publication",
+            "openminds.publications.LivePaperVersion",
+            "^vocab:about",
+            reverse="about",
+            multiple=True,
+            doc="reverse of 'about'",
+        ),
     ]
     existence_query_fields = ("alias", "version_identifier")
 
@@ -487,6 +499,7 @@ class DatasetVersion(KGObject):
         is_part_of=None,
         is_version_of=None,
         learning_resources=None,
+        publication=None,
         id=None,
         data=None,
         space=None,
@@ -537,6 +550,7 @@ class DatasetVersion(KGObject):
             is_part_of=is_part_of,
             is_version_of=is_version_of,
             learning_resources=learning_resources,
+            publication=publication,
         )
 
     def download(self, local_path, client, accept_terms_of_use=False):

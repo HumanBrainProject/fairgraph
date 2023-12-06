@@ -1,51 +1,19 @@
 """
-
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - interactive tutorial
-         - A tutorial presented in an interactive format, for example a Jupyter notebook.
-       * - slide deck
-         - A set of slides for a visual presentation.
-       * - developer documentation
-         - Documentation for the developers of a resource.
-       * - video presentation
-         - A video recorded presentation.
-       * - video tutorial
-         - A tutorial presented as a video.
-       * - user documentation
-         - Documentation for the users of a resource.
-
+<description not available>
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
 
+from openminds.base import IRI
+
+
 class LearningResourceType(KGObject):
     """
-
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - interactive tutorial
-         - A tutorial presented in an interactive format, for example a Jupyter notebook.
-       * - slide deck
-         - A set of slides for a visual presentation.
-       * - developer documentation
-         - Documentation for the developers of a resource.
-       * - video presentation
-         - A video recorded presentation.
-       * - video tutorial
-         - A tutorial presented as a video.
-       * - user documentation
-         - Documentation for the users of a resource.
-
+    <description not available>
     """
 
     default_space = "controlled"
@@ -114,7 +82,6 @@ class LearningResourceType(KGObject):
                 "openminds.core.WebServiceVersion",
                 "openminds.publications.Book",
                 "openminds.publications.Chapter",
-                "openminds.publications.LearningResource",
                 "openminds.publications.LivePaperVersion",
                 "openminds.publications.ScholarlyArticle",
                 "openminds.sands.BrainAtlasVersion",
@@ -124,6 +91,14 @@ class LearningResourceType(KGObject):
             reverse="keywords",
             multiple=True,
             doc="reverse of 'keyword'",
+        ),
+        Field(
+            "is_type_of",
+            "openminds.publications.LearningResource",
+            "^vocab:type",
+            reverse="types",
+            multiple=True,
+            doc="reverse of 'type'",
         ),
     ]
     existence_query_fields = ("name",)
@@ -138,6 +113,7 @@ class LearningResourceType(KGObject):
         preferred_ontology_identifier=None,
         synonyms=None,
         describes=None,
+        is_type_of=None,
         id=None,
         data=None,
         space=None,
@@ -156,4 +132,5 @@ class LearningResourceType(KGObject):
             preferred_ontology_identifier=preferred_ontology_identifier,
             synonyms=synonyms,
             describes=describes,
+            is_type_of=is_type_of,
         )

@@ -1,16 +1,20 @@
 """
-
+<description not available>
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
 
+from datetime import datetime, time
+
+
 class ElectrodePlacement(KGObject):
-    """ """
+    """
+    <description not available>
+    """
 
     default_space = "in-depth"
     type_ = ["https://openminds.ebrains.eu/ephys/ElectrodePlacement"]
@@ -49,10 +53,10 @@ class ElectrodePlacement(KGObject):
             required=True,
             doc="Piece of equipment or mechanism (hardware) designed to serve a special purpose or perform a special function.",
         ),
-        Field("end_time", datetime, "vocab:endTime", doc="no description available"),
+        Field("end_time", [datetime, time], "vocab:endTime", doc="no description available"),
         Field(
             "inputs",
-            ["openminds.core.SubjectState", "openminds.core.TissueSampleState"],
+            ["openminds.core.TissueSampleState", "openminds.core.SubjectState"],
             "vocab:input",
             multiple=True,
             required=True,
@@ -67,7 +71,7 @@ class ElectrodePlacement(KGObject):
         ),
         Field(
             "outputs",
-            ["openminds.core.SubjectState", "openminds.core.TissueSampleState"],
+            ["openminds.core.TissueSampleState", "openminds.core.SubjectState"],
             "vocab:output",
             multiple=True,
             required=True,
@@ -94,7 +98,7 @@ class ElectrodePlacement(KGObject):
             required=True,
             doc="Plan that describes the process of a scientific or medical experiment, treatment, or procedure.",
         ),
-        Field("start_time", datetime, "vocab:startTime", doc="no description available"),
+        Field("start_time", [datetime, time], "vocab:startTime", doc="no description available"),
         Field(
             "study_targets",
             [
@@ -120,6 +124,7 @@ class ElectrodePlacement(KGObject):
                 "openminds.controlledterms.SubcellularEntity",
                 "openminds.controlledterms.TactileStimulusType",
                 "openminds.controlledterms.TermSuggestion",
+                "openminds.controlledterms.TissueSampleType",
                 "openminds.controlledterms.UBERONParcellation",
                 "openminds.controlledterms.VisualStimulusType",
                 "openminds.sands.CustomAnatomicalEntity",

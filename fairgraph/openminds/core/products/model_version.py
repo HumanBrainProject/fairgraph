@@ -4,12 +4,13 @@ Structured information on a computational model (version level).
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
 from fairgraph.errors import ResolutionFailure
 from .model import Model
+from datetime import date
+from openminds.base import IRI
 
 
 class ModelVersion(KGObject):
@@ -137,6 +138,7 @@ class ModelVersion(KGObject):
                 "openminds.controlledterms.AtlasType",
                 "openminds.controlledterms.AuditoryStimulusType",
                 "openminds.controlledterms.BiologicalOrder",
+                "openminds.controlledterms.BiologicalProcess",
                 "openminds.controlledterms.BiologicalSex",
                 "openminds.controlledterms.BreedingType",
                 "openminds.controlledterms.CellCultureType",
@@ -166,6 +168,7 @@ class ModelVersion(KGObject):
                 "openminds.controlledterms.Laterality",
                 "openminds.controlledterms.LearningResourceType",
                 "openminds.controlledterms.MeasuredQuantity",
+                "openminds.controlledterms.MeasuredSignalType",
                 "openminds.controlledterms.MetaDataModelType",
                 "openminds.controlledterms.ModelAbstractionLevel",
                 "openminds.controlledterms.ModelScope",
@@ -346,6 +349,14 @@ class ModelVersion(KGObject):
             multiple=True,
             doc="reverse of 'about'",
         ),
+        Field(
+            "publication",
+            "openminds.publications.LivePaperVersion",
+            "^vocab:about",
+            reverse="about",
+            multiple=True,
+            doc="reverse of 'about'",
+        ),
     ]
     existence_query_fields = ("name", "version_identifier")
 
@@ -385,6 +396,7 @@ class ModelVersion(KGObject):
         is_part_of=None,
         is_version_of=None,
         learning_resources=None,
+        publication=None,
         id=None,
         data=None,
         space=None,
@@ -429,6 +441,7 @@ class ModelVersion(KGObject):
             is_part_of=is_part_of,
             is_version_of=is_version_of,
             learning_resources=learning_resources,
+            publication=publication,
         )
 
     def is_version_of(self, client):

@@ -1,35 +1,19 @@
 """
-
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - deterministic annotation
-         - A 'deterministic annotation' provides an exact assignment of an entity or a list of entities to a defined annotation. The assingment itself can be based on a deterministic or maximum probability assumption.
-       * - probabalistic annotation
-         - A 'probabalistic annotation' provides the probability or probabilites to which an entity or a list of entities belong(s) to a defined annotation.
-
+<description not available>
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
 
+from openminds.base import IRI
+
+
 class AnnotationCriteriaType(KGObject):
     """
-
-    .. list-table:: **Possible values**
-       :widths: 20 80
-       :header-rows: 0
-
-       * - deterministic annotation
-         - A 'deterministic annotation' provides an exact assignment of an entity or a list of entities to a defined annotation. The assingment itself can be based on a deterministic or maximum probability assumption.
-       * - probabalistic annotation
-         - A 'probabalistic annotation' provides the probability or probabilites to which an entity or a list of entities belong(s) to a defined annotation.
-
+    <description not available>
     """
 
     default_space = "controlled"
@@ -109,6 +93,14 @@ class AnnotationCriteriaType(KGObject):
             multiple=True,
             doc="reverse of 'keyword'",
         ),
+        Field(
+            "used_by_annotation",
+            ["openminds.sands.AtlasAnnotation", "openminds.sands.CustomAnnotation"],
+            "^vocab:criteriaType",
+            reverse="criteria_types",
+            multiple=True,
+            doc="reverse of 'criteriaType'",
+        ),
     ]
     existence_query_fields = ("name",)
 
@@ -122,6 +114,7 @@ class AnnotationCriteriaType(KGObject):
         preferred_ontology_identifier=None,
         synonyms=None,
         describes=None,
+        used_by_annotation=None,
         id=None,
         data=None,
         space=None,
@@ -140,4 +133,5 @@ class AnnotationCriteriaType(KGObject):
             preferred_ontology_identifier=preferred_ontology_identifier,
             synonyms=synonyms,
             describes=describes,
+            used_by_annotation=used_by_annotation,
         )

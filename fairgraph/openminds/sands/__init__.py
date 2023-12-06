@@ -3,27 +3,27 @@ import inspect
 from fairgraph.kgobject import KGObject
 from fairgraph.embedded import EmbeddedMetadata
 
-from .mathematicalShapes.ellipse import Ellipse
-from .mathematicalShapes.rectangle import Rectangle
-from .mathematicalShapes.circle import Circle
-from .non_atlas.custom_coordinate_space import CustomCoordinateSpace
-from .non_atlas.custom_annotation import CustomAnnotation
-from .non_atlas.custom_anatomical_entity import CustomAnatomicalEntity
-from .miscellaneous.anatomical_target_position import AnatomicalTargetPosition
-from .miscellaneous.viewer_specification import ViewerSpecification
-from .miscellaneous.qualitative_relation_assessment import QualitativeRelationAssessment
-from .miscellaneous.quantitative_relation_assessment import QuantitativeRelationAssessment
-from .miscellaneous.coordinate_point import CoordinatePoint
-from .miscellaneous.single_color import SingleColor
-from .atlas.parcellation_entity import ParcellationEntity
-from .atlas.common_coordinate_space import CommonCoordinateSpace
-from .atlas.parcellation_terminology import ParcellationTerminology
-from .atlas.common_coordinate_space_version import CommonCoordinateSpaceVersion
-from .atlas.parcellation_terminology_version import ParcellationTerminologyVersion
-from .atlas.brain_atlas import BrainAtlas
-from .atlas.atlas_annotation import AtlasAnnotation
-from .atlas.brain_atlas_version import BrainAtlasVersion
-from .atlas.parcellation_entity_version import ParcellationEntityVersion
+from .mathematical_shapes import Ellipse, Rectangle, Circle
+from .non_atlas import CustomCoordinateSpace, CustomAnnotation, CustomAnatomicalEntity
+from .miscellaneous import (
+    AnatomicalTargetPosition,
+    ViewerSpecification,
+    QualitativeRelationAssessment,
+    CoordinatePoint,
+    QuantitativeRelationAssessment,
+    SingleColor,
+)
+from .atlas import (
+    ParcellationEntity,
+    CommonCoordinateSpace,
+    BrainAtlas,
+    ParcellationTerminologyVersion,
+    ParcellationTerminology,
+    CommonCoordinateSpaceVersion,
+    AtlasAnnotation,
+    ParcellationEntityVersion,
+    BrainAtlasVersion,
+)
 
 
 def list_kg_classes():

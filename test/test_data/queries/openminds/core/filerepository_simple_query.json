@@ -44,10 +44,6 @@
       "sort": true
     },
     {
-      "path": "https://openminds.ebrains.eu/vocab/IRI",
-      "propertyName": "vocab:IRI"
-    },
-    {
       "path": "https://openminds.ebrains.eu/vocab/contentTypePattern",
       "propertyName": "vocab:contentTypePattern",
       "ensureOrder": true,
@@ -100,6 +96,10 @@
           "path": "@type"
         }
       ]
+    },
+    {
+      "path": "https://openminds.ebrains.eu/vocab/IRI",
+      "propertyName": "vocab:IRI"
     },
     {
       "path": "https://openminds.ebrains.eu/vocab/storageSize",

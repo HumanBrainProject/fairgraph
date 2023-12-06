@@ -4,7 +4,6 @@ Structured information on the computer system or set of systems in which a compu
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
@@ -70,7 +69,7 @@ class Environment(KGObject):
             doc="reverse of 'environment'",
         ),
     ]
-    existence_query_fields = ("name", "hardware")
+    existence_query_fields = ("hardware", "name")
 
     def __init__(
         self,

@@ -4,9 +4,11 @@ Structured information about a relationship between two entities, such as a pers
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import EmbeddedMetadata, IRI
 from fairgraph.fields import Field
+
+
+from datetime import date
 
 
 class Affiliation(EmbeddedMetadata):

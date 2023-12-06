@@ -1,16 +1,17 @@
 """
-
+<description not available>
 """
 
 # this file was auto-generated
 
-from datetime import date, datetime
 from fairgraph import KGObject, IRI
 from fairgraph.fields import Field
 
 
 class SlicingDeviceUsage(KGObject):
-    """ """
+    """
+    <description not available>
+    """
 
     default_space = "in-depth"
     type_ = ["https://openminds.ebrains.eu/specimenPrep/SlicingDeviceUsage"]
@@ -52,7 +53,7 @@ class SlicingDeviceUsage(KGObject):
         ),
         Field(
             "slicing_angles",
-            ["openminds.core.NumericalProperty", "openminds.core.QuantitativeValue"],
+            ["openminds.core.QuantitativeValue", "openminds.core.NumericalProperty"],
             "vocab:slicingAngle",
             multiple=True,
             doc="no description available",
@@ -80,8 +81,24 @@ class SlicingDeviceUsage(KGObject):
             doc="no description available",
         ),
         Field(
+            "generation_device",
+            "openminds.stimulation.EphysStimulus",
+            "^vocab:generatedBy",
+            reverse="generated_by",
+            multiple=True,
+            doc="reverse of 'generatedBy'",
+        ),
+        Field(
             "placed_by",
             "openminds.ephys.ElectrodePlacement",
+            "^vocab:device",
+            reverse="devices",
+            multiple=True,
+            doc="reverse of 'device'",
+        ),
+        Field(
+            "used_for",
+            "openminds.specimenprep.TissueSampleSlicing",
             "^vocab:device",
             reverse="devices",
             multiple=True,
@@ -96,10 +113,18 @@ class SlicingDeviceUsage(KGObject):
             doc="reverse of 'device'",
         ),
         Field(
+            "used_to_measure",
+            "openminds.core.Measurement",
+            "^vocab:measuredWith",
+            reverse="measured_with",
+            multiple=True,
+            doc="reverse of 'measuredWith'",
+        ),
+        Field(
             "used_to_record",
             "openminds.ephys.Recording",
             "^vocab:recordedWith",
-            reverse="recorded_withs",
+            reverse="recorded_with",
             multiple=True,
             doc="reverse of 'recordedWith'",
         ),
@@ -118,8 +143,11 @@ class SlicingDeviceUsage(KGObject):
         slicing_speed=None,
         used_specimen=None,
         vibration_frequency=None,
+        generation_device=None,
         placed_by=None,
+        used_for=None,
         used_in=None,
+        used_to_measure=None,
         used_to_record=None,
         id=None,
         data=None,
@@ -141,7 +169,10 @@ class SlicingDeviceUsage(KGObject):
             slicing_speed=slicing_speed,
             used_specimen=used_specimen,
             vibration_frequency=vibration_frequency,
+            generation_device=generation_device,
             placed_by=placed_by,
+            used_for=used_for,
             used_in=used_in,
+            used_to_measure=used_to_measure,
             used_to_record=used_to_record,
         )

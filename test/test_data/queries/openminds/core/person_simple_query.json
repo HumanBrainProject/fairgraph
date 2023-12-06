@@ -169,6 +169,22 @@
     },
     {
       "path": {
+        "@id": "https://openminds.ebrains.eu/vocab/developer",
+        "reverse": true
+      },
+      "propertyName": "vocab:developer",
+      "ensureOrder": true,
+      "structure": [
+        {
+          "path": "@id"
+        },
+        {
+          "path": "@type"
+        }
+      ]
+    },
+    {
+      "path": {
         "@id": "https://openminds.ebrains.eu/vocab/funder",
         "reverse": true
       },
