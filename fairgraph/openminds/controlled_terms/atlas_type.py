@@ -17,7 +17,7 @@ class AtlasType(KGObject):
     """
 
     default_space = "controlled"
-    type_ = ["https://openminds.ebrains.eu/controlledTerms/AtlasType"]
+    type_ = "https://openminds.ebrains.eu/controlledTerms/AtlasType"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

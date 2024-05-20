@@ -17,7 +17,7 @@ class Species(KGObject):
     """
 
     default_space = "controlled"
-    type_ = ["https://openminds.ebrains.eu/controlledTerms/Species"]
+    type_ = "https://openminds.ebrains.eu/controlledTerms/Species"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

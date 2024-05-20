@@ -17,7 +17,7 @@ class ExperimentalApproach(KGObject):
     """
 
     default_space = "controlled"
-    type_ = ["https://openminds.ebrains.eu/controlledTerms/ExperimentalApproach"]
+    type_ = "https://openminds.ebrains.eu/controlledTerms/ExperimentalApproach"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

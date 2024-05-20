@@ -77,7 +77,7 @@ class Resolvable:  # all
 class ContainsMetadata(Resolvable, metaclass=Registry):  # KGObject and EmbeddedMetadata
     properties: List[Property]
     context: Dict[str, str]
-    type_: List[str]
+    type_: str
     scope: Optional[str]
     space: Union[str, None]
     default_space: Union[str, None]
@@ -166,7 +166,7 @@ class ContainsMetadata(Resolvable, metaclass=Registry):  # KGObject and Embedded
 
         """
         if self.properties:
-            data: JSONdict = {"@type": self.type_}
+            data: JSONdict = {"@type": [self.type_]}
             if hasattr(self, "id") and self.id:
                 data["@id"] = self.id
             for prop in self.properties:
@@ -339,9 +339,16 @@ class ContainsMetadata(Resolvable, metaclass=Registry):  # KGObject and Embedded
             elif key[0] != "@":
                 normalised_key = expand_uri(key, cls.context)
                 D[normalised_key] = value
-        for otype in expand_uri(as_list(cls.type_), cls.context):
-            if otype not in D["@type"]:
-                raise TypeError("type mismatch {} - {}".format(otype, D["@type"]))
+        if cls.type_ not in D["@type"]:
+            raise TypeError("type mismatch {} - {}".format(cls.type_, D["@type"]))
+
+        def _get_type_from_data(data_item):
+            type_ = data_item.get("@type", None)
+            if type_:
+                return type_[0]
+            else:
+                return None
+
         deserialized_data = {}
         for prop in cls.properties:
             expanded_path = expand_uri(prop.path, cls.context)
@@ -352,7 +359,7 @@ class ContainsMetadata(Resolvable, metaclass=Registry):  # KGObject and Embedded
                 try:
                     data_item = [
                         part for part in as_list(data_item)
-                        if part.get("@type", None) in [t.type_ for t in prop.types]
+                        if _get_type_from_data(part) in [t.type_ for t in prop.types]
                     ]
                 except AttributeError:
                     # problem when a forward and reverse path both given the same expanded path

@@ -17,7 +17,7 @@ class ProtocolExecution(KGObject):
     """
 
     default_space = "dataset"
-    type_ = ["https://openminds.ebrains.eu/core/ProtocolExecution"]
+    type_ = "https://openminds.ebrains.eu/core/ProtocolExecution"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

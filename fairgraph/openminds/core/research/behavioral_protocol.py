@@ -14,7 +14,7 @@ class BehavioralProtocol(KGObject):
     """
 
     default_space = "dataset"
-    type_ = ["https://openminds.ebrains.eu/core/BehavioralProtocol"]
+    type_ = "https://openminds.ebrains.eu/core/BehavioralProtocol"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

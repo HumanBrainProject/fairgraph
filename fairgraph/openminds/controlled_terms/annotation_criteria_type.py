@@ -17,7 +17,7 @@ class AnnotationCriteriaType(KGObject):
     """
 
     default_space = "controlled"
-    type_ = ["https://openminds.ebrains.eu/controlledTerms/AnnotationCriteriaType"]
+    type_ = "https://openminds.ebrains.eu/controlledTerms/AnnotationCriteriaType"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

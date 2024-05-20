@@ -14,7 +14,7 @@ class IdentifiersDotOrgID(KGObject):
     """
 
     default_space = "common"
-    type_ = ["https://openminds.ebrains.eu/core/IdentifiersDotOrgID"]
+    type_ = "https://openminds.ebrains.eu/core/IdentifiersDotOrgID"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

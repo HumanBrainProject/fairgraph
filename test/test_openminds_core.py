@@ -19,7 +19,7 @@ import fairgraph.openminds.core as omcore
 import fairgraph.openminds.controlled_terms as omterms
 from fairgraph.utility import ActivityLog, sha1sum
 
-from test.utils import mock_client, kg_client, skip_if_no_connection
+from test.utils import mock_client, kg_client, skip_if_no_connection, skip_if_using_production_server
 
 
 def test_query_generation(mock_client):
@@ -516,6 +516,7 @@ def test_to_jsonld():
     assert person2.to_jsonld(follow_links=False) == expected2b
 
 
+@skip_if_using_production_server
 def test_save_new_mock(mock_client):
     timestamp = datetime.now()
     new_model = omcore.Model(
@@ -544,6 +545,7 @@ def test_save_new_mock(mock_client):
     assert log.entries[0].type == "create"
 
 
+@skip_if_using_production_server
 def test_save_existing_mock(mock_client):
     timestamp = datetime.now()
     new_model = omcore.Model(
@@ -574,6 +576,7 @@ def test_save_existing_mock(mock_client):
     assert log.entries[0].type == "update"
 
 
+@skip_if_using_production_server
 def test_save_existing_mock_no_updates_allowed(mock_client):
     timestamp = datetime.now()
     new_model = omcore.Model(
@@ -605,6 +608,7 @@ def test_save_existing_mock_no_updates_allowed(mock_client):
     assert log.entries[0].type == "no-op"
 
 
+@skip_if_using_production_server
 def test_save_replace_existing_mock(mock_client):
     timestamp = datetime.now()
     new_model = omcore.Model(
@@ -635,6 +639,7 @@ def test_save_replace_existing_mock(mock_client):
     assert log.entries[0].type == "replacement"
 
 
+@skip_if_using_production_server
 def test_save_new_recursive_mock(mock_client):
     new_person = omcore.Person(
         given_name="Thorin",

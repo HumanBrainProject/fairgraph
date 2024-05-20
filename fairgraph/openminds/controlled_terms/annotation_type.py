@@ -17,7 +17,7 @@ class AnnotationType(KGObject):
     """
 
     default_space = "controlled"
-    type_ = ["https://openminds.ebrains.eu/controlledTerms/AnnotationType"]
+    type_ = "https://openminds.ebrains.eu/controlledTerms/AnnotationType"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

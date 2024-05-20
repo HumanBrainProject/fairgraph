@@ -17,7 +17,7 @@ class BreedingType(KGObject):
     """
 
     default_space = "controlled"
-    type_ = ["https://openminds.ebrains.eu/controlledTerms/BreedingType"]
+    type_ = "https://openminds.ebrains.eu/controlledTerms/BreedingType"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

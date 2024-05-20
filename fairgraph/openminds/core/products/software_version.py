@@ -19,7 +19,7 @@ class SoftwareVersion(KGObject):
     """
 
     default_space = "software"
-    type_ = ["https://openminds.ebrains.eu/core/SoftwareVersion"]
+    type_ = "https://openminds.ebrains.eu/core/SoftwareVersion"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",
@@ -93,7 +93,7 @@ class SoftwareVersion(KGObject):
         ),
         Property(
             "full_documentation",
-            ["openminds.core.DOI", "openminds.core.File", "openminds.core.WebResource"],
+            ["openminds.core.DOI", "openminds.core.File", "openminds.core.ISBN", "openminds.core.WebResource"],
             "vocab:fullDocumentation",
             required=True,
             doc="Non-abridged instructions, comments, and information for using a particular product.",
@@ -183,6 +183,7 @@ class SoftwareVersion(KGObject):
                 "openminds.controlled_terms.Language",
                 "openminds.controlled_terms.Laterality",
                 "openminds.controlled_terms.LearningResourceType",
+                "openminds.controlled_terms.MRIPulseSequence",
                 "openminds.controlled_terms.MeasuredQuantity",
                 "openminds.controlled_terms.MeasuredSignalType",
                 "openminds.controlled_terms.MetaDataModelType",

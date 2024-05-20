@@ -14,7 +14,7 @@ class ContactInformation(KGObject):
     """
 
     default_space = "restricted"
-    type_ = ["https://openminds.ebrains.eu/core/ContactInformation"]
+    type_ = "https://openminds.ebrains.eu/core/ContactInformation"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

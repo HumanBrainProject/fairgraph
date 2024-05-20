@@ -17,7 +17,7 @@ class Laterality(KGObject):
     """
 
     default_space = "controlled"
-    type_ = ["https://openminds.ebrains.eu/controlledTerms/Laterality"]
+    type_ = "https://openminds.ebrains.eu/controlledTerms/Laterality"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

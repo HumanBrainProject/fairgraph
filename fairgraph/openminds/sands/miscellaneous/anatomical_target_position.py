@@ -13,7 +13,7 @@ class AnatomicalTargetPosition(EmbeddedMetadata):
     <description not available>
     """
 
-    type_ = ["https://openminds.ebrains.eu/sands/AnatomicalTargetPosition"]
+    type_ = "https://openminds.ebrains.eu/sands/AnatomicalTargetPosition"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

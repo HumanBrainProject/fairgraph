@@ -13,7 +13,7 @@ class ViewerSpecification(EmbeddedMetadata):
     <description not available>
     """
 
-    type_ = ["https://openminds.ebrains.eu/sands/ViewerSpecification"]
+    type_ = "https://openminds.ebrains.eu/sands/ViewerSpecification"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

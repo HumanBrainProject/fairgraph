@@ -17,7 +17,7 @@ class WorkflowRecipe(KGObject):
     """
 
     default_space = "computation"
-    type_ = ["https://openminds.ebrains.eu/computation/WorkflowRecipe"]
+    type_ = "https://openminds.ebrains.eu/computation/WorkflowRecipe"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

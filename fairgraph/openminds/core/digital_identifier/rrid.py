@@ -14,7 +14,7 @@ class RRID(KGObject):
     """
 
     default_space = "common"
-    type_ = ["https://openminds.ebrains.eu/core/RRID"]
+    type_ = "https://openminds.ebrains.eu/core/RRID"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

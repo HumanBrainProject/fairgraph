@@ -17,7 +17,7 @@ class AnatomicalIdentificationType(KGObject):
     """
 
     default_space = "controlled"
-    type_ = ["https://openminds.ebrains.eu/controlledTerms/AnatomicalIdentificationType"]
+    type_ = "https://openminds.ebrains.eu/controlledTerms/AnatomicalIdentificationType"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

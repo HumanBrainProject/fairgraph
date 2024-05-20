@@ -17,7 +17,7 @@ class ModelScope(KGObject):
     """
 
     default_space = "controlled"
-    type_ = ["https://openminds.ebrains.eu/controlledTerms/ModelScope"]
+    type_ = "https://openminds.ebrains.eu/controlledTerms/ModelScope"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

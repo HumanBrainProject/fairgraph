@@ -13,7 +13,7 @@ class Hash(EmbeddedMetadata):
     Structured information on a hash.
     """
 
-    type_ = ["https://openminds.ebrains.eu/core/Hash"]
+    type_ = "https://openminds.ebrains.eu/core/Hash"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

@@ -14,7 +14,7 @@ class ChemicalSubstance(KGObject):
     """
 
     default_space = "in-depth"
-    type_ = ["https://openminds.ebrains.eu/chemicals/ChemicalSubstance"]
+    type_ = "https://openminds.ebrains.eu/chemicals/ChemicalSubstance"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

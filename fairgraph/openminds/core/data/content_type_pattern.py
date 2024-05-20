@@ -14,7 +14,7 @@ class ContentTypePattern(KGObject):
     """
 
     default_space = "files"
-    type_ = ["https://openminds.ebrains.eu/core/ContentTypePattern"]
+    type_ = "https://openminds.ebrains.eu/core/ContentTypePattern"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

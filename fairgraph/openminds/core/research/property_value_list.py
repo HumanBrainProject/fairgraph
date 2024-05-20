@@ -14,7 +14,7 @@ class PropertyValueList(KGObject):
     """
 
     default_space = "dataset"
-    type_ = ["https://openminds.ebrains.eu/core/PropertyValueList"]
+    type_ = "https://openminds.ebrains.eu/core/PropertyValueList"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

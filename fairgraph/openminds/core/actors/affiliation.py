@@ -16,7 +16,7 @@ class Affiliation(EmbeddedMetadata):
     Structured information about a relationship between two entities, such as a person and their employer.
     """
 
-    type_ = ["https://openminds.ebrains.eu/core/Affiliation"]
+    type_ = "https://openminds.ebrains.eu/core/Affiliation"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

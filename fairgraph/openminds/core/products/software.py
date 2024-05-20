@@ -17,7 +17,7 @@ class Software(KGObject):
     """
 
     default_space = "software"
-    type_ = ["https://openminds.ebrains.eu/core/Software"]
+    type_ = "https://openminds.ebrains.eu/core/Software"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

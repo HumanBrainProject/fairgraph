@@ -28,7 +28,7 @@ class File(KGObject):
     """
 
     default_space = "files"
-    type_ = ["https://openminds.ebrains.eu/core/File"]
+    type_ = "https://openminds.ebrains.eu/core/File"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

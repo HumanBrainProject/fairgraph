@@ -17,7 +17,7 @@ class WebService(KGObject):
     """
 
     default_space = "webservice"
-    type_ = ["https://openminds.ebrains.eu/core/WebService"]
+    type_ = "https://openminds.ebrains.eu/core/WebService"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

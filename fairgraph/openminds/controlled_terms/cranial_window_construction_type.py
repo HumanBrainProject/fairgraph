@@ -17,7 +17,7 @@ class CranialWindowConstructionType(KGObject):
     """
 
     default_space = "controlled"
-    type_ = ["https://openminds.ebrains.eu/controlledTerms/CranialWindowConstructionType"]
+    type_ = "https://openminds.ebrains.eu/controlledTerms/CranialWindowConstructionType"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

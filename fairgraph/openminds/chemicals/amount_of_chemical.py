@@ -13,7 +13,7 @@ class AmountOfChemical(EmbeddedMetadata):
     Structured information about the amount of a given chemical that was used.
     """
 
-    type_ = ["https://openminds.ebrains.eu/chemicals/AmountOfChemical"]
+    type_ = "https://openminds.ebrains.eu/chemicals/AmountOfChemical"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",
@@ -35,7 +35,6 @@ class AmountOfChemical(EmbeddedMetadata):
             doc="no description available",
         ),
     ]
-    existence_query_properties = ("chemical_product", "amount")
 
     def __init__(self, amount=None, chemical_product=None, id=None, data=None, space=None, scope=None):
         return super().__init__(data=data, amount=amount, chemical_product=chemical_product)

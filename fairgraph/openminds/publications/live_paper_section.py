@@ -14,7 +14,7 @@ class LivePaperSection(KGObject):
     """
 
     default_space = "livepapers"
-    type_ = ["https://openminds.ebrains.eu/publications/LivePaperSection"]
+    type_ = "https://openminds.ebrains.eu/publications/LivePaperSection"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

@@ -17,7 +17,7 @@ class SubcellularEntity(KGObject):
     """
 
     default_space = "controlled"
-    type_ = ["https://openminds.ebrains.eu/controlledTerms/SubcellularEntity"]
+    type_ = "https://openminds.ebrains.eu/controlledTerms/SubcellularEntity"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

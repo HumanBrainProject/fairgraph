@@ -13,7 +13,7 @@ class Circle(EmbeddedMetadata):
     <description not available>
     """
 
-    type_ = ["https://openminds.ebrains.eu/sands/Circle"]
+    type_ = "https://openminds.ebrains.eu/sands/Circle"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

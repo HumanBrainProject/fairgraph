@@ -17,7 +17,7 @@ class ValidationTest(KGObject):
     """
 
     default_space = "computation"
-    type_ = ["https://openminds.ebrains.eu/computation/ValidationTest"]
+    type_ = "https://openminds.ebrains.eu/computation/ValidationTest"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

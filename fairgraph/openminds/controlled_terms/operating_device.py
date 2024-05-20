@@ -17,7 +17,7 @@ class OperatingDevice(KGObject):
     """
 
     default_space = "controlled"
-    type_ = ["https://openminds.ebrains.eu/controlledTerms/OperatingDevice"]
+    type_ = "https://openminds.ebrains.eu/controlledTerms/OperatingDevice"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

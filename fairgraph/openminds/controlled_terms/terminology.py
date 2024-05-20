@@ -17,7 +17,7 @@ class Terminology(KGObject):
     """
 
     default_space = "controlled"
-    type_ = ["https://openminds.ebrains.eu/controlledTerms/Terminology"]
+    type_ = "https://openminds.ebrains.eu/controlledTerms/Terminology"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

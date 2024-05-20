@@ -14,7 +14,7 @@ class FileBundle(KGObject):
     """
 
     default_space = "files"
-    type_ = ["https://openminds.ebrains.eu/core/FileBundle"]
+    type_ = "https://openminds.ebrains.eu/core/FileBundle"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",
@@ -47,6 +47,7 @@ class FileBundle(KGObject):
                 "openminds.controlled_terms.GeneticStrainType",
                 "openminds.controlled_terms.GustatoryStimulusType",
                 "openminds.controlled_terms.Handedness",
+                "openminds.controlled_terms.MRIPulseSequence",
                 "openminds.controlled_terms.MolecularEntity",
                 "openminds.controlled_terms.OlfactoryStimulusType",
                 "openminds.controlled_terms.OpticalStimulusType",

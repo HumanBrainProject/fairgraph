@@ -14,7 +14,7 @@ class Person(KGObject):
     """
 
     default_space = "common"
-    type_ = ["https://openminds.ebrains.eu/core/Person"]
+    type_ = "https://openminds.ebrains.eu/core/Person"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

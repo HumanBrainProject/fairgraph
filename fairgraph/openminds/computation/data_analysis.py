@@ -17,7 +17,7 @@ class DataAnalysis(KGObject):
     """
 
     default_space = "computation"
-    type_ = ["https://openminds.ebrains.eu/computation/DataAnalysis"]
+    type_ = "https://openminds.ebrains.eu/computation/DataAnalysis"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

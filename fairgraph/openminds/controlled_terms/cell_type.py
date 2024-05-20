@@ -17,7 +17,7 @@ class CellType(KGObject):
     """
 
     default_space = "controlled"
-    type_ = ["https://openminds.ebrains.eu/controlledTerms/CellType"]
+    type_ = "https://openminds.ebrains.eu/controlledTerms/CellType"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

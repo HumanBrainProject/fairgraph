@@ -17,7 +17,7 @@ class WebResource(KGObject):
     """
 
     default_space = "common"
-    type_ = ["https://openminds.ebrains.eu/core/WebResource"]
+    type_ = "https://openminds.ebrains.eu/core/WebResource"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

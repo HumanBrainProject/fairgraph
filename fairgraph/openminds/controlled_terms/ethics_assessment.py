@@ -17,7 +17,7 @@ class EthicsAssessment(KGObject):
     """
 
     default_space = "controlled"
-    type_ = ["https://openminds.ebrains.eu/controlledTerms/EthicsAssessment"]
+    type_ = "https://openminds.ebrains.eu/controlledTerms/EthicsAssessment"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

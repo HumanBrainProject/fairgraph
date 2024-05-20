@@ -17,7 +17,7 @@ class Disease(KGObject):
     """
 
     default_space = "controlled"
-    type_ = ["https://openminds.ebrains.eu/controlledTerms/Disease"]
+    type_ = "https://openminds.ebrains.eu/controlledTerms/Disease"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

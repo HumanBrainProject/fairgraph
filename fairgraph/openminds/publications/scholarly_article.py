@@ -20,7 +20,7 @@ class ScholarlyArticle(KGObject):
     """
 
     default_space = "livepapers"
-    type_ = ["https://openminds.ebrains.eu/publications/ScholarlyArticle"]
+    type_ = "https://openminds.ebrains.eu/publications/ScholarlyArticle"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",
@@ -129,6 +129,7 @@ class ScholarlyArticle(KGObject):
                 "openminds.controlled_terms.Language",
                 "openminds.controlled_terms.Laterality",
                 "openminds.controlled_terms.LearningResourceType",
+                "openminds.controlled_terms.MRIPulseSequence",
                 "openminds.controlled_terms.MeasuredQuantity",
                 "openminds.controlled_terms.MeasuredSignalType",
                 "openminds.controlled_terms.MetaDataModelType",

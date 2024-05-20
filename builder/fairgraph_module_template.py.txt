@@ -17,7 +17,7 @@ class {{ class_name }}({{ base_class }}):
     {%- if default_space %}
     default_space = "{{ default_space }}"
     {%- endif %}
-    type_ = ["{{ openminds_type }}"]
+    type_ = "{{ openminds_type }}"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

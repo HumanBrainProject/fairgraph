@@ -14,7 +14,7 @@ class TissueSampleCollectionState(KGObject):
     """
 
     default_space = "dataset"
-    type_ = ["https://openminds.ebrains.eu/core/TissueSampleCollectionState"]
+    type_ = "https://openminds.ebrains.eu/core/TissueSampleCollectionState"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

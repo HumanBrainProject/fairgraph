@@ -17,7 +17,7 @@ class QualitativeOverlap(KGObject):
     """
 
     default_space = "controlled"
-    type_ = ["https://openminds.ebrains.eu/controlledTerms/QualitativeOverlap"]
+    type_ = "https://openminds.ebrains.eu/controlledTerms/QualitativeOverlap"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

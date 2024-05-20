@@ -13,7 +13,7 @@ import pytest
 
 
 class MockEmbeddedObject(EmbeddedMetadata):
-    type_ = ["https://openminds.ebrains.eu/mock/MockEmbeddedObject"]
+    type_ = "https://openminds.ebrains.eu/mock/MockEmbeddedObject"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",
@@ -48,7 +48,7 @@ class MockEmbeddedObject(EmbeddedMetadata):
 
 class MockKGObject2(KGObject):
     default_space = "mock"
-    type_ = ["https://openminds.ebrains.eu/mock/MockKGObject2"]
+    type_ = "https://openminds.ebrains.eu/mock/MockKGObject2"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",
@@ -60,7 +60,7 @@ class MockKGObject2(KGObject):
 
 class MockKGObject(KGObject):
     default_space = "mock"
-    type_ = ["https://openminds.ebrains.eu/mock/MockKGObject"]
+    type_ = "https://openminds.ebrains.eu/mock/MockKGObject"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",
@@ -597,7 +597,7 @@ class TestKGProxy:
     def test_properties(self):
         uri = "https://kg.ebrains.eu/api/instances/00000000-0000-0000-0000-000000001234"
         proxy = KGProxy(MockKGObject, uri)
-        assert proxy.type == ["https://openminds.ebrains.eu/mock/MockKGObject"]
+        assert proxy.type == "https://openminds.ebrains.eu/mock/MockKGObject"
         assert proxy.classes == [MockKGObject]
         assert proxy.uuid == "00000000-0000-0000-0000-000000001234"
 

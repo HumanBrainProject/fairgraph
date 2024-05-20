@@ -17,7 +17,7 @@ class SemanticDataType(KGObject):
     """
 
     default_space = "controlled"
-    type_ = ["https://openminds.ebrains.eu/controlledTerms/SemanticDataType"]
+    type_ = "https://openminds.ebrains.eu/controlledTerms/SemanticDataType"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

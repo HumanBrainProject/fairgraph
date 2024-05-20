@@ -17,7 +17,7 @@ class Consortium(KGObject):
     """
 
     default_space = "common"
-    type_ = ["https://openminds.ebrains.eu/core/Consortium"]
+    type_ = "https://openminds.ebrains.eu/core/Consortium"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

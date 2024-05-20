@@ -17,7 +17,7 @@ class BiologicalSex(KGObject):
     """
 
     default_space = "controlled"
-    type_ = ["https://openminds.ebrains.eu/controlledTerms/BiologicalSex"]
+    type_ = "https://openminds.ebrains.eu/controlledTerms/BiologicalSex"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

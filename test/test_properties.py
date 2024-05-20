@@ -10,7 +10,7 @@ import pytest
 
 class SomeOrganization(KGObject):
     default_space = "common"
-    type_ = ["https://openminds.ebrains.eu/test/Organization"]
+    type_ = "https://openminds.ebrains.eu/test/Organization"
     context = {
         "vocab": "https://openminds.ebrains.eu/vocab/",
     }
@@ -22,7 +22,7 @@ class SomeOrganization(KGObject):
 
 
 class SomeAffiliation(EmbeddedMetadata):
-    type_ = ["https://openminds.ebrains.eu/test/Affiliation"]
+    type_ = "https://openminds.ebrains.eu/test/Affiliation"
     context = {
         "vocab": "https://openminds.ebrains.eu/vocab/",
     }
@@ -35,7 +35,7 @@ class SomeAffiliation(EmbeddedMetadata):
 
 class SomeContactInformation(KGObject):
     default_space = "restricted"
-    type_ = ["https://openminds.ebrains.eu/test/ContactInformation"]
+    type_ = "https://openminds.ebrains.eu/test/ContactInformation"
     context = {
         "vocab": "https://openminds.ebrains.eu/vocab/",
     }
@@ -59,7 +59,7 @@ def test_serialize_embedded():
     )
     result = property_embedded_metadata.serialize(test_affiliation, follow_links=False)
     expected = {
-        "@type": SomeAffiliation.type_,
+        "@type": [SomeAffiliation.type_],
         "https://openminds.ebrains.eu/vocab/memberOf": {"@id": test_affiliation.member_of.id},
         "https://openminds.ebrains.eu/vocab/startDate": "2023-01-01",
     }

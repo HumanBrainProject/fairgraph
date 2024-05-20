@@ -17,7 +17,7 @@ class FileArchive(KGObject):
     """
 
     default_space = "dataset"
-    type_ = ["https://openminds.ebrains.eu/core/FileArchive"]
+    type_ = "https://openminds.ebrains.eu/core/FileArchive"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

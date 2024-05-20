@@ -14,7 +14,7 @@ class RORID(KGObject):
     """
 
     default_space = "common"
-    type_ = ["https://openminds.ebrains.eu/core/RORID"]
+    type_ = "https://openminds.ebrains.eu/core/RORID"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

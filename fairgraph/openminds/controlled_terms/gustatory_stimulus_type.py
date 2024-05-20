@@ -17,7 +17,7 @@ class GustatoryStimulusType(KGObject):
     """
 
     default_space = "controlled"
-    type_ = ["https://openminds.ebrains.eu/controlledTerms/GustatoryStimulusType"]
+    type_ = "https://openminds.ebrains.eu/controlledTerms/GustatoryStimulusType"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

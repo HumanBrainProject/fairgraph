@@ -14,7 +14,7 @@ class Protocol(KGObject):
     """
 
     default_space = "dataset"
-    type_ = ["https://openminds.ebrains.eu/core/Protocol"]
+    type_ = "https://openminds.ebrains.eu/core/Protocol"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",
@@ -62,6 +62,7 @@ class Protocol(KGObject):
             "techniques",
             [
                 "openminds.controlled_terms.AnalysisTechnique",
+                "openminds.controlled_terms.MRIPulseSequence",
                 "openminds.controlled_terms.StimulationApproach",
                 "openminds.controlled_terms.StimulationTechnique",
                 "openminds.controlled_terms.Technique",

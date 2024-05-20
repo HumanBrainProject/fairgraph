@@ -17,7 +17,7 @@ class AnatomicalPlane(KGObject):
     """
 
     default_space = "controlled"
-    type_ = ["https://openminds.ebrains.eu/controlledTerms/AnatomicalPlane"]
+    type_ = "https://openminds.ebrains.eu/controlledTerms/AnatomicalPlane"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

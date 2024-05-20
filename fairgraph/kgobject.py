@@ -229,7 +229,7 @@ class KGObject(ContainsMetadata, RepresentsSingleObject, SupportsQuerying):
             if follow_links is not None:
                 raise NotImplementedError
             data = client.instance_from_full_uri(uri, use_cache=use_cache, scope=scope)
-            cls_from_data = lookup_type(data["@type"])
+            cls_from_data = lookup_type(data["@type"][0])
             return cls_from_data.from_kg_instance(data, client, scope=scope)
 
     @classmethod
@@ -760,7 +760,7 @@ class KGObject(ContainsMetadata, RepresentsSingleObject, SupportsQuerying):
         data = [
             ("id", str(self.id)),
             ("space", str(self.space)),
-            ("type", self.type_[0]),
+            ("type", self.type_),
         ]
         for prop in self.properties:
             value = getattr(self, prop.name, None)
@@ -813,7 +813,7 @@ class KGObject(ContainsMetadata, RepresentsSingleObject, SupportsQuerying):
             normalized_filters = None
         # first pass, we build the basic structure
         query = Query(
-            node_type=cls.type_[0],
+            node_type=cls.type_,
             label=label,
             space=real_space,
             properties=cls.generate_query_properties(follow_links),

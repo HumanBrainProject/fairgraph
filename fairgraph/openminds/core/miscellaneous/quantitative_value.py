@@ -13,7 +13,7 @@ class QuantitativeValue(EmbeddedMetadata):
     Structured information on a quantitative value.
     """
 
-    type_ = ["https://openminds.ebrains.eu/core/QuantitativeValue"]
+    type_ = "https://openminds.ebrains.eu/core/QuantitativeValue"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",
@@ -43,7 +43,6 @@ class QuantitativeValue(EmbeddedMetadata):
         ),
         Property("value", float, "vocab:value", required=True, doc="Entry for a property."),
     ]
-    existence_query_properties = ("value", "unit", "uncertainties")
 
     def __init__(
         self,

@@ -13,7 +13,7 @@ class Channel(EmbeddedMetadata):
     <description not available>
     """
 
-    type_ = ["https://openminds.ebrains.eu/ephys/Channel"]
+    type_ = "https://openminds.ebrains.eu/ephys/Channel"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

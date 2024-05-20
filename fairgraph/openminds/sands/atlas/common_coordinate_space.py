@@ -17,7 +17,7 @@ class CommonCoordinateSpace(KGObject):
     """
 
     default_space = "atlas"
-    type_ = ["https://openminds.ebrains.eu/sands/CommonCoordinateSpace"]
+    type_ = "https://openminds.ebrains.eu/sands/CommonCoordinateSpace"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

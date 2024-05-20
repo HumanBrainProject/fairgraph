@@ -17,7 +17,7 @@ class ContentType(KGObject):
     """
 
     default_space = "controlled"
-    type_ = ["https://openminds.ebrains.eu/core/ContentType"]
+    type_ = "https://openminds.ebrains.eu/core/ContentType"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

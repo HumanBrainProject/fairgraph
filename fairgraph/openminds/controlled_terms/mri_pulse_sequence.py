@@ -11,13 +11,13 @@ from fairgraph.properties import Property
 from fairgraph.base import IRI
 
 
-class ChemicalMixtureType(KGObject):
+class MRIPulseSequence(KGObject):
     """
     <description not available>
     """
 
     default_space = "controlled"
-    type_ = "https://openminds.ebrains.eu/controlledTerms/ChemicalMixtureType"
+    type_ = "https://openminds.ebrains.eu/controlledTerms/MRIPulseSequence"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",
@@ -36,7 +36,7 @@ class ChemicalMixtureType(KGObject):
             "description",
             str,
             "vocab:description",
-            doc="Longer statement or account giving the characteristics of the chemical mixture type.",
+            doc="Longer statement or account giving the characteristics of the m r i pulse sequence.",
         ),
         Property(
             "interlex_identifier",
@@ -55,7 +55,7 @@ class ChemicalMixtureType(KGObject):
             str,
             "vocab:name",
             required=True,
-            doc="Word or phrase that constitutes the distinctive designation of the chemical mixture type.",
+            doc="Word or phrase that constitutes the distinctive designation of the m r i pulse sequence.",
         ),
         Property(
             "preferred_ontology_identifier",
@@ -75,7 +75,6 @@ class ChemicalMixtureType(KGObject):
             [
                 "openminds.computation.ValidationTestVersion",
                 "openminds.computation.WorkflowRecipeVersion",
-                "openminds.core.DatasetVersion",
                 "openminds.core.MetaDataModelVersion",
                 "openminds.core.ModelVersion",
                 "openminds.core.SoftwareVersion",
@@ -94,12 +93,20 @@ class ChemicalMixtureType(KGObject):
             doc="reverse of 'keyword'",
         ),
         Property(
-            "is_type_of",
-            "openminds.chemicals.ChemicalMixture",
-            "^vocab:type",
-            reverse="types",
+            "is_used_to_group",
+            "openminds.core.FileBundle",
+            "^vocab:groupedBy",
+            reverse="grouped_by",
             multiple=True,
-            doc="reverse of 'type'",
+            doc="reverse of 'groupedBy'",
+        ),
+        Property(
+            "used_in",
+            ["openminds.core.DatasetVersion", "openminds.core.Protocol"],
+            "^vocab:technique",
+            reverse="techniques",
+            multiple=True,
+            doc="reverse of 'technique'",
         ),
     ]
     existence_query_properties = ("name",)
@@ -111,10 +118,11 @@ class ChemicalMixtureType(KGObject):
         describes=None,
         description=None,
         interlex_identifier=None,
-        is_type_of=None,
+        is_used_to_group=None,
         knowledge_space_link=None,
         preferred_ontology_identifier=None,
         synonyms=None,
+        used_in=None,
         id=None,
         data=None,
         space=None,
@@ -130,8 +138,9 @@ class ChemicalMixtureType(KGObject):
             describes=describes,
             description=description,
             interlex_identifier=interlex_identifier,
-            is_type_of=is_type_of,
+            is_used_to_group=is_used_to_group,
             knowledge_space_link=knowledge_space_link,
             preferred_ontology_identifier=preferred_ontology_identifier,
             synonyms=synonyms,
+            used_in=used_in,
         )

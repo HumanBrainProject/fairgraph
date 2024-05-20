@@ -17,7 +17,7 @@ class FileUsageRole(KGObject):
     """
 
     default_space = "controlled"
-    type_ = ["https://openminds.ebrains.eu/controlledTerms/FileUsageRole"]
+    type_ = "https://openminds.ebrains.eu/controlledTerms/FileUsageRole"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

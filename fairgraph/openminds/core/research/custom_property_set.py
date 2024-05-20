@@ -13,7 +13,7 @@ class CustomPropertySet(EmbeddedMetadata):
     Structured information about properties of an entity that are not represented in an openMINDS schema.
     """
 
-    type_ = ["https://openminds.ebrains.eu/core/CustomPropertySet"]
+    type_ = "https://openminds.ebrains.eu/core/CustomPropertySet"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",
@@ -34,6 +34,7 @@ class CustomPropertySet(EmbeddedMetadata):
             "relevant_for",
             [
                 "openminds.controlled_terms.AnalysisTechnique",
+                "openminds.controlled_terms.MRIPulseSequence",
                 "openminds.controlled_terms.StimulationApproach",
                 "openminds.controlled_terms.StimulationTechnique",
                 "openminds.controlled_terms.Technique",

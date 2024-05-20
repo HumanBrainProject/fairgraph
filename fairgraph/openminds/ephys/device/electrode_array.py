@@ -14,7 +14,7 @@ class ElectrodeArray(KGObject):
     """
 
     default_space = "in-depth"
-    type_ = ["https://openminds.ebrains.eu/ephys/ElectrodeArray"]
+    type_ = "https://openminds.ebrains.eu/ephys/ElectrodeArray"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

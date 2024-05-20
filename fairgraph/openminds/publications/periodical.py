@@ -14,7 +14,7 @@ class Periodical(KGObject):
     """
 
     default_space = "livepapers"
-    type_ = ["https://openminds.ebrains.eu/publications/Periodical"]
+    type_ = "https://openminds.ebrains.eu/publications/Periodical"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

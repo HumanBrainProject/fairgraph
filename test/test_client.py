@@ -174,7 +174,7 @@ def test_store_and_retrieve_query(kg_client, mocker):
 @skip_if_no_connection
 def test_configure_space(kg_client, mocker):
     class MockType:
-        type_ = ["hello"]
+        type_ = "hello"
 
     mocker.patch.object(kg_client._kg_admin_client, "create_space_definition", lambda space: None)
     mocker.patch.object(kg_client._kg_admin_client, "assign_type_to_space", lambda space, target_type: None)

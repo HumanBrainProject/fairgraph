@@ -13,7 +13,7 @@ class ParcellationTerminologyVersion(EmbeddedMetadata):
     <description not available>
     """
 
-    type_ = ["https://openminds.ebrains.eu/sands/ParcellationTerminologyVersion"]
+    type_ = "https://openminds.ebrains.eu/sands/ParcellationTerminologyVersion"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

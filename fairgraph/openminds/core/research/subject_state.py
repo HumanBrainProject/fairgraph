@@ -14,7 +14,7 @@ class SubjectState(KGObject):
     """
 
     default_space = "dataset"
-    type_ = ["https://openminds.ebrains.eu/core/SubjectState"]
+    type_ = "https://openminds.ebrains.eu/core/SubjectState"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

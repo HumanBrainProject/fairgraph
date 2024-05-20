@@ -14,7 +14,7 @@ class GRIDID(KGObject):
     """
 
     default_space = "common"
-    type_ = ["https://openminds.ebrains.eu/core/GRIDID"]
+    type_ = "https://openminds.ebrains.eu/core/GRIDID"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

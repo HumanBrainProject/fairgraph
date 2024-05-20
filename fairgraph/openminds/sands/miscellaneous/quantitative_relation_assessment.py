@@ -13,7 +13,7 @@ class QuantitativeRelationAssessment(EmbeddedMetadata):
     <description not available>
     """
 
-    type_ = ["https://openminds.ebrains.eu/sands/QuantitativeRelationAssessment"]
+    type_ = "https://openminds.ebrains.eu/sands/QuantitativeRelationAssessment"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

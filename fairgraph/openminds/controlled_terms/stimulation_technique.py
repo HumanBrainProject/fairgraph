@@ -17,7 +17,7 @@ class StimulationTechnique(KGObject):
     """
 
     default_space = "controlled"
-    type_ = ["https://openminds.ebrains.eu/controlledTerms/StimulationTechnique"]
+    type_ = "https://openminds.ebrains.eu/controlledTerms/StimulationTechnique"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

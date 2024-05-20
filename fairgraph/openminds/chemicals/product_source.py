@@ -14,7 +14,7 @@ class ProductSource(KGObject):
     """
 
     default_space = "in-depth"
-    type_ = ["https://openminds.ebrains.eu/chemicals/ProductSource"]
+    type_ = "https://openminds.ebrains.eu/chemicals/ProductSource"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

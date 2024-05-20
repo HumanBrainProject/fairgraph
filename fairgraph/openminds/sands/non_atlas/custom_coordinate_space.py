@@ -14,7 +14,7 @@ class CustomCoordinateSpace(KGObject):
     """
 
     default_space = "spatial"
-    type_ = ["https://openminds.ebrains.eu/sands/CustomCoordinateSpace"]
+    type_ = "https://openminds.ebrains.eu/sands/CustomCoordinateSpace"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

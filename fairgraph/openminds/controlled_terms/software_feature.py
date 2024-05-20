@@ -17,7 +17,7 @@ class SoftwareFeature(KGObject):
     """
 
     default_space = "controlled"
-    type_ = ["https://openminds.ebrains.eu/controlledTerms/SoftwareFeature"]
+    type_ = "https://openminds.ebrains.eu/controlledTerms/SoftwareFeature"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

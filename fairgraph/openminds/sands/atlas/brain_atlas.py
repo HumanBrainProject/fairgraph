@@ -17,7 +17,7 @@ class BrainAtlas(KGObject):
     """
 
     default_space = "atlas"
-    type_ = ["https://openminds.ebrains.eu/sands/BrainAtlas"]
+    type_ = "https://openminds.ebrains.eu/sands/BrainAtlas"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

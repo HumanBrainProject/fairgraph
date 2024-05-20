@@ -24,10 +24,8 @@ def register_class(target_class: ContainsMetadata):
 
     registry["names"][name] = target_class
     if hasattr(target_class, "type_"):
-        if isinstance(target_class.type_, str):
-            type_ = target_class.type_
-        else:
-            type_ = tuple(sorted(target_class.type_))
+        assert isinstance(target_class.type_, str)
+        type_ = target_class.type_
         if type_ in registry["types"]:
             if isinstance(registry["types"][type_], list):
                 registry["types"][type_].append(target_class)

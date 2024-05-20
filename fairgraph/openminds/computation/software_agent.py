@@ -14,7 +14,7 @@ class SoftwareAgent(KGObject):
     """
 
     default_space = "computation"
-    type_ = ["https://openminds.ebrains.eu/computation/SoftwareAgent"]
+    type_ = "https://openminds.ebrains.eu/computation/SoftwareAgent"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

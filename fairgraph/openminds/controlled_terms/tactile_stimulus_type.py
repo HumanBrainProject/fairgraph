@@ -17,7 +17,7 @@ class TactileStimulusType(KGObject):
     """
 
     default_space = "controlled"
-    type_ = ["https://openminds.ebrains.eu/controlledTerms/TactileStimulusType"]
+    type_ = "https://openminds.ebrains.eu/controlledTerms/TactileStimulusType"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

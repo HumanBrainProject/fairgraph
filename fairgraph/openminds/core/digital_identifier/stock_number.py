@@ -13,7 +13,7 @@ class StockNumber(EmbeddedMetadata):
     <description not available>
     """
 
-    type_ = ["https://openminds.ebrains.eu/core/StockNumber"]
+    type_ = "https://openminds.ebrains.eu/core/StockNumber"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

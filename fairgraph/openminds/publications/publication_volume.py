@@ -14,7 +14,7 @@ class PublicationVolume(KGObject):
     """
 
     default_space = "livepapers"
-    type_ = ["https://openminds.ebrains.eu/publications/PublicationVolume"]
+    type_ = "https://openminds.ebrains.eu/publications/PublicationVolume"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

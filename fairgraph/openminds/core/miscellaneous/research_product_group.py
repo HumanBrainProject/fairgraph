@@ -14,7 +14,7 @@ class ResearchProductGroup(KGObject):
     """
 
     default_space = "dataset"
-    type_ = ["https://openminds.ebrains.eu/core/ResearchProductGroup"]
+    type_ = "https://openminds.ebrains.eu/core/ResearchProductGroup"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

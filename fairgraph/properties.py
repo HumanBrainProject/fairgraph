@@ -93,7 +93,7 @@ def build_kg_object(
         if len(possible_classes) > 1:
             if "@type" in item:
                 for cls in possible_classes:
-                    if item["@type"] == cls.type_:
+                    if item["@type"] == [cls.type_]:
                         kg_cls = cls
                         break
             else:
@@ -115,7 +115,7 @@ def build_kg_object(
                     obj = KGProxy(kg_cls, item["@id"]).resolve(client)
                     # todo: provide space and scope
             else:
-                if "@type" in item and item["@type"] is not None and kg_cls not in as_list(lookup_type(item["@type"])):
+                if "@type" in item and item["@type"] is not None and kg_cls not in as_list(lookup_type(item["@type"][0])):
                     raise Exception(f"mismatched types: {kg_cls} <> {item['@type']} (id: {item['@id']})")
                     obj = None
                 else:
@@ -372,7 +372,7 @@ class Property(object):
             for cls in self.types:
                 if len(self.types) > 1:
                     property_name = f"{self.path}__{cls.__name__}"
-                    type_filter = cls.type_[0]
+                    type_filter = cls.type_
                 else:
                     property_name = self.path
                     type_filter = None
@@ -397,7 +397,7 @@ class Property(object):
                     property_name = self._get_query_property_name(possible_classes=[cls])
                     if len(self.types) > 1:
                         property_name = f"{property_name}__{cls.__name__}"
-                        type_filter = cls.type_[0]
+                        type_filter = cls.type_
                     else:
                         type_filter = None
                     properties.append(

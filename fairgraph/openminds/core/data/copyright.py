@@ -13,7 +13,7 @@ class Copyright(EmbeddedMetadata):
     Structured information on the copyright.
     """
 
-    type_ = ["https://openminds.ebrains.eu/core/Copyright"]
+    type_ = "https://openminds.ebrains.eu/core/Copyright"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

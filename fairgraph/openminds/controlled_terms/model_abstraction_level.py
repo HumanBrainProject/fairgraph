@@ -17,7 +17,7 @@ class ModelAbstractionLevel(KGObject):
     """
 
     default_space = "controlled"
-    type_ = ["https://openminds.ebrains.eu/controlledTerms/ModelAbstractionLevel"]
+    type_ = "https://openminds.ebrains.eu/controlledTerms/ModelAbstractionLevel"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

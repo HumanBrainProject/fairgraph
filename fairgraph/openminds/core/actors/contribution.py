@@ -13,7 +13,7 @@ class Contribution(EmbeddedMetadata):
     Structured information on the contribution made to a research product.
     """
 
-    type_ = ["https://openminds.ebrains.eu/core/Contribution"]
+    type_ = "https://openminds.ebrains.eu/core/Contribution"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

@@ -17,7 +17,7 @@ class Simulation(KGObject):
     """
 
     default_space = "computation"
-    type_ = ["https://openminds.ebrains.eu/computation/Simulation"]
+    type_ = "https://openminds.ebrains.eu/computation/Simulation"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

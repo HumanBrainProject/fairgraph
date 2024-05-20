@@ -14,7 +14,7 @@ class LaunchConfiguration(KGObject):
     """
 
     default_space = "computation"
-    type_ = ["https://openminds.ebrains.eu/computation/LaunchConfiguration"]
+    type_ = "https://openminds.ebrains.eu/computation/LaunchConfiguration"
     context = {
         "schema": "http://schema.org/",
         "kg": "https://kg.ebrains.eu/api/instances/",

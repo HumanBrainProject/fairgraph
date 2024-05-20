@@ -1,25 +1,32 @@
 from copy import deepcopy
 from uuid import uuid4
+from requests.exceptions import SSLError
 from fairgraph.client import KGClient
 from fairgraph.errors import AuthenticationError
 
 import pytest
 
-
+kg_host = "core.kg-ppd.ebrains.eu"  # don't use production for testing
 have_kg_connection = False
+no_kg_err_msg = "No KG connection - have you set the environment variable KG_AUTH_TOKEN?"
+
 try:
-    client = KGClient(host="core.kg-ppd.ebrains.eu")  # don't use production for testing
+    client = KGClient(host=kg_host)
 except AuthenticationError:
     pass
+except SSLError:
+    no_kg_err_msg = "No KG connection - SSL certificate may have expired"
 else:
     if client.user_info():
         have_kg_connection = True
 
-no_kg_err_msg = "No KG connection - have you set the environment variable KG_AUTH_TOKEN?"
-
 
 def skip_if_no_connection(f):
     return pytest.mark.skipif(not have_kg_connection, reason=no_kg_err_msg)(f)
+
+
+def skip_if_using_production_server(f):
+    return pytest.mark.skipif("kg-ppd" not in kg_host, reason="Using production server for testing")(f)
 
 
 @pytest.fixture(scope="session")
