@@ -25,6 +25,7 @@ class SingleColor(KGObject):
     properties = [
         Property("value", str, "vocab:value", required=True, doc="Entry for a property."),
     ]
+    reverse_properties = []
     existence_query_properties = ("value",)
 
     def __init__(self, value=None, id=None, data=None, space=None, scope=None):

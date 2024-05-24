@@ -81,6 +81,8 @@ class ParcellationEntityVersion(KGObject):
             "vocab:versionInnovation",
             doc="Documentation on what changed in comparison to a previously published form of something.",
         ),
+    ]
+    reverse_properties = [
         Property(
             "has_children",
             "openminds.sands.ParcellationEntityVersion",

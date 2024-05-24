@@ -45,6 +45,7 @@ class ParcellationTerminology(EmbeddedMetadata):
             doc="Term or code used to identify the parcellation terminology registered within a particular ontology.",
         ),
     ]
+    reverse_properties = []
 
     def __init__(
         self,

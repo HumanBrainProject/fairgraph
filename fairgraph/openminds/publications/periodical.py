@@ -36,6 +36,8 @@ class Periodical(KGObject):
             "vocab:name",
             doc="Word or phrase that constitutes the distinctive designation of the periodical.",
         ),
+    ]
+    reverse_properties = [
         Property(
             "has_parts",
             "openminds.publications.PublicationVolume",

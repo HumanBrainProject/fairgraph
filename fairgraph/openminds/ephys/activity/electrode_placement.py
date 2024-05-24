@@ -142,6 +142,7 @@ class ElectrodePlacement(KGObject):
             doc="no description available",
         ),
     ]
+    reverse_properties = []
     existence_query_properties = ("lookup_label",)
 
     def __init__(

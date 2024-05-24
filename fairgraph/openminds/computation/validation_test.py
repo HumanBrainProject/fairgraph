@@ -133,6 +133,8 @@ class ValidationTest(KGObject):
             multiple=True,
             doc="Structure or function that was targeted within a study.",
         ),
+    ]
+    reverse_properties = [
         Property(
             "comments",
             "openminds.core.Comment",

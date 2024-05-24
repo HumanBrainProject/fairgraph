@@ -43,6 +43,8 @@ class LaunchConfiguration(KGObject):
             "vocab:name",
             doc="Word or phrase that constitutes the distinctive designation of the launch configuration.",
         ),
+    ]
+    reverse_properties = [
         Property(
             "is_launch_configuration_of",
             [

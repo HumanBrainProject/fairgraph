@@ -27,6 +27,8 @@ class AccountInformation(KGObject):
             "service", "openminds.core.WebService", "vocab:service", required=True, doc="no description available"
         ),
         Property("user_name", str, "vocab:userName", required=True, doc="no description available"),
+    ]
+    reverse_properties = [
         Property(
             "belongs_to",
             "openminds.core.Person",

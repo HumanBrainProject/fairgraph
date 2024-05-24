@@ -73,6 +73,8 @@ class WebService(KGObject):
             required=True,
             doc="Shortened or fully abbreviated name of the web service.",
         ),
+    ]
+    reverse_properties = [
         Property(
             "comments",
             "openminds.core.Comment",

@@ -80,6 +80,8 @@ class SlicingDeviceUsage(KGObject):
             "vocab:vibrationFrequency",
             doc="no description available",
         ),
+    ]
+    reverse_properties = [
         Property(
             "generation_device",
             "openminds.stimulation.EphysStimulus",

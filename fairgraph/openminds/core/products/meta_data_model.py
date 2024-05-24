@@ -83,6 +83,8 @@ class MetaDataModel(KGObject):
             required=True,
             doc="Shortened or fully abbreviated name of the meta data model.",
         ),
+    ]
+    reverse_properties = [
         Property(
             "comments",
             "openminds.core.Comment",

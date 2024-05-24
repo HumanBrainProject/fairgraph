@@ -72,6 +72,8 @@ class BehavioralProtocol(KGObject):
             multiple=True,
             doc="no description available",
         ),
+    ]
+    reverse_properties = [
         Property(
             "is_used_to_group",
             "openminds.core.FileBundle",

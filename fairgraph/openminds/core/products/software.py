@@ -79,6 +79,8 @@ class Software(KGObject):
             required=True,
             doc="Shortened or fully abbreviated name of the software.",
         ),
+    ]
+    reverse_properties = [
         Property(
             "comments",
             "openminds.core.Comment",

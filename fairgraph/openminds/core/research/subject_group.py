@@ -60,6 +60,8 @@ class SubjectGroup(KGObject):
             required=True,
             doc="Reference to a point in time at which the subject group was studied in a particular mode or condition.",
         ),
+    ]
+    reverse_properties = [
         Property(
             "has_parts",
             "openminds.core.Subject",

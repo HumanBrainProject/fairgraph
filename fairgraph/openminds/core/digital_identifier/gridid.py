@@ -26,6 +26,8 @@ class GRIDID(KGObject):
         Property(
             "identifier", str, "vocab:identifier", required=True, doc="Term or code used to identify the GRIDID."
         ),
+    ]
+    reverse_properties = [
         Property(
             "identifies",
             "openminds.core.Organization",

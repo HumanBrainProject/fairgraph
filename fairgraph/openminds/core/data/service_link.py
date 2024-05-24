@@ -51,6 +51,7 @@ class ServiceLink(KGObject):
             doc="no description available",
         ),
     ]
+    reverse_properties = []
     existence_query_properties = ("data_location", "open_data_in", "service")
 
     def __init__(

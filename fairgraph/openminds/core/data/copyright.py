@@ -39,6 +39,7 @@ class Copyright(EmbeddedMetadata):
             doc="Cycle in the Gregorian calendar specified by a number and comprised of 365 or 366 days divided into 12 months beginning with January and ending with December.",
         ),
     ]
+    reverse_properties = []
 
     def __init__(self, holders=None, years=None, id=None, data=None, space=None, scope=None):
         return super().__init__(data=data, holders=holders, years=years)

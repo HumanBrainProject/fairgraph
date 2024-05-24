@@ -60,6 +60,7 @@ class Comment(KGObject):
         ),
         Property("timestamp", datetime, "vocab:timestamp", required=True, doc="no description available"),
     ]
+    reverse_properties = []
     existence_query_properties = ("about", "comment", "commenter", "timestamp")
 
     def __init__(

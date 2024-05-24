@@ -43,6 +43,8 @@ class FileArchive(KGObject):
         Property(
             "source_data", "openminds.core.File", "vocab:sourceData", multiple=True, doc="no description available"
         ),
+    ]
+    reverse_properties = [
         Property(
             "is_location_of",
             "openminds.core.ServiceLink",

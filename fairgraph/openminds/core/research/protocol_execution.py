@@ -145,6 +145,8 @@ class ProtocolExecution(KGObject):
             multiple=True,
             doc="Structure or function that was targeted within a study.",
         ),
+    ]
+    reverse_properties = [
         Property(
             "based_on_protocol_execution",
             ["openminds.sands.AtlasAnnotation", "openminds.sands.CustomAnnotation"],

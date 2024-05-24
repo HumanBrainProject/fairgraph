@@ -24,6 +24,8 @@ class SWHID(KGObject):
     }
     properties = [
         Property("identifier", str, "vocab:identifier", required=True, doc="Term or code used to identify the SWHID."),
+    ]
+    reverse_properties = [
         Property(
             "identifies",
             [

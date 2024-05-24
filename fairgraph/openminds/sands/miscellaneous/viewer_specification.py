@@ -49,6 +49,7 @@ class ViewerSpecification(EmbeddedMetadata):
             doc="no description available",
         ),
     ]
+    reverse_properties = []
 
     def __init__(
         self,

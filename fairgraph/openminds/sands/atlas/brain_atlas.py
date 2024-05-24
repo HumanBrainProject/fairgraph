@@ -96,6 +96,8 @@ class BrainAtlas(KGObject):
         Property(
             "used_species", "openminds.controlled_terms.Species", "vocab:usedSpecies", doc="no description available"
         ),
+    ]
+    reverse_properties = [
         Property(
             "comments",
             "openminds.core.Comment",

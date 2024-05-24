@@ -44,6 +44,8 @@ class ProductSource(KGObject):
             "vocab:purity",
             doc="no description available",
         ),
+    ]
+    reverse_properties = [
         Property(
             "is_source_of",
             ["openminds.chemicals.ChemicalMixture", "openminds.chemicals.ChemicalSubstance"],

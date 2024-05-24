@@ -32,6 +32,8 @@ class PropertyValueList(KGObject):
             required=True,
             doc="no description available",
         ),
+    ]
+    reverse_properties = [
         Property(
             "defines_environment_of",
             "openminds.computation.LaunchConfiguration",

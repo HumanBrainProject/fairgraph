@@ -141,6 +141,7 @@ class RecordingActivity(KGObject):
             doc="Structure or function that was targeted within a study.",
         ),
     ]
+    reverse_properties = []
     existence_query_properties = ("lookup_label",)
 
     def __init__(

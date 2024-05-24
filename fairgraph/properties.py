@@ -343,7 +343,7 @@ class Property(object):
             for cls in possible_classes:
                 for path in self.path:
                     assert path.startswith("^")
-                    for prop in cls.properties:
+                    for prop in cls.all_properties:
                         if path[1:] == prop.path:
                             property_name = path
                             found_match = True

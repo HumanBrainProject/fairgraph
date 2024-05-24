@@ -18,6 +18,7 @@ class SomeOrganization(KGObject):
         Property("name", str, "vocab:fullName", multiple=False, required=True),
         Property("alias", str, "vocab:shortName", multiple=False, required=False),
     ]
+    reverse_properties = []
     existence_query_properties = ("name",)
 
 
@@ -31,6 +32,7 @@ class SomeAffiliation(EmbeddedMetadata):
         Property("member_of", (SomeOrganization,), "vocab:memberOf", multiple=False, required=False),
         Property("start_date", date, "vocab:startDate", multiple=False, required=False),
     ]
+    reverse_properties = []
 
 
 class SomeContactInformation(KGObject):
@@ -40,6 +42,7 @@ class SomeContactInformation(KGObject):
         "vocab": "https://openminds.ebrains.eu/vocab/",
     }
     properties = [Property("email", str, "vocab:email", multiple=False, required=True)]
+    reverse_properties = []
     existence_query_properties = ("email",)
 
 

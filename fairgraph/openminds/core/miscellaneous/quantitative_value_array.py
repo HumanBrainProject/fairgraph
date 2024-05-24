@@ -51,6 +51,7 @@ class QuantitativeValueArray(KGObject):
         ),
         Property("values", float, "vocab:values", multiple=True, required=True, doc="no description available"),
     ]
+    reverse_properties = []
     existence_query_properties = ("values",)
 
     def __init__(

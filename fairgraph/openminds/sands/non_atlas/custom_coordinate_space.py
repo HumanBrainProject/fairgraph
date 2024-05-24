@@ -59,6 +59,8 @@ class CustomCoordinateSpace(KGObject):
             required=True,
             doc="Determinate quantity used in the original measurement.",
         ),
+    ]
+    reverse_properties = [
         Property(
             "is_coordinate_space_of",
             "openminds.sands.CustomAnnotation",

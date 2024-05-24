@@ -24,6 +24,8 @@ class ORCID(KGObject):
     }
     properties = [
         Property("identifier", str, "vocab:identifier", required=True, doc="Term or code used to identify the ORCID."),
+    ]
+    reverse_properties = [
         Property(
             "identifies",
             "openminds.core.Person",

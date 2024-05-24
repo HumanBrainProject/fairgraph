@@ -282,6 +282,8 @@ class ModelVersion(KGObject):
             required=True,
             doc="Documentation on what changed in comparison to a previously published form of something.",
         ),
+    ]
+    reverse_properties = [
         Property(
             "comments",
             "openminds.core.Comment",

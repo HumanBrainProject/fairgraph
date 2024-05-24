@@ -67,6 +67,8 @@ class Setup(KGObject):
             multiple=True,
             doc="Distinct class to which a group of entities or concepts with similar characteristics or attributes belong to.",
         ),
+    ]
+    reverse_properties = [
         Property(
             "is_part_of",
             "openminds.core.Setup",

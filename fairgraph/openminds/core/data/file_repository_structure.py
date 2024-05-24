@@ -32,6 +32,8 @@ class FileRepositoryStructure(KGObject):
             doc="no description available",
         ),
         Property("lookup_label", str, "vocab:lookupLabel", doc="no description available"),
+    ]
+    reverse_properties = [
         Property(
             "structures",
             "openminds.core.FileRepository",

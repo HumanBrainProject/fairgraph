@@ -64,6 +64,8 @@ class LocalFile(KGObject):
             "vocab:storageSize",
             doc="Quantitative value defining how much disk space is used by an object on a computer system.",
         ),
+    ]
+    reverse_properties = [
         Property(
             "is_output_of",
             [

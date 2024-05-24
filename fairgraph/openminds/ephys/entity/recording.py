@@ -81,6 +81,8 @@ class Recording(KGObject):
             required=True,
             doc="no description available",
         ),
+    ]
+    reverse_properties = [
         Property(
             "next_recording",
             "openminds.ephys.Recording",

@@ -24,6 +24,8 @@ class DOI(KGObject):
     }
     properties = [
         Property("identifier", str, "vocab:identifier", required=True, doc="Term or code used to identify the DOI."),
+    ]
+    reverse_properties = [
         Property(
             "describes",
             ["openminds.core.BehavioralProtocol", "openminds.core.Protocol"],

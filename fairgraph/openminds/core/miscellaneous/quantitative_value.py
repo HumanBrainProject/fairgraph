@@ -43,6 +43,7 @@ class QuantitativeValue(EmbeddedMetadata):
         ),
         Property("value", float, "vocab:value", required=True, doc="Entry for a property."),
     ]
+    reverse_properties = []
 
     def __init__(
         self,

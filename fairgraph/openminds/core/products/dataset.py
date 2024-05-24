@@ -77,6 +77,8 @@ class Dataset(KGObject):
             required=True,
             doc="Shortened or fully abbreviated name of the dataset.",
         ),
+    ]
+    reverse_properties = [
         Property(
             "comments",
             "openminds.core.Comment",

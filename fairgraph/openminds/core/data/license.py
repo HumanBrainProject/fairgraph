@@ -48,6 +48,8 @@ class License(KGObject):
             multiple=True,
             doc="Hypertext document (block of information) found on the World Wide Web.",
         ),
+    ]
+    reverse_properties = [
         Property(
             "is_applied_to",
             [

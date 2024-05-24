@@ -40,6 +40,8 @@ class WebResource(KGObject):
             required=True,
             doc="Stands for Internationalized Resource Identifier which is an internet protocol standard that builds on the URI protocol, extending the set of permitted characters to include Unicode/ISO 10646.",
         ),
+    ]
+    reverse_properties = [
         Property(
             "describes",
             ["openminds.core.BehavioralProtocol", "openminds.core.Protocol"],

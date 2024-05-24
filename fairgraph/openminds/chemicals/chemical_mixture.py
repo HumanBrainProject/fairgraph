@@ -56,6 +56,8 @@ class ChemicalMixture(KGObject):
             required=True,
             doc="Distinct class to which a group of entities or concepts with similar characteristics or attributes belong to.",
         ),
+    ]
+    reverse_properties = [
         Property(
             "composes",
             ["openminds.ephys.Electrode", "openminds.ephys.ElectrodeArray", "openminds.ephys.Pipette"],

@@ -31,6 +31,7 @@ class StringProperty(EmbeddedMetadata):
         ),
         Property("value", str, "vocab:value", required=True, doc="Entry for a property."),
     ]
+    reverse_properties = []
 
     def __init__(self, name=None, value=None, id=None, data=None, space=None, scope=None):
         return super().__init__(data=data, name=name, value=value)

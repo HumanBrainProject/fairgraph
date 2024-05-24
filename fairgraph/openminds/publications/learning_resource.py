@@ -242,6 +242,7 @@ class LearningResource(KGObject):
             doc="Term or code used to identify the version of something.",
         ),
     ]
+    reverse_properties = []
     existence_query_properties = ("about", "name", "publication_date")
 
     def __init__(

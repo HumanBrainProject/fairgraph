@@ -19,7 +19,6 @@ and contain code common to sub-classes, to avoid code duplication.
 
 
 from __future__ import annotations
-
 from typing import TYPE_CHECKING, Optional, Dict, List, Union, Any
 from typing_extensions import TypeAlias
 from copy import copy
@@ -76,6 +75,7 @@ class Resolvable:  # all
 
 class ContainsMetadata(Resolvable, metaclass=Registry):  # KGObject and EmbeddedMetadata
     properties: List[Property]
+    reverse_properties: List[Property]
     context: Dict[str, str]
     type_: str
     scope: Optional[str]
@@ -86,7 +86,7 @@ class ContainsMetadata(Resolvable, metaclass=Registry):  # KGObject and Embedded
 
     def __init__(self, data: Optional[Dict] = None, **properties):
         properties_copy = copy(properties)
-        for prop in self.properties:
+        for prop in self.__class__.all_properties:
             try:
                 val = properties[prop.name]
             except KeyError:
@@ -169,7 +169,7 @@ class ContainsMetadata(Resolvable, metaclass=Registry):  # KGObject and Embedded
             data: JSONdict = {"@type": [self.type_]}
             if hasattr(self, "id") and self.id:
                 data["@id"] = self.id
-            for prop in self.properties:
+            for prop in self.__class__.all_properties:
                 if prop.intrinsic or include_reverse_properties:
                     expanded_path = prop.expanded_path
                     value = getattr(self, prop.name)
@@ -242,7 +242,7 @@ class ContainsMetadata(Resolvable, metaclass=Registry):  # KGObject and Embedded
                 else:
                     prop.error_handling = value
         else:
-            for prop in cls.properties:
+            for prop in cls.all_properties:
                 prop.error_handling = value
 
     @classmethod
@@ -267,7 +267,7 @@ class ContainsMetadata(Resolvable, metaclass=Registry):  # KGObject and Embedded
             if name_ in filter_dict_copy:
                 filter_dict_copy[alias_] = filter_dict_copy.pop(name_)
 
-        for prop in cls.properties:
+        for prop in cls.all_properties:
             if prop.name in filter_dict_copy:
                 value = filter_dict_copy[prop.name]
                 if isinstance(value, dict):
@@ -289,7 +289,7 @@ class ContainsMetadata(Resolvable, metaclass=Registry):  # KGObject and Embedded
         """
         properties = [QueryProperty("@type")]
         reverse_aliases = invert_dict(cls.aliases)
-        for prop in cls.properties:
+        for prop in cls.all_properties:
             if prop.is_link and follow_links:
                 if prop.name in follow_links:
                     properties.extend(prop.get_query_properties(follow_links[prop.name]))
@@ -314,7 +314,7 @@ class ContainsMetadata(Resolvable, metaclass=Registry):  # KGObject and Embedded
         if filters is None:
             filters = {}
         properties = []
-        for prop in cls.properties:
+        for prop in cls.all_properties:
             if prop.name in filters:
                 properties.append(prop.get_query_filter_property(filters[prop.name]))
         return properties
@@ -350,7 +350,7 @@ class ContainsMetadata(Resolvable, metaclass=Registry):  # KGObject and Embedded
                 return None
 
         deserialized_data = {}
-        for prop in cls.properties:
+        for prop in cls.all_properties:
             expanded_path = expand_uri(prop.path, cls.context)
             data_item = D.get(expanded_path)
             if data_item is not None and prop.reverse:
@@ -393,7 +393,7 @@ class ContainsMetadata(Resolvable, metaclass=Registry):  # KGObject and Embedded
         use_scope = scope or self.scope or "released"
         if follow_links:
             reverse_aliases = invert_dict(self.__class__.aliases)
-            for prop in self.properties:
+            for prop in self.__class__.all_properties:
                 if prop.is_link:
                     follow_name = None
                     if prop.name in follow_links:
@@ -443,7 +443,7 @@ class ContainsMetadata(Resolvable, metaclass=Registry):  # KGObject and Embedded
 
         query_properties = []
         for property_name in self.existence_query_properties:
-            for property in self.properties:
+            for property in self.__class__.all_properties:
                 if property.name == property_name:
                     query_properties.append(property)
                     break

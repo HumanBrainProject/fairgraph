@@ -33,6 +33,7 @@ class Hash(EmbeddedMetadata):
             "digest", str, "vocab:digest", required=True, doc="Summation or condensation of a body of information."
         ),
     ]
+    reverse_properties = []
 
     def __init__(self, algorithm=None, digest=None, id=None, data=None, space=None, scope=None):
         return super().__init__(data=data, algorithm=algorithm, digest=digest)

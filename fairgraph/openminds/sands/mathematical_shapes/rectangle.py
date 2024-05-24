@@ -29,6 +29,7 @@ class Rectangle(EmbeddedMetadata):
             "width", "openminds.core.QuantitativeValue", "vocab:width", required=True, doc="no description available"
         ),
     ]
+    reverse_properties = []
 
     def __init__(self, length=None, width=None, id=None, data=None, space=None, scope=None):
         return super().__init__(data=data, length=length, width=width)

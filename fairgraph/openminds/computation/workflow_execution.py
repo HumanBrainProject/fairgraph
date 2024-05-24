@@ -54,6 +54,7 @@ class WorkflowExecution(KGObject):
             doc="no description available",
         ),
     ]
+    reverse_properties = []
     existence_query_properties = ("stages",)
 
     def __init__(

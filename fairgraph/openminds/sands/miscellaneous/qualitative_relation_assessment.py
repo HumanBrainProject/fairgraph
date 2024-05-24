@@ -47,6 +47,7 @@ class QualitativeRelationAssessment(EmbeddedMetadata):
             doc="Semantic characterization of how much two things occupy the same space.",
         ),
     ]
+    reverse_properties = []
 
     def __init__(
         self, criteria=None, in_relation_to=None, qualitative_overlap=None, id=None, data=None, space=None, scope=None

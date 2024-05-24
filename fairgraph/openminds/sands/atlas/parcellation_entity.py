@@ -66,6 +66,8 @@ class ParcellationEntity(KGObject):
             "vocab:relatedUBERONTerm",
             doc="no description available",
         ),
+    ]
+    reverse_properties = [
         Property(
             "has_children",
             ["openminds.sands.ParcellationEntity", "openminds.sands.ParcellationEntityVersion"],

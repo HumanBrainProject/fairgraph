@@ -32,6 +32,8 @@ class Configuration(KGObject):
             doc="Method of digitally organizing and structuring data or information.",
         ),
         Property("lookup_label", str, "vocab:lookupLabel", doc="no description available"),
+    ]
+    reverse_properties = [
         Property(
             "is_configuration_of",
             [

@@ -26,6 +26,8 @@ class HANDLE(KGObject):
         Property(
             "identifier", str, "vocab:identifier", required=True, doc="Term or code used to identify the HANDLE."
         ),
+    ]
+    reverse_properties = [
         Property(
             "related_to",
             [

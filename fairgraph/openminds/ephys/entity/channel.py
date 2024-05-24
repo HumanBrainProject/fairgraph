@@ -37,6 +37,7 @@ class Channel(EmbeddedMetadata):
             doc="Determinate quantity adopted as a standard of measurement.",
         ),
     ]
+    reverse_properties = []
 
     def __init__(self, internal_identifier=None, unit=None, id=None, data=None, space=None, scope=None):
         return super().__init__(data=data, internal_identifier=internal_identifier, unit=unit)

@@ -32,6 +32,8 @@ class ContentTypePattern(KGObject):
         ),
         Property("lookup_label", str, "vocab:lookupLabel", doc="no description available"),
         Property("regex", str, "vocab:regex", required=True, doc="no description available"),
+    ]
+    reverse_properties = [
         Property(
             "identifies_content_of",
             "openminds.core.FileRepository",

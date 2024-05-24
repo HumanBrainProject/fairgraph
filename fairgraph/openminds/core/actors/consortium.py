@@ -37,6 +37,8 @@ class Consortium(KGObject):
         ),
         Property("homepage", IRI, "vocab:homepage", doc="Main website of the consortium."),
         Property("short_name", str, "vocab:shortName", doc="Shortened or fully abbreviated name of the consortium."),
+    ]
+    reverse_properties = [
         Property(
             "coordinated_projects",
             "openminds.core.Project",

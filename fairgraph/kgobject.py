@@ -77,8 +77,8 @@ class KGObject(ContainsMetadata, RepresentsSingleObject, SupportsQuerying):
         self.scope = scope
         self.allow_update = True
         super().__init__(data=data, **properties)
-        for prop in self.properties:
-            if prop.reverse and not hasattr(self, prop.name):
+        for prop in self.reverse_properties:
+            if not hasattr(self, prop.name):
                 query = KGQuery(
                     prop.types, {prop.reverse: self.id}, callback=lambda value: setattr(self, prop.name, value)
                 )
@@ -87,7 +87,7 @@ class KGObject(ContainsMetadata, RepresentsSingleObject, SupportsQuerying):
     def __repr__(self):
         template_parts = (
             "{}={{self.{}!r}}".format(prop.name, prop.name)
-            for prop in self.properties
+            for prop in self.__class__.all_properties
             if getattr(self, prop.name) is not None
         )
         template = "{self.__class__.__name__}(" + ", ".join(template_parts) + ", space={self.space}, id={self.id})"
@@ -424,7 +424,7 @@ class KGObject(ContainsMetadata, RepresentsSingleObject, SupportsQuerying):
         """Replace any empty properties (value None) with the supplied data"""
         cls = self.__class__
         deserialized_data = cls._deserialize_data(data, client, include_id=True)
-        for prop in cls.properties:
+        for prop in cls.all_properties:
             current_value = getattr(self, prop.name, None)
             if current_value is None:
                 value = deserialized_data[prop.name]
@@ -445,11 +445,11 @@ class KGObject(ContainsMetadata, RepresentsSingleObject, SupportsQuerying):
         if self.id and other.id and self.id != other.id:
             return True
         for prop in self.properties:
-            if prop.intrinsic:
-                val_self = getattr(self, prop.name)
-                val_other = getattr(other, prop.name)
-                if val_self != val_other:
-                    return True
+            assert prop.intrinsic
+            val_self = getattr(self, prop.name)
+            val_other = getattr(other, prop.name)
+            if val_self != val_other:
+                return True
         return False
 
     def diff(self, other):
@@ -463,11 +463,11 @@ class KGObject(ContainsMetadata, RepresentsSingleObject, SupportsQuerying):
             if self.id != other.id:
                 differences["id"] = (self.id, other.id)
             for prop in self.properties:
-                if prop.intrinsic:
-                    val_self = getattr(self, prop.name)
-                    val_other = getattr(other, prop.name)
-                    if val_self != val_other:
-                        differences["properties"][prop.name] = (val_self, val_other)
+                assert prop.intrinsic
+                val_self = getattr(self, prop.name)
+                val_other = getattr(other, prop.name)
+                if val_self != val_other:
+                    differences["properties"][prop.name] = (val_self, val_other)
         return differences
 
     def exists(self, client: KGClient) -> bool:
@@ -568,39 +568,39 @@ class KGObject(ContainsMetadata, RepresentsSingleObject, SupportsQuerying):
         """
         if recursive:
             for prop in self.properties:
-                if prop.intrinsic:
-                    # we do not save reverse properties, those objects must be saved separately
-                    # this could be revisited, but we'll have to be careful about loops
-                    # if saving recursively
-                    values = getattr(self, prop.name)
-                    for value in as_list(values):
-                        if isinstance(value, ContainsMetadata):
-                            target_space: Optional[str]
-                            if value.space:
-                                target_space = value.space
-                            elif (
-                                isinstance(value, KGObject)
-                                and value.__class__.default_space == "controlled"
-                                and value.exists(client)
-                                and value.space == "controlled"
-                            ):
+                assert prop.intrinsic
+                # we do not save reverse properties, those objects must be saved separately
+                # this could be revisited, but we'll have to be careful about loops
+                # if saving recursively
+                values = getattr(self, prop.name)
+                for value in as_list(values):
+                    if isinstance(value, ContainsMetadata):
+                        target_space: Optional[str]
+                        if value.space:
+                            target_space = value.space
+                        elif (
+                            isinstance(value, KGObject)
+                            and value.__class__.default_space == "controlled"
+                            and value.exists(client)
+                            and value.space == "controlled"
+                        ):
+                            continue
+                        elif space is None and self.space is not None:
+                            target_space = self.space
+                        else:
+                            target_space = space
+                        if target_space == "controlled":
+                            assert isinstance(value, KGObject)  # for type checking
+                            if value.exists(client) and value.space == "controlled":
                                 continue
-                            elif space is None and self.space is not None:
-                                target_space = self.space
                             else:
-                                target_space = space
-                            if target_space == "controlled":
-                                assert isinstance(value, KGObject)  # for type checking
-                                if value.exists(client) and value.space == "controlled":
-                                    continue
-                                else:
-                                    raise AuthorizationError("Cannot write to controlled space")
-                            value.save(
-                                client,
-                                space=target_space,
-                                recursive=True,
-                                activity_log=activity_log,
-                            )
+                                raise AuthorizationError("Cannot write to controlled space")
+                        value.save(
+                            client,
+                            space=target_space,
+                            recursive=True,
+                            activity_log=activity_log,
+                        )
         if space is None:
             if self.space is None:
                 space = self.__class__.default_space
@@ -762,7 +762,7 @@ class KGObject(ContainsMetadata, RepresentsSingleObject, SupportsQuerying):
             ("space", str(self.space)),
             ("type", self.type_),
         ]
-        for prop in self.properties:
+        for prop in self.__class__.all_properties:
             value = getattr(self, prop.name, None)
             if include_empty_properties or not isinstance(value, (type(None), KGQuery)):
                 data.append((prop.name, str(value)))
@@ -836,7 +836,8 @@ class KGObject(ContainsMetadata, RepresentsSingleObject, SupportsQuerying):
             self.resolve(client, follow_links=follow_links)
         all_children = []
         for prop in self.properties:
-            if prop.intrinsic and prop.is_link:
+            assert prop.intrinsic
+            if prop.is_link:
                 children = as_list(getattr(self, prop.name))
                 all_children.extend(children)
                 if follow_links:

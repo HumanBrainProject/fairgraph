@@ -54,6 +54,7 @@ class ResearchProductGroup(KGObject):
             doc="no description available",
         ),
     ]
+    reverse_properties = []
     existence_query_properties = ("context", "has_parts")
 
     def __init__(self, context=None, has_parts=None, id=None, data=None, space=None, scope=None):

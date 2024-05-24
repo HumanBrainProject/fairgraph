@@ -54,6 +54,8 @@ class LivePaperResourceItem(KGObject):
             required=True,
             doc="Word or phrase that constitutes the distinctive designation of the live paper resource item.",
         ),
+    ]
+    reverse_properties = [
         Property(
             "is_location_of",
             "openminds.core.ServiceLink",

@@ -48,6 +48,8 @@ class Funding(KGObject):
             required=True,
             doc="Legal person that provides money for a particular purpose.",
         ),
+    ]
+    reverse_properties = [
         Property(
             "funded",
             [

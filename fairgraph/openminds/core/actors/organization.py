@@ -52,6 +52,8 @@ class Organization(KGObject):
         ),
         Property("homepage", IRI, "vocab:homepage", doc="Main website of the organization."),
         Property("short_name", str, "vocab:shortName", doc="Shortened or fully abbreviated name of the organization."),
+    ]
+    reverse_properties = [
         Property(
             "coordinated_projects",
             "openminds.core.Project",

@@ -93,6 +93,8 @@ class Pipette(KGObject):
             doc="no description available",
         ),
         Property("serial_number", str, "vocab:serialNumber", doc="no description available"),
+    ]
+    reverse_properties = [
         Property(
             "is_part_of",
             "openminds.core.Setup",

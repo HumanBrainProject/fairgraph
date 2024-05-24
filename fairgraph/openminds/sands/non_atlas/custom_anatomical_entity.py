@@ -50,6 +50,8 @@ class CustomAnatomicalEntity(KGObject):
             multiple=True,
             doc="no description available",
         ),
+    ]
+    reverse_properties = [
         Property(
             "is_location_of",
             [

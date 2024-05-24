@@ -59,6 +59,7 @@ class Measurement(EmbeddedMetadata):
             doc="Entry for a property.",
         ),
     ]
+    reverse_properties = []
 
     def __init__(
         self,

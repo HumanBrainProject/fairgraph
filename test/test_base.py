@@ -43,6 +43,7 @@ class MockEmbeddedObject(EmbeddedMetadata):
             required=True,
         ),
     ]
+    reverse_properties = []
     existence_query_properties = ("a_number",)
 
 
@@ -56,6 +57,7 @@ class MockKGObject2(KGObject):
         "mock": "https://openminds.ebrains.eu/mock/",
     }
     properties = [Property("a", int, "https://openminds.ebrains.eu/vocab/A", multiple=False, required=True)]
+    reverse_properties = []
 
 
 class MockKGObject(KGObject):
@@ -181,6 +183,7 @@ class MockKGObject(KGObject):
             required=False,
         ),
     ]
+    reverse_properties = []
     existence_query_properties = (
         "a_required_string",
         "a_required_datetime",

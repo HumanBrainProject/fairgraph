@@ -86,6 +86,8 @@ class SubjectGroupState(KGObject):
             "vocab:weight",
             doc="Amount that a thing or being weighs.",
         ),
+    ]
+    reverse_properties = [
         Property(
             "has_children",
             [

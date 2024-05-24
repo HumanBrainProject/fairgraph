@@ -165,6 +165,8 @@ class Visualization(KGObject):
             "vocab:wasInformedBy",
             doc="no description available",
         ),
+    ]
+    reverse_properties = [
         Property(
             "informed",
             [

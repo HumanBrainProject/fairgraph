@@ -70,6 +70,8 @@ class VisualStimulusType(KGObject):
             multiple=True,
             doc="Words or expressions used in the same language that have the same or nearly the same meaning in some or all senses.",
         ),
+    ]
+    reverse_properties = [
         Property(
             "describes",
             [

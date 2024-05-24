@@ -49,6 +49,8 @@ class ChemicalSubstance(KGObject):
             "vocab:purity",
             doc="no description available",
         ),
+    ]
+    reverse_properties = [
         Property(
             "composes",
             ["openminds.ephys.Electrode", "openminds.ephys.ElectrodeArray", "openminds.ephys.Pipette"],

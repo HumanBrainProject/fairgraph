@@ -53,6 +53,8 @@ class Environment(KGObject):
             multiple=True,
             doc="no description available",
         ),
+    ]
+    reverse_properties = [
         Property(
             "used_for",
             [

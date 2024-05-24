@@ -83,6 +83,8 @@ class WorkflowRecipe(KGObject):
             required=True,
             doc="Shortened or fully abbreviated name of the workflow recipe.",
         ),
+    ]
+    reverse_properties = [
         Property(
             "comments",
             "openminds.core.Comment",

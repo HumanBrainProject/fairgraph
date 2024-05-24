@@ -31,6 +31,8 @@ class PublicationIssue(KGObject):
             doc="Reference to the ensemble of multiple things or beings.",
         ),
         Property("issue_number", str, "vocab:issueNumber", required=True, doc="no description available"),
+    ]
+    reverse_properties = [
         Property(
             "has_parts",
             "openminds.publications.ScholarlyArticle",

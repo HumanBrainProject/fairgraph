@@ -29,6 +29,7 @@ class StockNumber(EmbeddedMetadata):
             "vendor", "openminds.core.Organization", "vocab:vendor", required=True, doc="no description available"
         ),
     ]
+    reverse_properties = []
 
     def __init__(self, identifier=None, vendor=None, id=None, data=None, space=None, scope=None):
         return super().__init__(data=data, identifier=identifier, vendor=vendor)

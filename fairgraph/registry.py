@@ -5,6 +5,7 @@ based on names and type identifiers.
 """
 
 from __future__ import annotations
+from itertools import chain
 from typing import TYPE_CHECKING, Union, List
 from warnings import warn
 
@@ -65,13 +66,14 @@ class Registry(type):
     """Metaclass for registering Knowledge Graph classes."""
 
     properties = []
+    reverse_properties = []
     aliases = {}
 
     def __new__(meta, name, bases, class_dict):
         cls = type.__new__(meta, name, bases, class_dict)
         cls._base_docstring = class_dict.get("__doc__", "").strip()
         cls._property_lookup = {
-            prop.name: prop for prop in cls.properties
+            prop.name: prop for prop in (cls.properties + cls.reverse_properties)
         }
         register_class(cls)
         return cls
@@ -87,7 +89,7 @@ class Registry(type):
                 else:
                     return "~{}.{}".format(type_.__module__, type_.__name__)
 
-            for prop in cls.properties:
+            for prop in cls.all_properties:
                 doc = "{} : {}\n    {}".format(prop.name, ", ".join(gen_path(t) for t in prop.types), prop.doc)
                 property_docs.append(doc)
         return docstring_template.format(base=cls._base_docstring, args="\n".join(property_docs))
@@ -103,13 +105,17 @@ class Registry(type):
         return [f.name for f in cls.properties if f.required]
 
     @property
+    def all_properties(cls):
+        return chain(cls.properties, cls.reverse_properties)
+
+    @property
     def fields(cls):
         warn(
             "Use of the 'fields' attribute is deprecated, it will be removed in a future release. "
             "Use 'properties' instead",
             DeprecationWarning,
         )
-        return cls.properties
+        return cls.properties + cls.reverse_properties
 
     @property
     def field_names(cls):

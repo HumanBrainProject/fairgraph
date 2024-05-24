@@ -32,6 +32,8 @@ class {{ class_name }}({{ base_class }}):
             {%- if prop.required %}required={{prop.required}},{% endif -%}
             doc="{{prop.doc}}"),
         {% endfor %}
+    ]
+    reverse_properties = [
         {% for prop in reverse_properties -%}
         Property(
             "{{prop.name}}", {{prop.type_str}},

@@ -38,6 +38,7 @@ class NumericalProperty(EmbeddedMetadata):
             doc="Entry for a property.",
         ),
     ]
+    reverse_properties = []
 
     def __init__(self, name=None, values=None, id=None, data=None, space=None, scope=None):
         return super().__init__(data=data, name=name, values=values)

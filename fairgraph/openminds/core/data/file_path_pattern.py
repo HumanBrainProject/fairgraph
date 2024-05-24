@@ -32,6 +32,7 @@ class FilePathPattern(EmbeddedMetadata):
         ),
         Property("regex", str, "vocab:regex", required=True, doc="no description available"),
     ]
+    reverse_properties = []
 
     def __init__(self, grouping_types=None, regex=None, id=None, data=None, space=None, scope=None):
         return super().__init__(data=data, grouping_types=grouping_types, regex=regex)

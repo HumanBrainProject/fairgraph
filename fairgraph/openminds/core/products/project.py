@@ -79,6 +79,7 @@ class Project(KGObject):
             doc="Shortened or fully abbreviated name of the project.",
         ),
     ]
+    reverse_properties = []
     aliases = {"name": "full_name", "alias": "short_name"}
     existence_query_properties = ("short_name",)
 

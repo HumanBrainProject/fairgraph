@@ -201,6 +201,8 @@ class ScholarlyArticle(KGObject):
             "vocab:versionIdentifier",
             doc="Term or code used to identify the version of something.",
         ),
+    ]
+    reverse_properties = [
         Property(
             "related_to",
             [

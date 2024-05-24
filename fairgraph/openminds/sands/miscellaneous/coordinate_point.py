@@ -38,6 +38,7 @@ class CoordinatePoint(EmbeddedMetadata):
             doc="Pair or triplet of numbers defining a location in a given coordinate space.",
         ),
     ]
+    reverse_properties = []
 
     def __init__(self, coordinate_space=None, coordinates=None, id=None, data=None, space=None, scope=None):
         return super().__init__(data=data, coordinate_space=coordinate_space, coordinates=coordinates)

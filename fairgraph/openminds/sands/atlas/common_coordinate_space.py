@@ -97,6 +97,8 @@ class CommonCoordinateSpace(KGObject):
             required=True,
             doc="no description available",
         ),
+    ]
+    reverse_properties = [
         Property(
             "comments",
             "openminds.core.Comment",

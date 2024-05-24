@@ -30,6 +30,8 @@ class ContactInformation(KGObject):
             required=True,
             doc="Address to which or from which an electronic mail can be sent.",
         ),
+    ]
+    reverse_properties = [
         Property(
             "is_contact_information_of",
             ["openminds.core.Consortium", "openminds.core.Person"],

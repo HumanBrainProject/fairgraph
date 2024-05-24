@@ -24,6 +24,8 @@ class ISSN(KGObject):
     }
     properties = [
         Property("identifier", str, "vocab:identifier", required=True, doc="Term or code used to identify the ISSN."),
+    ]
+    reverse_properties = [
         Property(
             "identifies",
             "openminds.publications.Periodical",

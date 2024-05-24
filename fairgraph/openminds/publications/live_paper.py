@@ -79,6 +79,8 @@ class LivePaper(KGObject):
             required=True,
             doc="Shortened or fully abbreviated name of the live paper.",
         ),
+    ]
+    reverse_properties = [
         Property(
             "comments",
             "openminds.core.Comment",

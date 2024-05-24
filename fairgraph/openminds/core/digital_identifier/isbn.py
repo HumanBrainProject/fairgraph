@@ -24,6 +24,8 @@ class ISBN(KGObject):
     }
     properties = [
         Property("identifier", str, "vocab:identifier", required=True, doc="Term or code used to identify the ISBN."),
+    ]
+    reverse_properties = [
         Property(
             "cited_in",
             [

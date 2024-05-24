@@ -59,6 +59,8 @@ class Person(KGObject):
             required=True,
             doc="Name given to a person, including all potential middle names, but excluding the family name.",
         ),
+    ]
+    reverse_properties = [
         Property(
             "activities",
             [

@@ -30,6 +30,8 @@ class IdentifiersDotOrgID(KGObject):
             required=True,
             doc="Term or code used to identify the identifiers dot org i d.",
         ),
+    ]
+    reverse_properties = [
         Property(
             "identifies",
             ["openminds.core.Dataset", "openminds.core.DatasetVersion"],

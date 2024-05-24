@@ -72,6 +72,8 @@ class Protocol(KGObject):
             required=True,
             doc="Method of accomplishing a desired aim.",
         ),
+    ]
+    reverse_properties = [
         Property(
             "used_in",
             [

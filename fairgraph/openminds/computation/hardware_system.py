@@ -42,6 +42,8 @@ class HardwareSystem(KGObject):
             "vocab:versionIdentifier",
             doc="Term or code used to identify the version of something.",
         ),
+    ]
+    reverse_properties = [
         Property(
             "used_by",
             "openminds.computation.Environment",
