@@ -3,6 +3,13 @@ Release notes
 =============
 
 
+Version 0.13.2
+==============
+
+Fixed some bugs in the machinery for supporting the openMINDS v3 to v4 migration.
+This version has been tested with both unmigrated (v3) and migrated (v4) deployments of the KG.
+
+
 Version 0.13.1
 ==============
 
