@@ -41,7 +41,7 @@ from .utility import expand_uri, as_list, expand_filter, ActivityLog, normalize_
 from .queries import Query, QueryProperty
 from .errors import AuthorizationError, ResourceExistsError, CannotBuildExistenceQuery
 from .caching import object_cache, save_cache, generate_cache_key
-from .base import RepresentsSingleObject, SupportsQuerying, JSONdict, OPENMINDS_VERSION
+from .base import ErrorHandling, RepresentsSingleObject, SupportsQuerying, JSONdict, OPENMINDS_VERSION
 from .node import ContainsMetadata
 from .kgproxy import KGProxy
 from .kgquery import KGQuery
@@ -94,10 +94,16 @@ class KGObject(ContainsMetadata, RepresentsSingleObject, SupportsQuerying):
             # and a normalized version in `remote_data`
             self._raw_remote_data = data  # for debugging
             if data:
-                self.remote_data = normalize_data(
-                    self.to_jsonld(include_empty_properties=False, embed_linked_nodes=False),
-                    data.get("@context", self.context)
-                )
+                try:
+                    self.remote_data = normalize_data(
+                        self.to_jsonld(include_empty_properties=False, embed_linked_nodes=False),
+                        data.get("@context", self.context)
+                    )
+                except ValueError as err:
+                    # ideally, we should handle errors at the level of individual properties
+                    # but that requires some changes to openMINDS-Python
+                    ErrorHandling.handle_violation(self.error_handling, str(err))
+                    self.remote_data = None
 
     def __repr__(self):
         template_parts = (
