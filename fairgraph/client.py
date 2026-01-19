@@ -205,7 +205,10 @@ class KGClient(object):
             result = self.instance_from_full_uri(
                 "https://kg.ebrains.eu/api/instances/92631f2e-fc6e-4122-8015-a0731c67f66c", release_status="released"
             )
-            if "om-i.org" in result["@type"]:
+            _type = result["@type"]
+            if isinstance(_type, list):
+                _type = _type[0]
+            if "om-i.org" in _type:
                 self._migrated = True
             else:
                 self._migrated = False
@@ -411,12 +414,13 @@ class KGClient(object):
                 elif uri.startswith("https://openminds.om-i.org/instances") or uri.startswith(
                     "https://openminds.ebrains.eu/instances"
                 ):
-                    if self.migrated and uri.startswith("https://openminds.ebrains.eu"):
-                        payload = [uri.replace("ebrains.eu", "om-i.org")]
-                    elif uri.startswith("https://openminds.om-i.org"):
-                        payload = [uri.replace("om-i.org", "ebrains.eu")]
+                    payload = [uri]
+                    if self.migrated:
+                        if uri.startswith("https://openminds.ebrains.eu"):
+                            payload = [uri.replace("ebrains.eu", "om-i.org")]
                     else:
-                        payload = [uri]
+                        if uri.startswith("https://openminds.om-i.org"):
+                            payload = [uri.replace("om-i.org", "ebrains.eu")]
                     response = self._kg_client.instances.get_by_identifiers(
                         stage=STAGE_MAP[release_status],
                         payload=payload,
