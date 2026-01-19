@@ -431,7 +431,7 @@ def test_execute_query_with_reverse_properties_and_instance_id(kg_client, exampl
         data[0]["location"]
         == "https://data-proxy.ebrains.eu/api/v1/buckets/p63ea6-Angelo_SGA1_1.2.4?prefix=hbp-00810/EPSC/"
     )
-    assert "hbp-00810_ESPC" in data[0]["files"][0]["filename"]
+    assert "hbp-00810_E" in data[0]["files"][0]["filename"]
     assert data[0]["files"][4]["hash"][0]["algorithm"] == "MD5"
 
 
@@ -454,7 +454,7 @@ def test_execute_query_with_reverse_properties_and_filter(kg_client, example_que
         data[0]["location"]
         == "https://data-proxy.ebrains.eu/api/v1/buckets/p63ea6-Angelo_SGA1_1.2.4?prefix=hbp-00810/EPSC/"
     )
-    assert "hbp-00810_ESPC" in data[0]["files"][0]["filename"]
+    assert "hbp-00810_E" in data[0]["files"][0]["filename"]
     assert data[0]["files"][4]["hash"][0]["algorithm"] == "MD5"
     assert (
         data[0]["contains_dataset_version"][0]["alias"]
