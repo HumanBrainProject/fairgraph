@@ -530,7 +530,10 @@ class KGClient(object):
         """
         Delete a KG instance.
         """
-        UUID(instance_id)
+        if isinstance(instance_id, UUID):
+            instance_id = str(instance_id)
+        else:
+            UUID(instance_id)
         response = self._kg_client.instances.delete(instance_id)
         # response is None if no errors
         if response:  # error

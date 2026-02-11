@@ -374,7 +374,7 @@ class ContainsMetadata(Resolvable, metaclass=Node):  # KGObject and EmbeddedMeta
             else:
                 try:
                     value = prop.deserialize(data_item)
-                except ValueError as err:
+                except (TypeError, ValueError, AssertionError) as err:
                     ErrorHandling.handle_violation(cls.error_handling, str(err))
                 else:
                     if isinstance(value, Link) and value.allowed_types is not None:
