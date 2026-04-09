@@ -102,6 +102,24 @@ If you want to remove *all* nodes from a private space, you can run:
              before re-running the script.
 
 
+Data Protection
+===============
+
+fairgraph is a client library that communicates with the EBRAINS Knowledge Graph
+API on behalf of the user. It does not store, log, or process personal data
+independently. Any metadata transmitted to or retrieved from the Knowledge Graph
+— including researcher names, affiliations, and contact details embedded in
+research products — is subject to the `EBRAINS Privacy Policy`_ and the `Terms of Use`_.
+
+Authentication tokens passed to :class:`~fairgraph.KGClient` are used solely
+to authenticate requests to the EBRAINS API and are never written to disk or
+transmitted to any third party by fairgraph.
+
+For questions about GDPR compliance of the EBRAINS infrastructure, contact the
+EBRAINS support team via the `EBRAINS helpdesk <https://ebrains.eu/support>`_.
+
+
 .. _`Terms of Use`: https://kg.ebrains.eu/search-terms-of-use.html
 .. _`KG Search UI`: https://search.kg.ebrains.eu
 .. _`EBRAINS Collaboratory`: https://wiki.ebrains.eus
+.. _`EBRAINS Privacy Policy`: https://ebrains.eu/privacy-policy
