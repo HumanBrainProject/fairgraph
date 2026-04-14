@@ -114,7 +114,8 @@ class ScholarlyArticle(KGObject, OMScholarlyArticle):
                 volume = issue_or_volume
                 issue = None
             journal = volume.is_part_of
-            assert isinstance(journal, Periodical)
+            if not isinstance(journal, Periodical):
+                journal = journal.resolve(client, release_status=self.release_status)
         retval = [journal]
         if with_volume:
             retval.append(volume)
@@ -143,4 +144,5 @@ class ScholarlyArticle(KGObject, OMScholarlyArticle):
             title += "."
         journal_name = journal.name if journal else ""
         volume_number = f"{volume.volume_number}: " if (volume and volume.volume_number != "placeholder") else ""
-        return f"{author_str} ({self.publication_date.year}). {title} {journal_name}, {volume_number}{self.pagination or ''}."
+        year = self.publication_date.year if self.publication_date else "unpublished?"
+        return f"{author_str} ({year}). {title} {journal_name}, {volume_number}{self.pagination or ''}."
