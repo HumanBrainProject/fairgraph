@@ -206,7 +206,7 @@ class DatasetVersion(KGObject, OMDatasetVersion):
         if accepted_terms_of_use(client, accept_terms_of_use=accept_terms_of_use):
             repo = self.repository.resolve(client, release_status=self.release_status or None)
             if repo.iri.value.startswith("https://object.cscs.ch/v1/AUTH") or repo.iri.value.startswith(
-                "https://data-proxy.ebrains.eu/api/v1/public"
+                "https://data-proxy.ebrains.eu/api/v1/buckets"
             ):
                 zip_archive_url = f"https://data.kg.ebrains.eu/zip?container={repo.iri.value}"
             else:
