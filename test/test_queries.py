@@ -3,7 +3,6 @@ import json
 import pytest
 from kg_core.request import Stage, Pagination
 from fairgraph.queries import Query, QueryProperty, Filter, PathElement
-from fairgraph.utility import adapt_namespaces_for_query
 import fairgraph.openminds.core as omcore
 from .utils import kg_client, mock_client, skip_if_no_connection
 
@@ -363,8 +362,6 @@ def test_query_with_reverse_properties(example_query_repository_with_reverse):
 @skip_if_no_connection
 def test_execute_query(kg_client, example_query_model_version):
     query = example_query_model_version.serialize()
-    if kg_client.migrated is False:
-        query = adapt_namespaces_for_query(query)
     response = kg_client._kg_client.queries.test_query(
         payload=query,
         stage=Stage.RELEASED,
@@ -398,8 +395,6 @@ def test_execute_query(kg_client, example_query_model_version):
 def test_execute_query_with_id_filter(kg_client, example_query_model):
     target_id = "https://kg.ebrains.eu/api/instances/3ca9ae35-c9df-451f-ac76-4925bd2c7dc6"
     query = example_query_model.serialize()
-    if kg_client.migrated is False:
-        query = adapt_namespaces_for_query(query)
     response = kg_client._kg_client.queries.test_query(
         payload=query,
         instance_id=kg_client.uuid_from_uri(target_id),
@@ -417,8 +412,6 @@ def test_execute_query_with_id_filter(kg_client, example_query_model):
 def test_execute_query_with_reverse_properties_and_instance_id(kg_client, example_query_repository_with_reverse):
     target_id = "https://kg.ebrains.eu/api/instances/1c846a5f-eac2-477a-9dc3-d2e51b00fda9"
     query = example_query_repository_with_reverse.serialize()
-    if kg_client.migrated is False:
-        query = adapt_namespaces_for_query(query)
     response = kg_client._kg_client.queries.test_query(
         payload=query,
         instance_id=kg_client.uuid_from_uri(target_id),
@@ -438,8 +431,6 @@ def test_execute_query_with_reverse_properties_and_instance_id(kg_client, exampl
 @skip_if_no_connection
 def test_execute_query_with_reverse_properties_and_filter(kg_client, example_query_repository_with_reverse):
     query = example_query_repository_with_reverse.serialize()
-    if kg_client.migrated is False:
-        query = adapt_namespaces_for_query(query)
     response = kg_client._kg_client.queries.test_query(
         payload=query,
         additional_request_params={

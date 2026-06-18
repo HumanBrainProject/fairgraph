@@ -19,7 +19,7 @@ openMINDS
    modules/openminds_stimulation
    modules/openminds_publications
 
-**fairgraph** currently provides the following modules for working with KG v3:
+**fairgraph** currently provides the following modules:
 
 :doc:`modules/openminds_core`
     covers general origin, location and content of research products.

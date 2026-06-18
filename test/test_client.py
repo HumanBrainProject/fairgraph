@@ -244,8 +244,6 @@ def offline_kg_client(mocker):
     from fairgraph.client import KGClient
 
     client = KGClient(token="fake-token", allow_interactive=False)
-    # Skip the feature-detection fetch that the `migrated` property triggers.
-    client._migrated = True
     # `instance_from_full_uri` uses this to build the cache key after writes
     mocker.patch.object(
         client._kg_client.instances._kg_config,

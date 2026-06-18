@@ -122,7 +122,7 @@ class QueryProperty:
 
     Example:
         >>> p = QueryProperty(
-        ...    "https://openminds.ebrains.eu/vocab/fullName",
+        ...    "https://openminds.om-i.org/props/fullName",
         ...    name="full_name",
         ...    filter=Filter("CONTAINS", parameter="name"),
         ...    sorted=True,
@@ -229,26 +229,26 @@ class Query:
 
     Example:
         >>> q = Query(
-        ...    node_type="https://openminds.ebrains.eu/core/ModelVersion",
+        ...    node_type="https://openminds.om-i.org/types/ModelVersion",
         ...    label="fg-testing-modelversion",
         ...    space="model",
         ...    properties=[
         ...        QueryProperty("@type"),
         ...        QueryProperty(
-        ...            "https://openminds.ebrains.eu/vocab/fullName",
+        ...            "https://openminds.om-i.org/props/fullName",
         ...            name="vocab:fullName",
         ...            filter=Filter("CONTAINS", parameter="name"),
         ...            sorted=True,
         ...            required=True,
         ...        ),
         ...        QueryProperty(
-        ...            "https://openminds.ebrains.eu/vocab/versionIdentifier",
+        ...            "https://openminds.om-i.org/props/versionIdentifier",
         ...            name="vocab:versionIdentifier",
         ...            filter=Filter("EQUALS", parameter="version"),
         ...            required=True,
         ...        ),
         ...        QueryProperty(
-        ...            "https://openminds.ebrains.eu/vocab/format",
+        ...            "https://openminds.om-i.org/props/format",
         ...            name="vocab:format",
         ...            ensure_order=True,
         ...            properties=[

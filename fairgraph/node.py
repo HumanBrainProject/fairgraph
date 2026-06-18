@@ -18,7 +18,6 @@ from .utility import (
     as_list,  # temporary for backwards compatibility (a lot of code imports it from here)
     expand_uri,
     normalize_data,
-    types_match,
 )
 
 if TYPE_CHECKING:
@@ -308,7 +307,7 @@ class KGNode(Resolvable, metaclass=NodeMeta):  # KGObject and KGEmbedded
 
         type_from_data = _get_type_from_data(data)
         # check types match
-        if not types_match(cls.type_, type_from_data):
+        if cls.type_ != type_from_data:
             raise TypeError("type mismatch {} - {}".format(cls.type_, type_from_data))
 
         # normalize data by expanding keys
