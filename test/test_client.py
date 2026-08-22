@@ -6,7 +6,14 @@ from fairgraph.kgobject import KGObject
 from fairgraph.queries import Query, QueryProperty, Filter
 from fairgraph.errors import AuthenticationError, AuthorizationError, ResourceExistsError
 from fairgraph.base import OPENMINDS_VERSION
-from .utils import kg_client, kg_client_curator, skip_if_no_connection, MockKGResponse
+from fairgraph.client import KGClient
+from .utils import (
+    kg_client,
+    kg_client_curator,
+    mock_client,
+    skip_if_no_connection,
+    MockKGResponse,
+)
 
 
 @skip_if_no_connection
@@ -440,3 +447,58 @@ class TestCacheInvalidationOnWrite:
         assert dsv._raw_remote_data is None, (
             "_raw_remote_data must be invalidated after a successful update"
         )
+
+
+class TestSpaceInfoOffline:
+    """space_info() and its callers, exercised without a KG connection.
+
+    Additional regression tests for #113, but no KG connection required.
+    """
+
+    known_type = "https://openminds.om-i.org/types/Person"
+    unknown_type = "https://core.kg.ebrains.eu/doi/AdditionalDoiInformation"
+
+    def _client_listing(self, mocker, mock_client, items):
+        """Equip the mock client with a types.list() returning `items`."""
+        data = [mocker.Mock(identifier=iri, occurrences=count) for iri, count in items]
+        mock_client._kg_client = mocker.Mock()
+        mock_client._kg_client.types.list.return_value = MockKGResponse(data)
+        return mock_client
+
+    def test_maps_known_types_to_classes_and_unknown_types_to_iris(self, mock_client, mocker):
+        client = self._client_listing(
+            mocker, mock_client, [(self.known_type, 3), (self.unknown_type, 7)]
+        )
+
+        info = KGClient.space_info(client, "myspace", release_status="in progress")
+
+        by_label = {(k if isinstance(k, str) else k.__name__): v for k, v in info.items()}
+        assert by_label == {"Person": 3, self.unknown_type: 7}
+
+        # the known type resolved to a class, the unknown one stayed a string
+        assert self.unknown_type in info
+        assert all(isinstance(k, type) for k in info if not isinstance(k, str))
+
+    def test_unknown_type_alone_does_not_raise(self, mock_client, mocker):
+        # The reported failure: a space whose only unrecognised type made the whole
+        # listing raise ValueError.
+        client = self._client_listing(mocker, mock_client, [(self.unknown_type, 1)])
+
+        assert KGClient.space_info(client, "myspace", release_status="in progress") == {
+            self.unknown_type: 1
+        }
+
+    def test_clean_space_lists_both_kinds_then_aborts(self, mock_client, mocker, capsys):
+        # clean_space() renders a label for every entry, so it has to cope with string
+        # keys as well as classes. Answering "n" exercises the listing without deleting.
+        from openminds.registry import lookup_type
+
+        person = lookup_type(self.known_type, mock_client.openminds_version)
+        mock_client.space_info = mocker.Mock(return_value={person: 3, self.unknown_type: 7})
+        mocker.patch("builtins.input", return_value="n")
+
+        KGClient.clean_space(mock_client, "myspace")
+
+        out = capsys.readouterr().out
+        assert "Person 3" in out
+        assert f"{self.unknown_type} 7" in out
