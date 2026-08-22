@@ -14,6 +14,7 @@ from fairgraph.kgproxy import KGProxy
 from fairgraph.caching import generate_cache_key
 from fairgraph.errors import CannotBuildExistenceQuery
 from fairgraph.base import ErrorHandling
+from .utils import mock_client
 
 import pytest
 
@@ -669,3 +670,29 @@ class TestKGProxy:
         uri = "https://kg.ebrains.eu/api/instances/00000000-0000-0000-0000-000000001234"
         proxy = KGProxy(MockKGObject, uri)
         assert repr(proxy) == 'KGProxy([MockKGObject], id="00000000-0000-0000-0000-000000001234")'
+
+
+class TestFromId:
+    """KGObject.from_id() on the base class, where the type is not known up front."""
+
+    nonexistent = "https://kg.ebrains.eu/api/instances/11111111-2222-3333-4444-555555555555"
+    existing = "http://example.org/00000000-0000-0000-0000-000000000000"
+
+    def test_returns_none_for_nonexistent_id(self, mock_client, mocker):
+        # Regression test for #115. instance_from_full_uri() returns None for an instance
+        # that does not exist or is not accessible. The typed path (from_uri) handles that
+        # and returns None, as from_id's docstring promises, but the untyped path indexed
+        # into the result regardless and raised
+        # "TypeError: 'NoneType' object is not subscriptable".
+        mocker.patch.object(mock_client, "instance_from_full_uri", return_value=None)
+
+        assert KGObject.from_id(self.nonexistent, mock_client, release_status="any") is None
+
+    def test_still_resolves_an_existing_id(self, mock_client):
+        # Companion to the above: the None guard must not swallow the success path.
+        # The mock client returns a Model instance for this URI, so from_id should look
+        # the type up in the registry and build the corresponding class.
+        obj = KGObject.from_id(self.existing, mock_client, release_status="any")
+
+        assert obj is not None
+        assert obj.__class__.__name__ == "Model"

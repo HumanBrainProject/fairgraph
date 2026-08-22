@@ -294,6 +294,8 @@ class KGObject(KGNode, Releasable):
             if follow_links is not None:
                 raise NotImplementedError
             data = client.instance_from_full_uri(uri, use_cache=use_cache, release_status=release_status)
+            if data is None:
+                return None
             type_ = data["@type"]
             if isinstance(type_, list):
                 assert len(type_) == 1
