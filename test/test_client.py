@@ -6,7 +6,14 @@ from fairgraph.kgobject import KGObject
 from fairgraph.queries import Query, QueryProperty, Filter
 from fairgraph.errors import AuthenticationError, AuthorizationError, ResourceExistsError
 from fairgraph.base import OPENMINDS_VERSION
-from .utils import kg_client, kg_client_curator, skip_if_no_connection, MockKGResponse
+from fairgraph.client import KGClient
+from .utils import (
+    kg_client,
+    kg_client_curator,
+    mock_client,
+    skip_if_no_connection,
+    MockKGResponse,
+)
 
 
 @skip_if_no_connection
@@ -39,6 +46,56 @@ def test_spaces_names_only(kg_client):
     result = kg_client.spaces(names_only=True)
     assert isinstance(result, list)
     assert all(isinstance(space, str) for space in result)
+
+
+@skip_if_no_connection
+def test_space_info_tolerates_unknown_types(kg_client):
+    # Regression test for #113. A KG space may contain types that have no fairgraph
+    # class -- the KG's own internal types, for example
+    # "https://core.kg.ebrains.eu/doi/AdditionalDoiInformation". space_info() used to
+    # raise ValueError for those, so a single unrecognised type made the whole space
+    # listing fail. They are now returned keyed by their type IRI instead.
+    #
+    # "controlled" with release_status="in progress" is the case from the bug report.
+    info = kg_client.space_info("controlled", release_status="in progress")
+
+    assert isinstance(info, dict)
+    for key, count in info.items():
+        assert isinstance(count, int)
+        if isinstance(key, str):
+            # an unmapped type, keyed by its IRI
+            assert key.startswith("http"), f"unmapped type key is not an IRI: {key!r}"
+        else:
+            # a fairgraph/openMINDS class
+            assert isinstance(key, type), f"unexpected key type: {key!r}"
+            assert hasattr(key, "type_"), f"class key has no type_: {key!r}"
+
+
+@skip_if_no_connection
+def test_space_info_reports_unmapped_types_by_iri(kg_client):
+    # Companion to the test above: check that unmapped types really do occur and are
+    # handled, rather than the tolerance never being exercised. Scans the spaces the
+    # user can read until it finds one, since which spaces contain internal types
+    # depends on the deployment.
+    #
+    # Skips rather than fails if none is found: that means the KG served nothing
+    # unmapped, which is not a fairgraph bug.
+    unmapped = {}
+    for space_name in kg_client.spaces(names_only=True):
+        try:
+            info = kg_client.space_info(space_name, release_status="in progress")
+        except Exception as err:  # pragma: no cover - the bug this guards against
+            pytest.fail(f"space_info({space_name!r}) raised {type(err).__name__}: {err}")
+        found = [key for key in info if isinstance(key, str)]
+        if found:
+            unmapped[space_name] = found
+
+    if not unmapped:
+        pytest.skip("no unmapped types found in any accessible space")
+
+    for space_name, keys in unmapped.items():
+        for key in keys:
+            assert key.startswith("http"), f"in {space_name}: {key!r} is not an IRI"
 
 
 @skip_if_no_connection
@@ -390,3 +447,58 @@ class TestCacheInvalidationOnWrite:
         assert dsv._raw_remote_data is None, (
             "_raw_remote_data must be invalidated after a successful update"
         )
+
+
+class TestSpaceInfoOffline:
+    """space_info() and its callers, exercised without a KG connection.
+
+    Additional regression tests for #113, but no KG connection required.
+    """
+
+    known_type = "https://openminds.om-i.org/types/Person"
+    unknown_type = "https://core.kg.ebrains.eu/doi/AdditionalDoiInformation"
+
+    def _client_listing(self, mocker, mock_client, items):
+        """Equip the mock client with a types.list() returning `items`."""
+        data = [mocker.Mock(identifier=iri, occurrences=count) for iri, count in items]
+        mock_client._kg_client = mocker.Mock()
+        mock_client._kg_client.types.list.return_value = MockKGResponse(data)
+        return mock_client
+
+    def test_maps_known_types_to_classes_and_unknown_types_to_iris(self, mock_client, mocker):
+        client = self._client_listing(
+            mocker, mock_client, [(self.known_type, 3), (self.unknown_type, 7)]
+        )
+
+        info = KGClient.space_info(client, "myspace", release_status="in progress")
+
+        by_label = {(k if isinstance(k, str) else k.__name__): v for k, v in info.items()}
+        assert by_label == {"Person": 3, self.unknown_type: 7}
+
+        # the known type resolved to a class, the unknown one stayed a string
+        assert self.unknown_type in info
+        assert all(isinstance(k, type) for k in info if not isinstance(k, str))
+
+    def test_unknown_type_alone_does_not_raise(self, mock_client, mocker):
+        # The reported failure: a space whose only unrecognised type made the whole
+        # listing raise ValueError.
+        client = self._client_listing(mocker, mock_client, [(self.unknown_type, 1)])
+
+        assert KGClient.space_info(client, "myspace", release_status="in progress") == {
+            self.unknown_type: 1
+        }
+
+    def test_clean_space_lists_both_kinds_then_aborts(self, mock_client, mocker, capsys):
+        # clean_space() renders a label for every entry, so it has to cope with string
+        # keys as well as classes. Answering "n" exercises the listing without deleting.
+        from openminds.registry import lookup_type
+
+        person = lookup_type(self.known_type, mock_client.openminds_version)
+        mock_client.space_info = mocker.Mock(return_value={person: 3, self.unknown_type: 7})
+        mocker.patch("builtins.input", return_value="n")
+
+        KGClient.clean_space(mock_client, "myspace")
+
+        out = capsys.readouterr().out
+        assert "Person 3" in out
+        assert f"{self.unknown_type} 7" in out
