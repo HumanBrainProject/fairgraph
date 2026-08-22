@@ -6,7 +6,7 @@
 
 Authors: Andrew P. Davison, Onur Ates, Nico Feld, Yann Zerlaut, Glynis Mattheisen, Peyman Najafi
 
-Copyright CNRS 2019-2025
+Copyright 2018-2026 CNRS and fairgraph authors and/or their employers
 
 **fairgraph** is a Python library for working with metadata
 in the EBRAINS Knowledge Graph, with a particular focus on data reuse,

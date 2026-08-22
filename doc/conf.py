@@ -27,7 +27,7 @@ author_list = ", ".join(f"{au['givenName']} {au['familyName']}" for au in author
 # -- Project information -----------------------------------------------------
 
 project = "fairgraph"
-copyright = "2018-2025, Andrew P. Davison, Onur Ates, Yann Zerlaut, Glynis Mattheisen, Peyman Najafi"
+copyright = "2018-2026, CNRS and fairgraph authors and/or their employers"
 author = author_list
 
 # The full version, including alpha/beta/rc tags
