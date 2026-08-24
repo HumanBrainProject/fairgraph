@@ -943,7 +943,7 @@ class KGObject(KGNode, Releasable):
                         else:
                             cls._instance_lookup[key] = [instance]
             if match == "equals":
-                objects = cls._instance_lookup.get(name, None)
+                objects = cls._instance_lookup.get(name) or []
             elif match == "contains":
                 objects = []
                 for key, instances in cls._instance_lookup.items():
