@@ -1,12 +1,13 @@
 import copy
 import os
 import pytest
+import requests
 
 from kg_core.request import Stage, Pagination
 from kg_core.response import Error as KGError
 from fairgraph.kgobject import KGObject
 from fairgraph.queries import Query, QueryProperty, Filter
-from fairgraph.errors import AuthenticationError, AuthorizationError, ResourceExistsError
+from fairgraph.errors import AuthenticationError, AuthorizationError, KGConnectionError, ResourceExistsError
 from fairgraph.base import OPENMINDS_VERSION
 from fairgraph.client import KGClient
 from .utils import (
@@ -365,6 +366,46 @@ def offline_kg_client(mocker):
         create=True,
     )
     return client
+
+
+class TestRetryOnConnectionError:
+    """Read-only/query-only KGClient methods retry on KGConnectionError; methods that
+    modify the KG never do, since retrying a write risks duplicating or corrupting
+    data if the original request actually succeeded but its response was lost."""
+
+    def test_retryable_method_recovers_after_connection_error(self, offline_kg_client, mocker):
+        mocker.patch("fairgraph.client.sleep")
+        mocker.patch.object(
+            offline_kg_client._kg_client.instances,
+            "list",
+            side_effect=[requests.exceptions.ConnectionError("boom"), MockKGResponse([])],
+        )
+        response = offline_kg_client.list("https://openminds.om-i.org/types/File")
+        assert response.data == []
+        assert offline_kg_client._kg_client.instances.list.call_count == 2
+
+    def test_retryable_method_exhausts_retries(self, offline_kg_client, mocker):
+        mocker.patch("fairgraph.client.sleep")
+        mocker.patch.object(
+            offline_kg_client._kg_client.instances,
+            "list",
+            side_effect=requests.exceptions.ConnectionError("boom"),
+        )
+        with pytest.raises(KGConnectionError):
+            offline_kg_client.list("https://openminds.om-i.org/types/File")
+        assert offline_kg_client._kg_client.instances.list.call_count == offline_kg_client._max_retries + 1
+
+    def test_mutating_method_does_not_retry(self, offline_kg_client, mocker):
+        mocker.patch("fairgraph.client.sleep")
+        mocker.patch.object(
+            offline_kg_client._kg_client.instances,
+            "delete",
+            side_effect=requests.exceptions.ConnectionError("boom"),
+        )
+        fake_id = "00000000-0000-0000-0000-000000000000"
+        with pytest.raises(KGConnectionError):
+            offline_kg_client.delete_instance(fake_id)
+        offline_kg_client._kg_client.instances.delete.assert_called_once()
 
 
 class TestCacheInvalidationOnWrite:

@@ -45,3 +45,11 @@ class CannotBuildExistenceQuery(Exception):
     """Raised when it is not possible to build an existence query"""
 
     pass
+
+
+class KGConnectionError(Exception):
+    """Raised when a request to the KG fails for network reasons (lost connection,
+    or no response within the configured timeout) rather than because the KG itself
+    reported an error"""
+
+    pass
