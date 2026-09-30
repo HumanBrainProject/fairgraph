@@ -28,6 +28,7 @@ class RegularTimeSeries(KGObject, OMRegularTimeSeries):
         ),
     ]
     existence_query_properties = ("channels", "data_location", "sampling_frequency")
+    sort_property = "name"
 
     def __init__(
         self,

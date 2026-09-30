@@ -22,6 +22,7 @@ class ServiceDeployment(KGObject, OMServiceDeployment):
     # forward properties are defined in the parent class (in openMINDS-Python)
     reverse_properties = []
     existence_query_properties = ("name", "provides", "service", "start_time")
+    sort_property = "name"
 
     def __init__(
         self,

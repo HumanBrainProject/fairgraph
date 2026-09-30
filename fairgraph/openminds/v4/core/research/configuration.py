@@ -40,6 +40,7 @@ class Configuration(KGObject, OMConfiguration):
         ),
     ]
     existence_query_properties = ("configuration",)
+    sort_property = "lookup_label"
 
     def __init__(
         self,

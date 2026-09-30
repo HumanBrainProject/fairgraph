@@ -19,6 +19,7 @@ class GridImageStack(KGObject, OMGridImageStack):
     # forward properties are defined in the parent class (in openMINDS-Python)
     reverse_properties = []
     existence_query_properties = ("data_location", "dimensions", "pixel_sizes", "z_step_size")
+    sort_property = "name"
 
     def __init__(
         self,

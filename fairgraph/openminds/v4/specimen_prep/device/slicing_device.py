@@ -36,6 +36,7 @@ class SlicingDevice(KGObject, OMSlicingDevice):
         ),
     ]
     existence_query_properties = ("lookup_label",)
+    sort_property = "name"
 
     def __init__(
         self,

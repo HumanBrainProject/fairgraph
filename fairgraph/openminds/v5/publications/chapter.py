@@ -54,6 +54,7 @@ class Chapter(KGObject, OMChapter):
         ),
     ]
     existence_query_properties = ("contributions", "is_part_of", "name", "publication_date")
+    sort_property = "name"
 
     def __init__(
         self,

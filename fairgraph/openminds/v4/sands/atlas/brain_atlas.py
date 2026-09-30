@@ -56,6 +56,7 @@ class BrainAtlas(KGObject, OMBrainAtlas):
     ]
     aliases = {"name": "full_name", "versions": "has_versions", "alias": "short_name"}
     existence_query_properties = ("digital_identifier",)
+    sort_property = "full_name"
 
     def __init__(
         self,

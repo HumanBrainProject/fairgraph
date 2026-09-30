@@ -109,6 +109,7 @@ class CommonCoordinateSpaceVersion(KGObject, OMCommonCoordinateSpaceVersion):
         "version_identifier",
         "version_innovation",
     )
+    sort_property = "full_name"
 
     def __init__(
         self,

@@ -36,6 +36,7 @@ class Setup(KGObject, OMSetup):
         ),
     ]
     existence_query_properties = ("description", "has_parts", "name")
+    sort_property = "name"
 
     def __init__(
         self,

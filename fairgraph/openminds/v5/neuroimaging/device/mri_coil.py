@@ -36,6 +36,7 @@ class MRICoil(KGObject, OMMRICoil):
         ),
     ]
     existence_query_properties = ("contributions", "element_count", "mounting_type", "name", "type")
+    sort_property = "name"
 
     def __init__(
         self,

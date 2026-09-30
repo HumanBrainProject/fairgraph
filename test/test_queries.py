@@ -845,3 +845,113 @@ def test_existence_query_filters_strings_with_contains_if_requested(mock_client)
 def test_existence_query_rejects_an_invalid_match():
     with pytest.raises(ValueError, match="existence_match"):
         omcore.Dataset(short_name="FOO")._build_existence_query("fuzzy")
+
+
+def _all_kg_classes():
+    import fairgraph.openminds.v4 as v4
+    import fairgraph.openminds.v5 as v5
+
+    for version in (v4, v5):
+        for module_name in dir(version):
+            module = getattr(version, module_name)
+            if hasattr(module, "list_kg_classes"):
+                yield from module.list_kg_classes()
+
+
+def _sorted_properties(structure):
+    return [prop for prop in structure if prop.get("sort")]
+
+
+def _has_nested_sort(structure):
+    for prop in structure:
+        for nested in prop.get("structure", []):
+            if nested.get("sort") or _has_nested_sort([nested]):
+                return True
+    return False
+
+
+def test_generated_queries_sort_by_at_most_one_root_property(mock_client):
+    # the KG query API allows "sort": true on only one property, at the root level
+    classes = list(_all_kg_classes())
+    assert len(classes) > 200
+    for cls in classes:
+        if cls.__name__ == "MRIScannerUsage":
+            continue  # query generation fails for its untyped property "field_of_view" - a separate problem
+        query = cls.generate_query(client=mock_client, space=None, with_reverse_properties=True)
+        sorted_properties = _sorted_properties(query["structure"])
+        assert not _has_nested_sort(query["structure"]), cls
+        if cls.sort_property is None:
+            assert sorted_properties == [], cls
+        else:
+            assert len(sorted_properties) == 1, cls
+            assert sorted_properties[0]["propertyName"] == cls.get_property(cls.sort_property).path, cls
+
+
+@pytest.mark.parametrize(
+    "cls_name,expected",
+    [
+        ("sands.ParcellationEntity", "lookupLabel"),
+        ("sands.ParcellationEntityVersion", "lookupLabel"),
+        ("specimen_prep.SlicingDevice", "name"),
+        ("core.Person", "familyName"),
+        ("core.DatasetVersion", "fullName"),
+    ],
+)
+def test_generated_query_sort_property(mock_client, cls_name, expected):
+    import fairgraph.openminds
+
+    module_name, class_name = cls_name.split(".")
+    cls = getattr(getattr(fairgraph.openminds, module_name), class_name)
+    query = cls.generate_query(client=mock_client, space=None)
+    assert [prop["propertyName"] for prop in _sorted_properties(query["structure"])] == [expected]
+
+
+def test_generated_query_sorts_once_when_filtering_on_the_sort_property(mock_client):
+    query = omcore.Person.generate_query(client=mock_client, space=None, filters={"family_name": "Smith"})
+    assert [prop["propertyName"] for prop in _sorted_properties(query["structure"])] == ["familyName"]
+
+
+def test_generated_query_has_no_sort_for_class_without_sort_property(mock_client):
+    assert omcore.DOI.sort_property is None
+    query = omcore.DOI.generate_query(client=mock_client, space=None)
+    assert _sorted_properties(query["structure"]) == []
+
+
+def test_query_rejects_more_than_one_sort_property():
+    query = Query(
+        node_type="https://openminds.om-i.org/types/ParcellationEntity",
+        properties=[
+            QueryProperty("https://openminds.om-i.org/props/lookupLabel", name="lookupLabel", sorted=True),
+            QueryProperty("https://openminds.om-i.org/props/name", name="name", sorted=True),
+        ],
+    )
+    with pytest.raises(ValueError, match="only allowed on one property"):
+        query.serialize()
+
+
+def _assert_sorted_case_insensitively(values):
+    # the KG sorts case-insensitively, with missing values first
+    missing = [value is None for value in values]
+    assert missing == sorted(missing, reverse=True), values
+    present = [value.casefold() for value in values if value is not None]
+    assert present == sorted(present), values
+
+
+@skip_if_no_connection
+def test_list_results_are_sorted(kg_client):
+    import fairgraph.openminds.sands as omsands
+
+    for cls in (omsands.ParcellationEntityVersion, omcore.Person):
+        results = cls.list(kg_client, api="query", size=50, release_status="released")
+        assert len(results) > 1
+        _assert_sorted_case_insensitively([getattr(obj, cls.sort_property) for obj in results])
+
+
+@skip_if_no_connection
+def test_list_results_are_sorted_case_insensitively(kg_client):
+    import fairgraph.openminds.sands as omsands
+
+    results = omsands.ParcellationEntity.list(
+        kg_client, api="query", size=100, release_status="released", lookup_label=Regex("^AAL1_(AMYG|brain|CAU)$")
+    )
+    assert [obj.lookup_label for obj in results] == ["AAL1_AMYG", "AAL1_brain", "AAL1_CAU"]

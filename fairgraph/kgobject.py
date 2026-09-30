@@ -72,6 +72,9 @@ class KGObject(KGNode, Releasable):
     # many cases be over-ridden.
     # It assumes that "name" is unique within instances of a given type,
     # which may often not be the case.
+    sort_property: Optional[str] = None
+    # The property by which results of KG queries are sorted, if any.
+    # Set in the generated subclasses; see builder/update_openminds.py
 
     def __init__(
         self,
@@ -394,6 +397,10 @@ class KGObject(KGNode, Releasable):
 
         Returns:
             A list of instances of this class representing the objects returned by the KG query.
+            With the query API, results are sorted in ascending order, ignoring case, by the property
+            named in the class's `sort_property` attribute, if it has one.
+            The core API does not sort results, and is used by default when there are no filters and
+            no `follow_links`: pass `api="query"` for sorted results.
 
         Raises:
             ValueError: If invalid arguments are passed to the method.
@@ -1182,10 +1189,13 @@ class KGObject(KGNode, Releasable):
         )
         # second pass, we add filters
         query.properties.extend(cls.generate_query_filter_properties(normalized_filters))
-        # third pass, we add sorting, which can only happen at the top level
-        for prop in query.properties:
-            if prop.name in ("name", "fullName", "lookupLabel"):
-                prop.sorted = True
+        # third pass, we add sorting, which the KG allows on only one property, at the top level
+        if cls.sort_property:
+            sort_path = cls._property_lookup[cls.sort_property].path
+            for prop in query.properties:
+                if prop.name == sort_path:
+                    prop.sorted = True
+                    break
         # implementation note: the three-pass approach generates queries that are sometimes more verbose
         #                      than necessary, but it makes the logic easier to understand.
         return query.serialize()

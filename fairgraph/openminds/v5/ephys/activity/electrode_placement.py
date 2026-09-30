@@ -22,6 +22,7 @@ class ElectrodePlacement(KGObject, OMElectrodePlacement):
     # forward properties are defined in the parent class (in openMINDS-Python)
     reverse_properties = []
     existence_query_properties = ("lookup_label",)
+    sort_property = "lookup_label"
 
     def __init__(
         self,

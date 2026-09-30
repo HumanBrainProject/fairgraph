@@ -56,6 +56,7 @@ class ValidationTest(KGObject, OMValidationTest):
     ]
     aliases = {"name": "full_name", "model_scope": "scope", "alias": "short_name"}
     existence_query_properties = ("full_name", "short_name")
+    sort_property = "full_name"
 
     def __init__(
         self,

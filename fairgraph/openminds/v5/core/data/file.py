@@ -205,6 +205,7 @@ class File(KGObject, OMFile):
     ]
     aliases = {"hash": "hashes"}
     existence_query_properties = ("iri", "hashes")
+    sort_property = "name"
 
     def __init__(
         self,

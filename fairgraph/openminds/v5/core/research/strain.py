@@ -41,6 +41,7 @@ class Strain(KGObject, OMStrain):
         ),
     ]
     existence_query_properties = ("genetic_strain_type", "name", "species")
+    sort_property = "name"
 
     def __init__(
         self,

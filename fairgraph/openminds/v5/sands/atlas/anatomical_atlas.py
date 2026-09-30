@@ -64,6 +64,7 @@ class AnatomicalAtlas(KGObject, OMAnatomicalAtlas):
     ]
     aliases = {"name": "full_name", "alias": "short_name"}
     existence_query_properties = ("digital_identifier",)
+    sort_property = "full_name"
 
     def __init__(
         self,

@@ -47,6 +47,7 @@ class DataCopy(KGObject, OMDataCopy):
         ),
     ]
     existence_query_properties = ("lookup_label",)
+    sort_property = "lookup_label"
 
     def __init__(
         self,

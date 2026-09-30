@@ -28,6 +28,7 @@ class LivePaperSection(KGObject, OMLivePaperSection):
         ),
     ]
     existence_query_properties = ("is_part_of", "name", "order", "type")
+    sort_property = "name"
 
     def __init__(
         self,

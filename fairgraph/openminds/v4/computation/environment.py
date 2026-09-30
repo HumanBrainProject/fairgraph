@@ -37,6 +37,7 @@ class Environment(KGObject, OMEnvironment):
         ),
     ]
     existence_query_properties = ("hardware", "name")
+    sort_property = "name"
 
     def __init__(
         self,

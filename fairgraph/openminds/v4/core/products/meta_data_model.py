@@ -48,6 +48,7 @@ class MetaDataModel(KGObject, OMMetaDataModel):
     ]
     aliases = {"name": "full_name", "versions": "has_versions", "alias": "short_name"}
     existence_query_properties = ("short_name",)
+    sort_property = "full_name"
 
     def __init__(
         self,

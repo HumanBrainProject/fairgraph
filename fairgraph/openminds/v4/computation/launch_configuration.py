@@ -37,6 +37,7 @@ class LaunchConfiguration(KGObject, OMLaunchConfiguration):
     ]
     aliases = {"environment_variables": "environment_variable"}
     existence_query_properties = ("executable", "name")
+    sort_property = "name"
 
     def __init__(
         self,

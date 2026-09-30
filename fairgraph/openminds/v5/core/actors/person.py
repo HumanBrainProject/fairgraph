@@ -120,6 +120,7 @@ class Person(KGObject, OMPerson):
         ),
     ]
     existence_query_properties = ("given_name", "family_name")
+    sort_property = "family_name"
 
     def __init__(
         self,

@@ -60,6 +60,7 @@ class UsageAgreement(KGObject, OMUsageAgreement):
         "short_name",
         "template",
     )
+    sort_property = "full_name"
 
     def __init__(
         self,

@@ -36,6 +36,7 @@ class Pipette(KGObject, OMPipette):
         ),
     ]
     existence_query_properties = ("contributions", "name", "type")
+    sort_property = "name"
 
     def __init__(
         self,

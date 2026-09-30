@@ -86,6 +86,7 @@ class ParcellationEntity(KGObject, OMParcellationEntity):
     ]
     aliases = {"versions": "has_versions"}
     existence_query_properties = ("name",)
+    sort_property = "lookup_label"
 
     def __init__(
         self,

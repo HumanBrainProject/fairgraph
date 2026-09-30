@@ -28,6 +28,7 @@ class Recording(KGObject, OMRecording):
         ),
     ]
     existence_query_properties = ("channels", "data_location", "recorded_with", "sampling_frequency")
+    sort_property = "name"
 
     def __init__(
         self,

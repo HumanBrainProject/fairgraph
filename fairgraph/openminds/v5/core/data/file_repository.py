@@ -58,6 +58,7 @@ class FileRepository(KGObject, OMFileRepository):
         ),
     ]
     existence_query_properties = ("iri",)
+    sort_property = "name"
 
     def __init__(
         self,

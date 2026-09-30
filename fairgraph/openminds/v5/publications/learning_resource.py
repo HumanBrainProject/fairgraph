@@ -23,6 +23,7 @@ class LearningResource(KGObject, OMLearningResource):
     # forward properties are defined in the parent class (in openMINDS-Python)
     reverse_properties = []
     existence_query_properties = ("about", "name", "publication_date")
+    sort_property = "name"
 
     def __init__(
         self,

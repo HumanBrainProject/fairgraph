@@ -883,7 +883,8 @@
     },
     {
       "path": "https://openminds.om-i.org/props/familyName",
-      "propertyName": "familyName"
+      "propertyName": "familyName",
+      "sort": true
     },
     {
       "path": "https://openminds.om-i.org/props/givenName",

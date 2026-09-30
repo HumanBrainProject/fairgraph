@@ -36,6 +36,7 @@ class CustomCoordinateSpace(KGObject, OMCustomCoordinateSpace):
         ),
     ]
     existence_query_properties = ("name",)
+    sort_property = "name"
 
     def __init__(
         self,

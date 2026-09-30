@@ -36,6 +36,7 @@ class BehavioralProtocol(KGObject, OMBehavioralProtocol):
         ),
     ]
     existence_query_properties = ("description", "name")
+    sort_property = "name"
 
     def __init__(
         self,

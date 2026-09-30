@@ -43,6 +43,9 @@ class {{ class_name }}({{base_class}}, OM{{ class_name }}):
     aliases = {{ aliases }}
     {%- endif %}
     existence_query_properties = {{ existence_query_properties }}
+    {%- if sort_property %}
+    sort_property = "{{ sort_property }}"
+    {%- endif %}
 
     def __init__(self {%- for arg in constructor_arguments -%}, {{arg}}=None{%- endfor -%}, id=None, data=None, space=None, release_status=None):
         return {{ base_class }}.__init__(self, {{ standard_init_properties }}data=data {%- for arg in constructor_arguments -%}, {{arg}}={{arg}}{%- endfor -%})

@@ -46,6 +46,7 @@ class ProductAccessibility(KGObject, OMProductAccessibility):
         ),
     ]
     existence_query_properties = ("name",)
+    sort_property = "name"
 
     def __init__(
         self,
