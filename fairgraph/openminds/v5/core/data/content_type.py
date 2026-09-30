@@ -19,6 +19,7 @@ class ContentType(KGObject, OMContentType):
 
     type_ = "https://openminds.om-i.org/types/ContentType"
     default_space = "controlled"
+    SORT_PRIORITY = ("name", "fullName", "shortName", "familyName", "abbreviation", "lookupLabel")
     # forward properties are defined in the parent class (in openMINDS-Python)
     reverse_properties = [
         Property(

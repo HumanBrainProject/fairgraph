@@ -15,6 +15,7 @@ class Kite(KGEmbedded, OMKite):
     """
 
     type_ = "https://openminds.om-i.org/types/Kite"
+    SORT_PRIORITY = ("name", "fullName", "shortName", "familyName", "abbreviation", "lookupLabel")
     # forward properties are defined in the parent class (in openMINDS-Python)
     reverse_properties = []
     existence_query_properties = ("leg_lengths", "symmetry_diagonal_length")

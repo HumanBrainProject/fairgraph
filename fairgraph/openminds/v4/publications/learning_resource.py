@@ -20,6 +20,7 @@ class LearningResource(KGObject, OMLearningResource):
 
     type_ = "https://openminds.om-i.org/types/LearningResource"
     default_space = "livepapers"
+    SORT_PRIORITY = ("name", "fullName", "shortName", "familyName", "abbreviation", "lookupLabel")
     # forward properties are defined in the parent class (in openMINDS-Python)
     reverse_properties = []
     existence_query_properties = ("about", "name", "publication_date")

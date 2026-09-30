@@ -22,6 +22,24 @@ global_aliases = {
 }
 
 
+# The order, most preferred first, in which a generated class picks its single sort key.
+# The names are the camelCase schema names used as ``QueryProperty.name`` (e.g. the Python
+# attribute ``lookup_label`` is the schema name ``lookupLabel``). ``name`` is preferred because
+# its values are human-readable and sort meaningfully; ``lookupLabel`` is put first only for the
+# classes listed in SORT_PRIORITY_EXCEPTIONS, where it keeps terms from the same atlas/scheme
+# together. ``synonyms`` is excluded: it is list-valued and not a sensible sort key.
+# The Knowledge Graph API allows ``"sort": true`` on only one property, at the root level, so
+# exactly one property is chosen and it is always a top-level property.
+DEFAULT_SORT_PRIORITY = ("name", "fullName", "shortName", "familyName", "abbreviation", "lookupLabel")
+
+# Per-class overrides, most preferred sort property first. The rest of the priority order is
+# left unchanged (the full list is emitted into the generated class).
+SORT_PRIORITY_EXCEPTIONS = {
+    "ParcellationEntity": ("lookupLabel", "name", "fullName", "shortName", "familyName", "abbreviation"),
+    "ParcellationEntityVersion": ("lookupLabel", "name", "fullName", "shortName", "familyName", "abbreviation"),
+}
+
+
 reverse_name_map = {
     "RRID": "identifies",
     "about": {
@@ -951,6 +969,7 @@ class FairgraphClassBuilder:
             "standard_init_properties": standard_init_properties,
             "additional_methods": additional_methods,
             "aliases": aliases,
+            "sort_priority": SORT_PRIORITY_EXCEPTIONS.get(class_name, DEFAULT_SORT_PRIORITY),
             "constructor_arguments": sorted(
                 [p["name"] for p in chain(properties, reverse_properties)] + list(aliases.keys()),
                 key=property_name_sort_key,
