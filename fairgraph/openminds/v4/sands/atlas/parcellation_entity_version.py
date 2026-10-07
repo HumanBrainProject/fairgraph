@@ -107,6 +107,7 @@ class ParcellationEntityVersion(KGObject, OMParcellationEntityVersion):
         ),
     ]
     existence_query_properties = ("name", "version_identifier")
+    sort_property = "lookup_label"
 
     def __init__(
         self,

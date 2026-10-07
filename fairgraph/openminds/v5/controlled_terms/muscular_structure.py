@@ -124,6 +124,7 @@ class MuscularStructure(KGObject, OMMuscularStructure):
         ),
     ]
     existence_query_properties = ("name",)
+    sort_property = "name"
 
     def __init__(
         self,

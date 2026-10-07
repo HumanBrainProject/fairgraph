@@ -80,6 +80,7 @@ class TissueSampleState(KGObject, OMTissueSampleState):
         ),
     ]
     existence_query_properties = ("lookup_label",)
+    sort_property = "lookup_label"
 
     def __init__(
         self,

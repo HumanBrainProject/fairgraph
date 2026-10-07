@@ -36,6 +36,7 @@ class ElectrodeArray(KGObject, OMElectrodeArray):
         ),
     ]
     existence_query_properties = ("contributions", "electrode_identifiers", "name", "number_of_electrodes", "type")
+    sort_property = "name"
 
     def __init__(
         self,

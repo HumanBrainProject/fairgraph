@@ -111,6 +111,7 @@ class FileBundle(KGObject, OMFileBundle):
         ),
     ]
     existence_query_properties = ("is_part_of", "name")
+    sort_property = "name"
 
     def __init__(
         self,

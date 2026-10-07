@@ -103,6 +103,7 @@ class CommonCoordinateFrameworkVersion(KGObject, OMCommonCoordinateFrameworkVers
     ]
     aliases = {"name": "full_name", "alias": "short_name"}
     existence_query_properties = ("short_name", "version_identifier")
+    sort_property = "full_name"
 
     def __init__(
         self,

@@ -36,6 +36,7 @@ class MRIScanner(KGObject, OMMRIScanner):
         ),
     ]
     existence_query_properties = ("contributions", "magnetic_field_strength", "name", "type")
+    sort_property = "name"
 
     def __init__(
         self,

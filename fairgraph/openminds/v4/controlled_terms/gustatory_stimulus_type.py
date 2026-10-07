@@ -88,6 +88,7 @@ class GustatoryStimulusType(KGObject, OMGustatoryStimulusType):
         ),
     ]
     existence_query_properties = ("name",)
+    sort_property = "name"
 
     def __init__(
         self,

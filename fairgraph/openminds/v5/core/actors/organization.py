@@ -103,6 +103,7 @@ class Organization(KGObject, OMOrganization):
         ),
     ]
     existence_query_properties = ("country_of_formation", "name", "type")
+    sort_property = "name"
 
     def __init__(
         self,

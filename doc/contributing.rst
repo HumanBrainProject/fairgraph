@@ -129,6 +129,10 @@ Reverse properties (links pointing *into* a class) get their names from the
 schema introduces a property that has no entry there, generation fails with a :exc:`KeyError`
 naming the class, and an entry needs to be added.
 
+Each class's ``sort_property``, the property by which query results are sorted, is chosen by
+``get_sort_property()`` in :file:`builder/update_openminds.py`: the first property in
+``SORT_PROPERTY_PRIORITY`` that the class has, unless the class has an entry in ``custom_sort_properties``.
+
 .. warning::
 
    Everything under :file:`fairgraph/openminds/v4` and :file:`fairgraph/openminds/v5` is

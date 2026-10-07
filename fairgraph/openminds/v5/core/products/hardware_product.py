@@ -35,6 +35,7 @@ class HardwareProduct(KGObject, OMHardwareProduct):
         ),
     ]
     existence_query_properties = ("contributions", "name", "scopes", "type")
+    sort_property = "name"
 
     def __init__(
         self,

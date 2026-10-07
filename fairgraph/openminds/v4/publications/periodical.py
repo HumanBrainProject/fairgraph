@@ -28,6 +28,7 @@ class Periodical(KGObject, OMPeriodical):
         ),
     ]
     existence_query_properties = ("abbreviation",)
+    sort_property = "name"
 
     def __init__(
         self,

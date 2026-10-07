@@ -349,6 +349,8 @@ class Query:
         self.properties.append(prop)
 
     def serialize(self) -> Dict[str, Any]:
+        if sum(prop.sorted for prop in self.properties) > 1:
+            raise ValueError("Sorting is only allowed on one property.")
         query = {
             "@context": {
                 "@vocab": "https://core.kg.ebrains.eu/vocab/query/",
@@ -366,9 +368,6 @@ class Query:
         if self.label:
             query["meta"]["name"] = self.label
         return query
-
-
-# todo: I think only one property can have "sort": True - need to check this
 
 
 def _get_query_property_name(property, possible_classes):

@@ -56,6 +56,7 @@ class SoftwareAgent(KGObject, OMSoftwareAgent):
         ),
     ]
     existence_query_properties = ("name", "software")
+    sort_property = "name"
 
     def __init__(
         self,

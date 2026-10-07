@@ -19,6 +19,7 @@ class GridImageSequence(KGObject, OMGridImageSequence):
     # forward properties are defined in the parent class (in openMINDS-Python)
     reverse_properties = []
     existence_query_properties = ("data_location", "dimensions", "pixel_sizes", "temporal_sampling_frequency")
+    sort_property = "name"
 
     def __init__(
         self,

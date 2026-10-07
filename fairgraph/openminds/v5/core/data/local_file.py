@@ -44,6 +44,7 @@ class LocalFile(KGObject, OMLocalFile):
         ),
     ]
     existence_query_properties = ("name", "hashes")
+    sort_property = "name"
 
     def __init__(
         self,

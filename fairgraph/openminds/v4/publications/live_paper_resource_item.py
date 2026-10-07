@@ -31,6 +31,7 @@ class LivePaperResourceItem(KGObject, OMLivePaperResourceItem):
         ),
     ]
     existence_query_properties = ("name", "iri", "is_part_of")
+    sort_property = "name"
 
     def __init__(
         self,

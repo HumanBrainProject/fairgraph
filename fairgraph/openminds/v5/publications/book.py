@@ -62,6 +62,7 @@ class Book(KGObject, OMBook):
         ),
     ]
     existence_query_properties = ("name", "publication_date")
+    sort_property = "name"
 
     def __init__(
         self,

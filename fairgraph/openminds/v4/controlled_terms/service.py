@@ -54,6 +54,7 @@ class Service(KGObject, OMService):
         ),
     ]
     existence_query_properties = ("short_name",)
+    sort_property = "name"
 
     def __init__(
         self,

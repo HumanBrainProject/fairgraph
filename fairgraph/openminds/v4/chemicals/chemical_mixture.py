@@ -41,6 +41,7 @@ class ChemicalMixture(KGObject, OMChemicalMixture):
         ),
     ]
     existence_query_properties = ("has_parts", "type")
+    sort_property = "name"
 
     def __init__(
         self,
