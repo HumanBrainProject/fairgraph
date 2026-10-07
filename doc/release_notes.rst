@@ -45,11 +45,31 @@ Bug fixes
 ---------
 
 - :meth:`~fairgraph.kgobject.KGObject.exists`, and therefore :meth:`~fairgraph.kgobject.KGObject.save` and
-  :meth:`~fairgraph.collection.Collection.upload`, no longer raises :exc:`TypeError` when a  property used 
-  in the existence query holds an unresolved link (a :class:`~fairgraph.kgproxy.KGProxy`), 
-  as happens when a link is taken from a fetched object or read from a JSON-LD file. 
-  Such a link now gives the same existence query as the object it points to 
+  :meth:`~fairgraph.collection.Collection.upload`, no longer raises :exc:`TypeError` when a  property used
+  in the existence query holds an unresolved link (a :class:`~fairgraph.kgproxy.KGProxy`),
+  as happens when a link is taken from a fetched object or read from a JSON-LD file.
+  Such a link now gives the same existence query as the object it points to
   (`#145 <https://github.com/HumanBrainProject/fairgraph/issues/145>`_).
+
+Connection robustness
+----------------------
+
+- :class:`~fairgraph.client.KGClient` now applies a timeout to requests to the KG, so that a request
+  which loses its connection (for example, when a laptop sleeps and resumes on a different network)
+  fails after a while instead of hanging forever. The new ``request_timeout`` constructor argument
+  overrides the default of 300s.
+
+- Network failures now raise a new, clearer :exc:`~fairgraph.errors.KGConnectionError` rather than
+  a lower-level exception.
+
+- Read-only requests to the KG (e.g., :meth:`~fairgraph.kgobject.KGObject.list`) are now retried
+  automatically if they fail with a connection error. This helps with
+  queries that are naturally slow (e.g., against types with very many instances, such as ``File``),
+  where transient connection errors or timeouts are common but often succeed on a second attempt.
+  The new ``max_retries`` (default 2) and ``retry_backoff`` (default 5s) constructor arguments to
+  :class:`~fairgraph.client.KGClient` control this. Requests that modify the KG are never
+  retried automatically, since doing so risks duplicating or corrupting data if the original request
+  actually succeeded but its response was lost.
 
 
 Version 0.15.0

@@ -69,6 +69,8 @@ class MockKGResponse:
 
 class MockKGClient:
     _private_space = "myspace_1234"
+    _max_retries = 2
+    _retry_backoff = 5.0
 
     def __init__(self, openminds_version: str = OPENMINDS_VERSION):
         if openminds_version not in ("v4", "v5"):
