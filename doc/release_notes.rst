@@ -41,6 +41,35 @@ Changes in behaviour
   (the default is ``existence_match="equals"``). With ``recursive=True`` the setting applies to
   child objects as well.
 
+- Generated queries now carry exactly **one** sort key, chosen deliberately, instead of sorting
+  by every name-like property. The Knowledge Graph API allows ``"sort": true`` on only a single
+  root-level property, but fairgraph previously set it on *all* matching name-like root
+  properties, so classes with both ``name`` and ``lookup_label`` (e.g. ``ParcellationEntity``,
+  ``Electrode``, ``SlicingDevice``) produced an invalid query with two sort keys. The sortable
+  set is now aligned with the name-like set used by :meth:`~fairgraph.kgobject.KGObject.by_name`,
+  and the single sort property is chosen from it in a fixed default priority order: ``name``,
+  then ``full_name``, ``short_name``, ``family_name``, ``abbreviation``, then ``lookup_label``
+  (``synonyms`` is never used). In practice:
+
+  - a class with both ``name`` and ``lookup_label`` is now sorted by ``name`` (previously
+    ``lookup_label`` won only because it happened to precede it), e.g. ``Electrode``;
+  - :class:`~fairgraph.openminds.core.Dataset` and
+    :class:`~fairgraph.openminds.core.DatasetVersion` are sorted by ``full_name``;
+  - :class:`~fairgraph.openminds.core.Person` gains a ``family_name`` sort key
+    where it previously had none;
+  - classes with none of the sortable properties (e.g. ``DOI``) are returned in whatever order
+    the Knowledge Graph supplies.
+
+  A few classes override the default order via a per-class ``SORT_PRIORITY`` attribute so that a
+  different property keeps related results together: ``ParcellationEntity`` and
+  ``ParcellationEntityVersion`` are sorted by ``lookup_label`` so that terms from the same atlas
+  stay grouped (instead of by ``name``). The override is defined in the builder's
+  ``SORT_PRIORITY_EXCEPTIONS`` and regenerated into each generated class.
+
+  Results are sorted in ascending, case-insensitive order. This is unrelated to the internal
+  ``ensure_order`` option on a query property, which only preserves the order of instances within
+  a list-valued property (`#129 <https://github.com/HumanBrainProject/fairgraph/issues/129>`_).
+
 Bug fixes
 ---------
 
@@ -50,6 +79,15 @@ Bug fixes
   as happens when a link is taken from a fetched object or read from a JSON-LD file. 
   Such a link now gives the same existence query as the object it points to 
   (`#145 <https://github.com/HumanBrainProject/fairgraph/issues/145>`_).
+
+Documentation
+-------------
+
+- The order in which :meth:`~fairgraph.kgobject.KGObject.list` returns results is now documented,
+  in :doc:`queries` and in the :meth:`list` docstring. It covers the single sort key, its priority
+  order, and the ascending, case-insensitive ordering the Knowledge Graph applies, and it
+  distinguishes that from the internal ``ensure_order`` option (`#129 <https://github.com/HumanBrainProject/fairgraph/issues/129>`_).
+  A test against the pre-production Knowledge Graph pins the case-insensitive ordering.
 
 
 Version 0.15.0

@@ -19,6 +19,7 @@ class AnatomicalAxesOrientation(KGObject, OMAnatomicalAxesOrientation):
 
     type_ = "https://openminds.om-i.org/types/AnatomicalAxesOrientation"
     default_space = "controlled"
+    SORT_PRIORITY = ("name", "fullName", "shortName", "familyName", "abbreviation", "lookupLabel")
     # forward properties are defined in the parent class (in openMINDS-Python)
     reverse_properties = [
         Property(

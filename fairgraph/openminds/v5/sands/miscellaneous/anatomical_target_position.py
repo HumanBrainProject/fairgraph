@@ -15,6 +15,7 @@ class AnatomicalTargetPosition(KGEmbedded, OMAnatomicalTargetPosition):
     """
 
     type_ = "https://openminds.om-i.org/types/AnatomicalTargetPosition"
+    SORT_PRIORITY = ("name", "fullName", "shortName", "familyName", "abbreviation", "lookupLabel")
     # forward properties are defined in the parent class (in openMINDS-Python)
     reverse_properties = []
     existence_query_properties = ("anatomical_targets", "target_identification_type")

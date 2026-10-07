@@ -20,6 +20,7 @@ class MetaDataModelVersion(KGObject, OMMetaDataModelVersion):
 
     type_ = "https://openminds.om-i.org/types/MetaDataModelVersion"
     default_space = "metadatamodel"
+    SORT_PRIORITY = ("name", "fullName", "shortName", "familyName", "abbreviation", "lookupLabel")
     # forward properties are defined in the parent class (in openMINDS-Python)
     reverse_properties = [
         Property(

@@ -368,7 +368,38 @@ class Query:
         return query
 
 
-# todo: I think only one property can have "sort": True - need to check this
+#: Order, most preferred first, in which a generated query picks its single sort key.
+#: The names are the camelCase schema names used as ``QueryProperty.name`` (e.g. the Python
+#: attribute ``lookup_label`` is the schema name ``lookupLabel``). ``name`` is preferred because
+#: its values are human-readable and sort meaningfully; ``lookupLabel`` is deliberately last
+#: because it embeds atlas/project prefixes, camel-case and sometimes DOIs, so sorting by it
+#: groups by origin scheme first and looks cluttered. ``synonyms`` is excluded: it is
+#: list-valued and not a sensible sort key.
+#:
+#: This is the default priority. Generated openMINDS classes carry their own ``SORT_PRIORITY``
+#: class attribute (see the builder's ``DEFAULT_SORT_PRIORITY`` / ``SORT_PRIORITY_EXCEPTIONS``),
+#: and a few classes override it — e.g. ``ParcellationEntity`` and ``ParcellationEntityVersion``
+#: put ``lookupLabel`` first so that terms from the same atlas stay together.
+#:
+#: The KG API allows ``"sort": true`` on only one property, and only at the root level, so
+#: exactly one property is chosen and it is always a top-level property.
+SORT_PRIORITY = ("name", "fullName", "shortName", "familyName", "abbreviation", "lookupLabel")
+
+
+def choose_sort_property(query_properties, priority=SORT_PRIORITY):
+    """
+    Return the single top-level ``QueryProperty`` to sort a generated query by, or ``None``.
+
+    The first top-level property whose ``name`` appears in ``priority`` (in priority order) is
+    chosen; this satisfies the KG's constraint of exactly one ``"sort": true`` at the root level.
+    ``priority`` defaults to the module-level :data:`SORT_PRIORITY`. If no sortable property is
+    present, returns ``None`` so no sort is requested.
+    """
+    for sort_name in priority:
+        for prop in query_properties:
+            if prop.name == sort_name:
+                return prop
+    return None
 
 
 def _get_query_property_name(property, possible_classes):

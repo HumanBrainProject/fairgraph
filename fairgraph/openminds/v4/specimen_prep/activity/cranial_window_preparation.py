@@ -19,6 +19,7 @@ class CranialWindowPreparation(KGObject, OMCranialWindowPreparation):
 
     type_ = "https://openminds.om-i.org/types/CranialWindowPreparation"
     default_space = "in-depth"
+    SORT_PRIORITY = ("name", "fullName", "shortName", "familyName", "abbreviation", "lookupLabel")
     # forward properties are defined in the parent class (in openMINDS-Python)
     reverse_properties = []
     existence_query_properties = ("lookup_label",)

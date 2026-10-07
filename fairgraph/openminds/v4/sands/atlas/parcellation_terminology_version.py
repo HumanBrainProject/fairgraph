@@ -15,6 +15,7 @@ class ParcellationTerminologyVersion(KGEmbedded, OMParcellationTerminologyVersio
     """
 
     type_ = "https://openminds.om-i.org/types/ParcellationTerminologyVersion"
+    SORT_PRIORITY = ("name", "fullName", "shortName", "familyName", "abbreviation", "lookupLabel")
     # forward properties are defined in the parent class (in openMINDS-Python)
     reverse_properties = []
     existence_query_properties = ("short_name", "version_identifier")

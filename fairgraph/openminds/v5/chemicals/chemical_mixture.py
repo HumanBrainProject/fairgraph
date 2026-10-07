@@ -16,6 +16,7 @@ class ChemicalMixture(KGObject, OMChemicalMixture):
 
     type_ = "https://openminds.om-i.org/types/ChemicalMixture"
     default_space = "in-depth"
+    SORT_PRIORITY = ("name", "fullName", "shortName", "familyName", "abbreviation", "lookupLabel")
     # forward properties are defined in the parent class (in openMINDS-Python)
     reverse_properties = [
         Property(

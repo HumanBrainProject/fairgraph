@@ -19,6 +19,7 @@ class {{ class_name }}({{base_class}}, OM{{ class_name }}):
     {%- if default_space %}
     default_space = "{{ default_space }}"
     {%- endif %}
+    SORT_PRIORITY = {{ sort_priority }}
     # forward properties are defined in the parent class (in openMINDS-Python)
     reverse_properties = [
         {% for prop in reverse_properties -%}

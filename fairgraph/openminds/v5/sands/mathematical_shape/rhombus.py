@@ -15,6 +15,7 @@ class Rhombus(KGEmbedded, OMRhombus):
     """
 
     type_ = "https://openminds.om-i.org/types/Rhombus"
+    SORT_PRIORITY = ("name", "fullName", "shortName", "familyName", "abbreviation", "lookupLabel")
     # forward properties are defined in the parent class (in openMINDS-Python)
     reverse_properties = []
     existence_query_properties = ("diagonal_lengths",)

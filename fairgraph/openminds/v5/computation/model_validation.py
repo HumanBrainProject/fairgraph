@@ -20,6 +20,7 @@ class ModelValidation(KGObject, OMModelValidation):
 
     type_ = "https://openminds.om-i.org/types/ModelValidation"
     default_space = "computation"
+    SORT_PRIORITY = ("name", "fullName", "shortName", "familyName", "abbreviation", "lookupLabel")
     # forward properties are defined in the parent class (in openMINDS-Python)
     reverse_properties = [
         Property(

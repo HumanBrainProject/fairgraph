@@ -16,6 +16,7 @@ class Accessibility(KGObject, OMAccessibility):
 
     type_ = "https://openminds.om-i.org/types/Accessibility"
     default_space = "dataset"
+    SORT_PRIORITY = ("name", "fullName", "shortName", "familyName", "abbreviation", "lookupLabel")
     # forward properties are defined in the parent class (in openMINDS-Python)
     reverse_properties = [
         Property(

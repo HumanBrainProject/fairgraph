@@ -39,7 +39,7 @@ from openminds import IRI, LinkedMetadata
 from openminds.base import LinkedNodeEmbedding
 
 from .utility import expand_uri, as_list, expand_filter, ActivityLog, normalize_data, handle_scope_keyword
-from .queries import Query, QueryProperty, Regex
+from .queries import Query, QueryProperty, Regex, choose_sort_property, SORT_PRIORITY
 from .errors import AuthorizationError, ResourceExistsError, CannotBuildExistenceQuery
 from .caching import object_cache, save_cache, generate_cache_key
 from .base import ErrorHandling, Releasable, JSONdict
@@ -72,6 +72,11 @@ class KGObject(KGNode, Releasable):
     # many cases be over-ridden.
     # It assumes that "name" is unique within instances of a given type,
     # which may often not be the case.
+    #
+    # Priority order, most preferred first, in which generate_query picks the single sort key.
+    # Generated openMINDS classes override this (see the builder's DEFAULT_SORT_PRIORITY /
+    # SORT_PRIORITY_EXCEPTIONS). If None, generate_query falls back to the default in queries.py.
+    SORT_PRIORITY = None
 
     def __init__(
         self,
@@ -394,6 +399,16 @@ class KGObject(KGNode, Releasable):
 
         Returns:
             A list of instances of this class representing the objects returned by the KG query.
+
+        Note:
+            When the query API is used (i.e. a filter or ``follow_links`` is given, or
+            ``api="query"`` is passed), the results are sorted in ascending, case-insensitive
+            order by a single name-like property chosen in a fixed priority order
+            (``name``, ``full_name``, ``short_name``, ``family_name``, ``abbreviation``,
+            ``lookup_label``; ``synonyms`` is never used). A few classes override this order via
+            their ``SORT_PRIORITY`` class attribute (e.g. ``ParcellationEntity`` sorts by
+            ``lookup_label`` so atlas terms stay grouped). Results from the core API are in an
+            unspecified order.
 
         Raises:
             ValueError: If invalid arguments are passed to the method.
@@ -1183,9 +1198,10 @@ class KGObject(KGNode, Releasable):
         # second pass, we add filters
         query.properties.extend(cls.generate_query_filter_properties(normalized_filters))
         # third pass, we add sorting, which can only happen at the top level
-        for prop in query.properties:
-            if prop.name in ("name", "fullName", "lookupLabel"):
-                prop.sorted = True
+        sort_priority = getattr(cls, "SORT_PRIORITY", None) or SORT_PRIORITY
+        sort_property = choose_sort_property(query.properties, sort_priority)
+        if sort_property is not None:
+            sort_property.sorted = True
         # implementation note: the three-pass approach generates queries that are sometimes more verbose
         #                      than necessary, but it makes the logic easier to understand.
         return query.serialize()

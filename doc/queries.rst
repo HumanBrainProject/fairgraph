@@ -125,6 +125,35 @@ This returns 10 nodes starting with the 15th. To see how many nodes there are in
 .. note:: if you consistently retrieve an empty list, it is probably because you do not
           yet have the necessary permissions. See :doc:`permissions` for more information.
 
+Result ordering
+---------------
+
+The order in which ``list()`` returns results is only meaningful when the metadata is retrieved
+through the query API (i.e. when a filter or ``follow_links`` is used, or when ``api="query"``
+is passed explicitly). In that case fairgraph asks the Knowledge Graph to sort the results by a
+single property, in **ascending** order and **case-insensitively** (so, e.g., ``AAL1_brain`` is
+placed between ``AAL1_AMYG`` and ``AAL1_CAU``, which is not the order plain Python ``sorted()``
+would produce).
+
+The Knowledge Graph API allows sorting on exactly one property, at the root level. fairgraph
+chooses that property from the class's name-like properties in a fixed priority order:
+``name``, then ``full_name``, ``short_name``, ``family_name``, ``abbreviation``, then
+``lookup_label``. It picks the first of these that the class actually has, so, for example,
+``Dataset`` is sorted by ``full_name`` and ``Person`` by ``family_name``. ``synonyms`` is never
+used as a sort key (it is list-valued), and classes with none of these properties are returned in
+whatever order the Knowledge Graph supplies.
+
+A few classes override this default because a different property keeps related results together.
+In particular, ``ParcellationEntity`` and ``ParcellationEntityVersion`` are sorted by
+``lookup_label`` so that terms from the same atlas stay grouped.
+
+Results retrieved through the core API (the default for a plain, unfiltered ``list()``) are
+returned in an unspecified order.
+
+.. note:: This ordering of *results* is unrelated to the internal ``ensure_order`` option on a
+          query property, which only preserves the order of instances within a list-valued
+          property, not the ordering of the results returned.
+
 
 Filtering/searching
 ===================
