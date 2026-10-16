@@ -495,7 +495,16 @@ def get_query_filter_property(property, context, filter: Any) -> QueryProperty:
         filter_obj = None
     else:
         # we have a filter value for this property
-        if isinstance(filter, Regex):
+        if isinstance(filter, list) and filter:
+            if all(isinstance(item, Regex) for item in filter):
+                op = "REGEX"
+            elif all(isinstance(item, Equals) for item in filter):
+                op = "EQUALS"
+            elif property.types[0] in (int, float, bool, datetime, date):
+                op = "EQUALS"
+            else:
+                op = "CONTAINS"
+        elif isinstance(filter, Regex):
             op = "REGEX"
         elif isinstance(filter, Equals):
             op = "EQUALS"
