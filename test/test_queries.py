@@ -825,6 +825,34 @@ def test_equals_rejects_a_non_id_string_for_a_link(mock_client):
         omcore.DatasetVersion.generate_query(client=mock_client, space=None, filters={"is_new_version_of": Equals("FOO")})
 
 
+@pytest.mark.parametrize(
+    "value",
+    [
+        [Equals("FOO"), Equals("BAR")],
+        [Regex("^FOO$"), Regex("^BAR$")],
+        ["FOO", "BAR"],
+    ],
+)
+def test_list_filter_values_are_rejected(mock_client, value):
+    # the KG query API only supports a single value per filter, so a list must not
+    # be silently turned into a CONTAINS filter whose value is the whole list
+    with pytest.raises(TypeError):
+        omcore.Dataset.generate_query(client=mock_client, space=None, filters={"short_name": value})
+
+
+def test_list_filter_values_are_rejected_for_a_link(mock_client):
+    # a list value for a link-typed property used to crash with an AttributeError
+    # from str.startswith being called on the list
+    instance_ids = [
+        "https://kg.ebrains.eu/api/instances/00000000-0000-0000-0000-000000000001",
+        "https://kg.ebrains.eu/api/instances/00000000-0000-0000-0000-000000000002",
+    ]
+    with pytest.raises(TypeError):
+        omcore.DatasetVersion.generate_query(
+            client=mock_client, space=None, filters={"is_new_version_of": instance_ids}
+        )
+
+
 def test_existence_query_filters_strings_with_equals(mock_client):
     dataset = omcore.Dataset(short_name="FOO")
     query = omcore.Dataset.generate_minimal_query(client=mock_client, filters=dataset._build_existence_query())

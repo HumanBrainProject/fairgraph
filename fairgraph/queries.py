@@ -75,7 +75,7 @@ class Equals(str):
     The KG ignores case when matching, but not whitespace, so `Equals("FOO")` does match "foo",
     but not "FOO ".
 
-    Only a single value is supported: a list of `Equals` values is filtered with "CONTAINS".
+    Only a single value is supported: filtering on a list of values raises a TypeError.
 
     Args:
         value (str): the value the property must be equal to.
@@ -495,6 +495,15 @@ def get_query_filter_property(property, context, filter: Any) -> QueryProperty:
         filter_obj = None
     else:
         # we have a filter value for this property
+        if isinstance(filter, list):
+            # The KG query API only supports a single value per filter, so there is no
+            # way to express "any of these values". Reject the list rather than silently
+            # changing the meaning of the query (e.g. by sending CONTAINS with a list).
+            raise TypeError(
+                "Filtering on a list of values is not supported: "
+                "the KG query API applies a single value per filter. "
+                "Filter on one value at a time instead."
+            )
         if isinstance(filter, Regex):
             op = "REGEX"
         elif isinstance(filter, Equals):
