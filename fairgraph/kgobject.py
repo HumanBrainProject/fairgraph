@@ -746,19 +746,22 @@ class KGObject(KGNode, Releasable):
 
         An identifier with no ID is first looked for in the KG (by its `identifier` value);
         if it is not there, no instance can share it.
+        An identifier with a local ID (one that is not a KG URI, e.g. "_:000012" in a `Collection` that has not
+        been uploaded) is skipped, since no instance in the KG can link to it.
         Returns the instances found, as `_find_matching_instances()` does, for the first identifier that has any.
         """
         for item in as_list(getattr(self, "digital_identifiers", None)):
             if isinstance(item, KGProxy):
                 if not any(cls.__name__ in identifier_types for cls in item.classes):
                     continue
-                identifier_id = item.id
             elif isinstance(item, KGObject) and item.__class__.__name__ in identifier_types:
                 # if the identifier itself is duplicated in the KG, we try only the first copy
                 if not item.id and not item.exists(client, ignore_duplicates=True):
                     continue
-                identifier_id = item.id
             else:
+                continue
+            identifier_id = item.id
+            if not (identifier_id and identifier_id.startswith("http")):
                 continue
             instances = self._run_minimal_query(client, {"digital_identifiers": identifier_id}, in_spaces=in_spaces)
             if instances:

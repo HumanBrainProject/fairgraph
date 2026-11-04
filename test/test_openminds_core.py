@@ -1986,3 +1986,16 @@ def test_exists_normalized_finds_an_organization_by_name(mock_client):
     org = omcore.Organization(full_name="Kingdom  under the Lonely Mountain ")
     assert org.exists(mock_client, existence_match="normalized")
     assert org.id == LONELY_MOUNTAIN_ID
+
+
+def test_exists_normalized_skips_an_identifier_with_a_local_id(mock_client, mocker):
+    _seed_named_person(mock_client, "Émilie", "du Châtelet", orcid_id=CHATELET_ORCID_ID)
+    orcid = omcore.ORCID(identifier=EXAMPLE_ORCID, id="_:000001")
+    person = omcore.Person(given_name="Emilie", family_name="du Chatelet", digital_identifiers=[orcid])
+    query = mocker.spy(mock_client, "query")
+    assert person.exists(mock_client, existence_match="normalized")
+    assert person.id == CHATELET_ID
+    assert orcid.id == "_:000001"
+    # only the name query was run, not one for the local identifier
+    assert query.call_count == 1
+
