@@ -16,7 +16,9 @@ guards against it drifting from the original.
 
 import re
 from unicodedata import combining, normalize as unicode_normalize
-from typing import Dict, Set, Tuple
+from typing import Any, Dict, Iterable, List, Set, Tuple
+
+from .misc import as_list
 
 # --- begin temporary copy of the openMINDS helpers ---------------------------------------
 #
@@ -246,3 +248,59 @@ def _build_within_regex(name: str, case_sensitive: bool, ignore_accents: bool) -
     substrings = {base[i:j] for i in range(len(base)) for j in range(i + 1, len(base) + 1)}
     ordered = sorted(substrings, key=lambda s: (-len(s), s))
     return "^(?:" + "|".join(_expand(substring, case_sensitive, ignore_accents) for substring in ordered) + ")$"
+
+
+def narrow_by_name(
+    objects: Iterable[Any],
+    name: str,
+    property_names: Iterable[str],
+    match: str = "equals",
+    case_sensitive: bool = True,
+    ignore_accents: bool = False,
+) -> List[Any]:
+    """
+    Return those of `objects` for which a value of one of the properties `property_names` matches `name`.
+
+    This is the local step that follows a KG query pre-filtered with `build_name_regex()`,
+    which returns a superset of the true matches.
+    """
+    property_names = list(property_names)
+    return [
+        obj
+        for obj in objects
+        if any(
+            matches_name(value, name, match, case_sensitive, ignore_accents)
+            for property_name in property_names
+            for value in as_list(getattr(obj, property_name, None))
+            if isinstance(value, str)
+        )
+    ]
+
+
+def collapse_whitespace(value: str) -> str:
+    """Remove leading and trailing whitespace, and replace each run of whitespace inside `value` by a single space."""
+    return " ".join(value.split())
+
+
+def build_normalized_regex(value: str) -> str:
+    """
+    Build a regular expression for use as a KG `REGEX` filter, which selects the stored values that
+    `names_equivalent()` considers equivalent to `value` (and possibly a few more, since the KG
+    ignores case in a slightly different way to `casefold()`).
+
+    Case and accents are ignored, and so are differences in whitespace: any run of whitespace
+    matches any other, and leading and trailing whitespace in the stored value is allowed.
+    """
+    tokens = value.split()
+    body = r"\s+".join(_expand(token, case_sensitive=False, ignore_accents=True) for token in tokens)
+    return rf"^\s*{body}\s*$"
+
+
+def names_equivalent(stored: str, local: str) -> bool:
+    """
+    Whether two strings are the same name, ignoring case, accents and other diacritical marks,
+    special letters (e.g. "ß" and "ss"), and differences in whitespace.
+    """
+    return matches_name(
+        collapse_whitespace(stored), collapse_whitespace(local), "equals", case_sensitive=False, ignore_accents=True
+    )

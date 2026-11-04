@@ -202,6 +202,16 @@ class MockKGClient:
         filters = []
         for prop in query.get("structure", []):
             if "structure" in prop:
+                # the only nested filter we handle is on the "@id" of a linked node, e.g. `digital_identifiers=<id>`
+                nested = prop["structure"]
+                if (
+                    len(nested) == 1
+                    and nested[0].get("path") == "@id"
+                    and nested[0].get("filter", {}).get("op") in ("EQUALS", "CONTAINS")
+                    and isinstance(prop.get("path", None), str)
+                ):
+                    filters.append((prop["path"], "LINK", nested[0]["filter"]["value"]))
+                    continue
                 return None  # a filter on a nested node, which we don't traverse
             spec = prop.get("filter", None)
             if not spec or "value" not in spec:
@@ -227,6 +237,10 @@ class MockKGClient:
     @staticmethod
     def _value_matches(stored, op, value):
         for item in as_list(stored):
+            if op == "LINK":
+                if isinstance(item, dict) and item.get("@id", None) == value:
+                    return True
+                continue
             if op == "REGEX":
                 # the KG matches regular expressions case-insensitively
                 if isinstance(item, str) and isinstance(value, str) and re.search(value, item, re.IGNORECASE):

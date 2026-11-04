@@ -44,7 +44,13 @@ from .queries import Query, QueryProperty, Regex
 from .errors import AuthorizationError, ResourceExistsError, CannotBuildExistenceQuery
 from .caching import generate_cache_key
 from .base import ErrorHandling, Releasable, JSONdict
-from .utility.name_matching import KG_NAMELIKE_PROPERTIES, MATCH_TYPES, build_name_regex, matches_name
+from .utility.name_matching import (
+    KG_NAMELIKE_PROPERTIES,
+    MATCH_TYPES,
+    build_name_regex,
+    names_equivalent,
+    narrow_by_name,
+)
 from .node import KGNode, check_existence_match
 from .kgproxy import KGProxy
 from .kgquery import KGQuery
@@ -622,14 +628,19 @@ class KGObject(KGNode, Releasable):
             in_spaces (list of str, optional): If provided, only look for the object in these spaces.
             existence_match (str, optional): How string properties are compared when looking for the object.
                 Either "equals" (the value in the KG must be the same as the local value, ignoring case - the default),
-                or "contains" (it is enough for the value in the KG to contain the local value,
-                so an object with the name "FOO" will match an existing object with the name "FOO-BAR").
+                "contains" (it is enough for the value in the KG to contain the local value,
+                so an object with the name "FOO" will match an existing object with the name "FOO-BAR"),
+                or "normalized" (the values must be the same, ignoring case, accents and differences in whitespace,
+                so "Emilie du  Chatelet" will match "Émilie du Châtelet"). If several instances match
+                with "normalized", but only one of them matches exactly (ignoring case), that one is used.
+                Some classes also look for a match in other ways with "normalized";
+                for example, `Person` first looks for a person with the same ORCID.
         """
         check_existence_match(existence_match)
         obj_exists = self._exists_without_query(client, existence_match)
         if obj_exists is not None:
             return obj_exists
-        instances = self._query_matching_instances(client, in_spaces=in_spaces, existence_match=existence_match)
+        instances = self._find_matching_instances(client, in_spaces=in_spaces, existence_match=existence_match)
         if not instances:
             return False
         self._check_for_duplicates(instances, ignore_duplicates, existence_match)
@@ -639,8 +650,8 @@ class KGObject(KGNode, Releasable):
         """
         The keys under which the save cache may hold the ID of an object matching this one.
 
-        An object that matches exactly also matches "contains", but not the other way round,
-        so a "contains" lookup may use either key while an "equals" lookup may use only the first.
+        An object that matches exactly also matches with "contains" or "normalized", but not the other way round,
+        so a "contains" or "normalized" lookup may use either key while an "equals" lookup may use only the first.
         """
         equals_key = generate_cache_key(self._build_existence_query("equals"))
         if existence_match == "equals":
@@ -702,7 +713,90 @@ class KGObject(KGNode, Releasable):
             return True
         return None
 
-    def _query_matching_instances(
+    def _find_matching_instances(
+        self, client: KGClient, in_spaces: Optional[List[str]] = None, existence_match: str = "equals"
+    ) -> List[JSONdict]:
+        """
+        Look for instances in the KG that match this object, and return them, best match first.
+
+        Each instance is returned as a dict containing at least its "@id" and its space
+        (under the key "https://schema.hbp.eu/myQuery/space"), as returned by a query generated
+        by `generate_minimal_query()`.
+        If there is more than one, `exists()` and `save()` raise an exception unless `ignore_duplicates` is True.
+
+        This is called by `exists()` and `save()` when the object has no ID and is not in the save cache.
+        By default, it runs the existence query built from `existence_query_properties`
+        (see `_build_existence_query()`), and, with `existence_match="normalized"`, checks the instances found.
+        Subclasses may override it to look for matches in other ways, calling the superclass method
+        to fall back on the existence query (see, for example, `Person`).
+
+        If the connection is lost while querying, an empty list is returned, with a warning.
+        """
+        instances = self._run_existence_query(client, in_spaces=in_spaces, existence_match=existence_match)
+        if existence_match == "normalized":
+            instances = self._confirm_normalized_matches(client, instances)
+        return instances
+
+    def _find_by_identifiers(
+        self, client: KGClient, identifier_types: Tuple[str, ...], in_spaces: Optional[List[str]] = None
+    ) -> List[JSONdict]:
+        """
+        Look for instances in the KG that share one of this object's digital identifiers, considering
+        only those identifiers whose class name is in `identifier_types` (e.g. ("ORCID",)).
+
+        An identifier with no ID is first looked for in the KG (by its `identifier` value);
+        if it is not there, no instance can share it.
+        Returns the instances found, as `_find_matching_instances()` does, for the first identifier that has any.
+        """
+        for item in as_list(getattr(self, "digital_identifiers", None)):
+            if isinstance(item, KGProxy):
+                if not any(cls.__name__ in identifier_types for cls in item.classes):
+                    continue
+                identifier_id = item.id
+            elif isinstance(item, KGObject) and item.__class__.__name__ in identifier_types:
+                # if the identifier itself is duplicated in the KG, we try only the first copy
+                if not item.id and not item.exists(client, ignore_duplicates=True):
+                    continue
+                identifier_id = item.id
+            else:
+                continue
+            instances = self._run_minimal_query(client, {"digital_identifiers": identifier_id}, in_spaces=in_spaces)
+            if instances:
+                return instances
+        return []
+
+    def _confirm_normalized_matches(self, client: KGClient, instances: List[JSONdict]) -> List[JSONdict]:
+        """
+        From the instances found by a "normalized" existence query, which is only a pre-filter, keep those whose
+        string values really are equivalent to the local ones (see `names_equivalent()`).
+
+        If exactly one of these also matches exactly (ignoring case, as with `existence_match="equals"`),
+        only that one is returned.
+        """
+        local_values = {
+            property_name: getattr(self, property_name, None)
+            for property_name in self.existence_query_properties or ()
+            if isinstance(getattr(self, property_name, None), str)
+        }
+        if not local_values:
+            return instances
+        confirmed = []
+        exact = []
+        for instance in instances:
+            data = client.instance_from_full_uri(instance["@id"], use_cache=True, release_status="any")
+            if data is None:
+                continue
+            stored_values = self.__class__._deserialize_data(data)
+            pairs = [(stored_values.get(name, None), local) for name, local in local_values.items()]
+            if all(isinstance(stored, str) and names_equivalent(stored, local) for stored, local in pairs):
+                confirmed.append(instance)
+                if all(stored.lower() == local.lower() for stored, local in pairs):
+                    exact.append(instance)
+        if len(exact) == 1:
+            return exact
+        return confirmed
+
+    def _run_existence_query(
         self, client: KGClient, in_spaces: Optional[List[str]] = None, existence_match: str = "equals"
     ) -> List[JSONdict]:
         """
@@ -712,6 +806,17 @@ class KGObject(KGNode, Releasable):
         If the connection is lost while querying, an empty list is returned, with a warning.
         """
         query_filter = self._build_existence_query(existence_match)
+        return self._run_minimal_query(client, query_filter, in_spaces=in_spaces)
+
+    def _run_minimal_query(
+        self, client: KGClient, query_filter: Dict[str, Any], in_spaces: Optional[List[str]] = None
+    ) -> List[JSONdict]:
+        """
+        Run a query with the given filters, which returns only the "@id" and space of the instances found,
+        and return all of them.
+
+        If the connection is lost while querying, an empty list is returned, with a warning.
+        """
         query = self.__class__.generate_minimal_query(client=client, filters=query_filter)
         try:
             response = client.query(
@@ -770,7 +875,7 @@ class KGObject(KGNode, Releasable):
         After an existence query has matched this object with the instance in `data`, replace the local value
         of each property in the existence query whose value is a string with the stored one, where the two
         differ only in ways the query ignores: case, and, with `existence_match="contains"`, the rest of the
-        stored value. Other properties are not changed.
+        stored value, and, with `existence_match="normalized"`, accents and whitespace. Other properties are not changed.
 
         Otherwise, the difference would count as a local modification, and saving would write the search term
         over the stored value.
@@ -786,6 +891,8 @@ class KGObject(KGNode, Releasable):
                 continue
             if existence_match == "contains":
                 matched = local_value.lower() in stored_value.lower()
+            elif existence_match == "normalized":
+                matched = names_equivalent(stored_value, local_value)
             else:
                 matched = local_value.lower() == stored_value.lower()
             if matched:
@@ -855,8 +962,10 @@ class KGObject(KGNode, Releasable):
                 (and consider only the first in the list), or to raise an Exception. Defaults to False.
             existence_match (str, optional): How string properties are compared when looking for an existing object
                 to update. Either "equals" (the value in the KG must be the same as the local value, ignoring case - the default),
-                or "contains" (it is enough for the value in the KG to contain the local value,
-                so an object with the name "FOO" will overwrite an existing object with the name "FOO-BAR").
+                "contains" (it is enough for the value in the KG to contain the local value,
+                so an object with the name "FOO" will overwrite an existing object with the name "FOO-BAR"),
+                or "normalized" (the values must be the same, ignoring case, accents and differences in whitespace).
+                See `exists()` for details.
 
         Raises:
             - An `AuthorizationError` if the current user is not authorized to perform the requested operation.
@@ -920,7 +1029,7 @@ class KGObject(KGNode, Releasable):
         if found is None:
             # We look for the object in all spaces, not only the one we are saving to, to avoid creating duplicates,
             # but if it exists both in the target space and elsewhere, we use the instance in the target space.
-            instances = self._query_matching_instances(client, existence_match=existence_match)
+            instances = self._find_matching_instances(client, existence_match=existence_match)
             candidates = [
                 instance for instance in instances if instance.get("https://schema.hbp.eu/myQuery/space") == space
             ] or instances
@@ -1166,16 +1275,7 @@ class KGObject(KGNode, Releasable):
                 **{prop_name: pattern},
             ):
                 candidates.setdefault(obj.id, obj)
-        objects = [
-            obj
-            for obj in candidates.values()
-            if any(
-                matches_name(value, name, match, case_sensitive, ignore_accents)
-                for prop_name in name_properties
-                for value in as_list(getattr(obj, prop_name, None))
-                if isinstance(value, str)
-            )
-        ]
+        objects = narrow_by_name(candidates.values(), name, name_properties, match, case_sensitive, ignore_accents)
 
         if len(objects) == 0:
             return None

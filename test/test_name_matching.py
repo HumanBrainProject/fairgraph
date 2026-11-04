@@ -39,7 +39,10 @@ from fairgraph.queries import Regex
 from fairgraph.utility.name_matching import (
     MAX_WITHIN_LENGTH,
     build_name_regex,
+    build_normalized_regex,
     matches_name,
+    names_equivalent,
+    narrow_by_name,
     normalize_name,
     remove_accents,
 )
@@ -237,3 +240,75 @@ def test_generated_patterns_are_always_valid(name, match, case_sensitive, ignore
     assert Regex(pattern) == pattern
     # whatever the match type, the search string matches itself
     assert kg_search(pattern, name)
+
+
+class TestNamesEquivalent:
+    @pytest.mark.parametrize(
+        "stored,local",
+        [
+            ("Émilie", "Emilie"),
+            ("du Châtelet", "DU CHATELET"),
+            ("Ramón y Cajal", "Ramon  y Cajal"),
+            (" Lorente de Nó ", "Lorente de No"),
+            ("Straße", "Strasse"),
+        ],
+    )
+    def test_equivalent(self, stored, local):
+        assert names_equivalent(stored, local)
+
+    @pytest.mark.parametrize(
+        "stored,local",
+        [
+            ("du Châtelet-Lomont", "du Chatelet"),
+            ("Ramón y Cajal", "RamonyCajal"),
+            ("Emilie", "Emily"),
+        ],
+    )
+    def test_not_equivalent(self, stored, local):
+        assert not names_equivalent(stored, local)
+
+
+class TestBuildNormalizedRegex:
+    @pytest.mark.parametrize(
+        "stored,local",
+        [
+            ("Émilie", "Emilie"),
+            ("du Châtelet", "DU CHATELET"),
+            ("Ramón  y\tCajal ", "Ramon y Cajal"),
+            ("Straße", "Strasse"),
+            ("Strasse", "Straße"),
+            ("Œuvre", "oeuvre"),
+            ("Dr. Jekyll (Henry)", "Dr. Jekyll (Henry)"),
+        ],
+    )
+    def test_selects_every_equivalent_value(self, stored, local):
+        assert names_equivalent(stored, local)
+        assert kg_search(build_normalized_regex(local), stored)
+
+    @pytest.mark.parametrize(
+        "stored,local",
+        [
+            ("du Châtelet-Lomont", "du Chatelet"),
+            ("Madame du Châtelet", "du Chatelet"),
+            ("Dr X Jekyll", "Dr. Jekyll"),
+        ],
+    )
+    def test_does_not_select_longer_or_different_values(self, stored, local):
+        assert not kg_search(build_normalized_regex(local), stored)
+
+    def test_is_a_valid_regex_filter(self):
+        Regex(build_normalized_regex("Dr. Jekyll (Henry) [*]"))
+
+
+class TestNarrowByName:
+    class Named:
+        def __init__(self, name=None, synonyms=None):
+            self.name = name
+            self.synonyms = synonyms
+
+    def test_matches_any_property_or_list_item(self):
+        a = self.Named(name="raphé nuclei")
+        b = self.Named(name="other", synonyms=["raphe nuclei", "x"])
+        c = self.Named(name="nucleus raphé magnus")
+        assert narrow_by_name([a, b, c], "raphe nuclei", ["name", "synonyms"], ignore_accents=True) == [a, b]
+        assert narrow_by_name([a, b, c], "raphé", ["name"], match="contains") == [a, c]

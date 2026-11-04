@@ -199,7 +199,12 @@ If the object has an id, fairgraph tries to retrieve the instance with that id
 (the KG allows user-specified ids, so having an id does not mean the object has been saved).
 Otherwise, it runs an *existence query*, which looks for a node of the same type whose values
 for the class's ``existence_query_properties`` match those of the object
-(exactly, ignoring case, or, with ``existence_match="contains"``, as substrings).
+(exactly, ignoring case; with ``existence_match="contains"``, as substrings;
+or, with ``existence_match="normalized"``, also ignoring accents and whitespace).
+The query is run by ``KGObject._find_matching_instances()``, which a class can override to look for
+matches in other ways: with ``existence_match="normalized"``, ``Person`` and ``Organization``
+first look for a node with the same ORCID or ROR ID
+(the overrides are in ``builder/additional_methods/``).
 The ids found are remembered by the client, so that saving an equal object again needs no query.
 This matters because the KG is only eventually consistent: an instance that has just been created
 may not yet be found by a query. All caches belong to a client, so objects retrieved with one user's
