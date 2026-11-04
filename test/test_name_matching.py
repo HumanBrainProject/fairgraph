@@ -39,12 +39,15 @@ from fairgraph.queries import Regex
 from fairgraph.utility.name_matching import (
     MAX_WITHIN_LENGTH,
     build_name_regex,
+    build_given_name_regex,
     build_normalized_regex,
+    given_names_compatible,
     matches_name,
     names_equivalent,
     narrow_by_name,
     normalize_name,
     remove_accents,
+    split_given_names,
 )
 
 
@@ -312,3 +315,80 @@ class TestNarrowByName:
         c = self.Named(name="nucleus raphé magnus")
         assert narrow_by_name([a, b, c], "raphe nuclei", ["name", "synonyms"], ignore_accents=True) == [a, b]
         assert narrow_by_name([a, b, c], "raphé", ["name"], match="contains") == [a, c]
+
+
+class TestSplitGivenNames:
+    @pytest.mark.parametrize(
+        "text,expected",
+        [
+            ("James", ["james"]),
+            ("James Clerk", ["james", "clerk"]),
+            ("  James   C. ", ["james", "c"]),
+            ("J.C.", ["j", "c"]),
+            ("J. C.", ["j", "c"]),
+            ("J C", ["j", "c"]),
+            ("Jean-Pierre", ["jean", "pierre"]),
+            ("J.-P.", ["j", "p"]),
+            ("Émilie", ["emilie"]),
+            ("", []),
+            (" . ", []),
+        ],
+    )
+    def test_split(self, text, expected):
+        assert split_given_names(text) == expected
+
+
+class TestGivenNamesCompatible:
+    @pytest.mark.parametrize(
+        "stored,local,expected",
+        [
+            ("James", "James", True),
+            ("James", "James C.", True),
+            ("James C.", "James", True),
+            ("James C.", "James C", True),
+            ("J C", "J.C.", True),
+            ("James Clerk", "J. Clerk", True),
+            ("J. C.", "J. Clerk", True),
+            ("James Clerk", "J.C.", True),
+            ("James Clerk", "James", True),
+            ("Augusta", "A. Ada", True),
+            ("Augusta Ada", "Ada", False),
+            ("Clerk", "J. Clerk", False),
+            ("James K.", "James C.", False),
+            ("Jane", "John", False),
+            ("J.-P.", "Jean-Pierre", True),
+            ("Émilie", "emilie", True),
+            ("James Clerk", "Clerk James", False),
+            ("", "James", False),
+        ],
+    )
+    def test_compatible(self, stored, local, expected):
+        assert given_names_compatible(stored, local) is expected
+        assert given_names_compatible(local, stored) is expected
+
+    def test_an_initial_can_match_any_of_several_names(self):
+        # a greedy match of "C." against "Charles" would leave nothing for "Clerk"
+        assert given_names_compatible("James Charles Clerk", "James C. Clerk")
+
+
+class TestBuildGivenNameRegex:
+    @pytest.mark.parametrize(
+        "local,stored,expected",
+        [
+            ("James", "James Clerk", True),
+            ("J.", "james", True),
+            ("James", "  J. C.", True),
+            ("Emilie", "Émilie", True),
+            ("Émilie", "Emilie", True),
+            ("Émilie", "ÉMILIE", True),
+            ("Aethel", "Æthel", True),
+            ("James", "Clerk James", False),
+            ("Emilie", "Amelie", False),
+        ],
+    )
+    def test_matches_names_with_the_same_initial(self, local, stored, expected):
+        assert kg_search(build_given_name_regex(local), stored) is expected
+
+    def test_requires_a_given_name(self):
+        with pytest.raises(ValueError):
+            build_given_name_regex(" ")

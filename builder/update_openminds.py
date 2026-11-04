@@ -773,6 +773,14 @@ mimetypes.init()""",
     "CommonCoordinateSpaceVersion": preamble_for_download,
     "CommonCoordinateFrameworkVersion": preamble_for_download,
     "AnatomicalAtlasVersion": preamble_for_download,
+    "Person": """from fairgraph.queries import Regex
+from fairgraph.utility.name_matching import (
+    build_given_name_regex,
+    build_normalized_regex,
+    given_names_compatible,
+    names_equivalent,
+    split_given_names,
+)""",
     "ScholarlyArticle": """from fairgraph.utility import as_list
 from .publication_issue import PublicationIssue
 from .periodical import Periodical""",

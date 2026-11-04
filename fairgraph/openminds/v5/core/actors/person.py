@@ -8,6 +8,15 @@ from openminds.properties import Property
 from openminds.v5.core import Person as OMPerson
 from fairgraph import KGObject
 
+from fairgraph.queries import Regex
+from fairgraph.utility.name_matching import (
+    build_given_name_regex,
+    build_normalized_regex,
+    given_names_compatible,
+    names_equivalent,
+    split_given_names,
+)
+
 
 class Person(KGObject, OMPerson):
     """
@@ -195,9 +204,73 @@ class Person(KGObject, OMPerson):
         return person
 
     def _find_matching_instances(self, client, in_spaces=None, existence_match="equals"):
-        # with existence_match="normalized", look for the same ORCID before looking for the same name
+        # with existence_match="normalized", look for the same ORCID before looking for the same name,
+        # and allow for middle names and initials in the given names
         if existence_match == "normalized":
             instances = self._find_by_identifiers(client, ("ORCID",), in_spaces=in_spaces)
             if instances:
                 return instances
+            if (
+                isinstance(self.given_name, str)
+                and split_given_names(self.given_name)
+                and isinstance(self.family_name, str)
+                and self.family_name.strip()
+            ):
+                return self._find_by_compatible_names(client, in_spaces=in_spaces)
         return super()._find_matching_instances(client, in_spaces=in_spaces, existence_match=existence_match)
+
+    def _find_by_compatible_names(self, client, in_spaces=None):
+        """
+        Look for people with an equivalent family name (see `names_equivalent()`) and compatible given names
+        (see `given_names_compatible()`), so that "James Maxwell", "James C. Maxwell" and "J. Clerk Maxwell"
+        are all found from "James Clerk Maxwell".
+
+        If exactly one of them has the same given names (ignoring case), only that one is returned;
+        otherwise, if exactly one has equivalent given names, only that one; otherwise all of them.
+        """
+        query_filter = {
+            "given_name": Regex(build_given_name_regex(self.given_name)),
+            "family_name": Regex(build_normalized_regex(self.family_name)),
+        }
+        compatible = []
+        equivalent = []
+        exact = []
+        for instance in self._run_minimal_query(client, query_filter, in_spaces=in_spaces):
+            data = client.instance_from_full_uri(instance["@id"], use_cache=True, release_status="any")
+            if data is None:
+                continue
+            stored_values = self.__class__._deserialize_data(data)
+            stored_given_name = stored_values.get("given_name", None)
+            stored_family_name = stored_values.get("family_name", None)
+            if not (isinstance(stored_given_name, str) and isinstance(stored_family_name, str)):
+                continue
+            if not (
+                names_equivalent(stored_family_name, self.family_name)
+                and given_names_compatible(stored_given_name, self.given_name)
+            ):
+                continue
+            compatible.append(instance)
+            if names_equivalent(stored_given_name, self.given_name):
+                equivalent.append(instance)
+                if (
+                    stored_given_name.lower() == self.given_name.lower()
+                    and stored_family_name.lower() == self.family_name.lower()
+                ):
+                    exact.append(instance)
+        for candidates in (exact, equivalent):
+            if len(candidates) == 1:
+                return candidates
+        return compatible
+
+    def _adopt_matched_values(self, data, existence_match):
+        super()._adopt_matched_values(data, existence_match)
+        # with existence_match="normalized", the given names may differ by more than names_equivalent() allows
+        if existence_match == "normalized":
+            stored_given_name = self.__class__._deserialize_data(data).get("given_name", None)
+            if (
+                isinstance(stored_given_name, str)
+                and isinstance(self.given_name, str)
+                and stored_given_name != self.given_name
+                and given_names_compatible(stored_given_name, self.given_name)
+            ):
+                self.given_name = stored_given_name

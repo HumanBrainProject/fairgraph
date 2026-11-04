@@ -1955,6 +1955,79 @@ def test_exists_normalized_falls_back_to_names_without_an_orcid_match(mock_clien
     assert person.id == CHATELET_ID
 
 
+MAXWELL_ID = "https://kg.ebrains.eu/api/instances/89012345-f012-3456-789a-bcdef0123456"
+OTHER_MAXWELL_ID = "https://kg.ebrains.eu/api/instances/90123456-0123-4567-89ab-cdef01234567"
+
+
+@pytest.mark.parametrize(
+    "stored,local",
+    [
+        ("James Clerk", "James"),
+        ("James", "James Clerk"),
+        ("James C.", "James C"),
+        ("James Clerk", "J. Clerk"),
+        ("J. C.", "James Clerk"),
+    ],
+)
+def test_exists_normalized_allows_for_middle_names_and_initials(mock_client, stored, local):
+    _seed_named_person(mock_client, stored, "Maxwell", person_id=MAXWELL_ID)
+    person = omcore.Person(given_name=local, family_name="Maxwell")
+    assert not person.exists(mock_client)
+    assert person.exists(mock_client, existence_match="normalized")
+    assert person.id == MAXWELL_ID
+    # the stored given name is adopted
+    assert person.given_name == stored
+
+
+def test_exists_normalized_requires_the_first_given_names_to_correspond(mock_client):
+    _seed_named_person(mock_client, "Clerk", "Maxwell", person_id=MAXWELL_ID)
+    person = omcore.Person(given_name="J. Clerk", family_name="Maxwell")
+    assert not person.exists(mock_client, existence_match="normalized")
+
+
+def test_exists_normalized_does_not_match_different_middle_names(mock_client):
+    _seed_named_person(mock_client, "James K.", "Maxwell", person_id=MAXWELL_ID)
+    person = omcore.Person(given_name="James C.", family_name="Maxwell")
+    assert not person.exists(mock_client, existence_match="normalized")
+
+
+def test_save_normalized_does_not_overwrite_a_fuller_given_name(mock_client):
+    _seed_named_person(mock_client, "James Clerk", "Maxwell", person_id=MAXWELL_ID)
+    person = omcore.Person(given_name="James", family_name="Maxwell")
+    log = ActivityLog()
+    person.save(mock_client, space="common", existence_match="normalized", activity_log=log)
+    assert person.id == MAXWELL_ID
+    assert person.given_name == "James Clerk"
+    assert [entry.type for entry in log.entries] == ["no-op"]
+    assert mock_client.updates == []
+
+
+def test_exists_normalized_prefers_the_exact_given_name(mock_client):
+    _seed_named_person(mock_client, "James C.", "Maxwell", person_id=MAXWELL_ID)
+    _seed_named_person(mock_client, "James", "Maxwell", person_id=OTHER_MAXWELL_ID)
+    person = omcore.Person(given_name="james", family_name="Maxwell")
+    assert person.exists(mock_client, existence_match="normalized")
+    assert person.id == OTHER_MAXWELL_ID
+
+
+def test_exists_normalized_prefers_the_equivalent_given_name(mock_client):
+    _seed_named_person(mock_client, "Émilie", "du Châtelet")
+    _seed_named_person(mock_client, "Émilie Gabrielle", "du Châtelet", person_id=OTHER_MAXWELL_ID)
+    person = omcore.Person(given_name="Emilie", family_name="du Chatelet")
+    assert person.exists(mock_client, existence_match="normalized")
+    assert person.id == CHATELET_ID
+
+
+def test_exists_normalized_raises_if_an_initial_matches_several_people(mock_client):
+    _seed_named_person(mock_client, "James", "Maxwell", person_id=MAXWELL_ID)
+    _seed_named_person(mock_client, "Jane", "Maxwell", person_id=OTHER_MAXWELL_ID)
+    with pytest.raises(Exception, match="not specific enough"):
+        omcore.Person(given_name="J.", family_name="Maxwell").exists(mock_client, existence_match="normalized")
+    person = omcore.Person(given_name="J.", family_name="Maxwell")
+    assert person.exists(mock_client, existence_match="normalized", ignore_duplicates=True)
+    assert person.id in (MAXWELL_ID, OTHER_MAXWELL_ID)
+
+
 def test_exists_equals_ignores_the_orcid(mock_client):
     _seed_named_person(mock_client, "Gabrielle Émilie", "Le Tonnelier de Breteuil", orcid_id=CHATELET_ORCID_ID)
     person = omcore.Person(

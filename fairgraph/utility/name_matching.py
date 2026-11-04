@@ -304,3 +304,84 @@ def names_equivalent(stored: str, local: str) -> bool:
     return matches_name(
         collapse_whitespace(stored), collapse_whitespace(local), "equals", case_sensitive=False, ignore_accents=True
     )
+
+
+def split_given_names(value: str) -> List[str]:
+    """
+    Split a string containing one or more given names into its parts, in the form in which they are compared
+    by `given_names_compatible()`: without case, accents or full stops.
+
+    Names are separated by whitespace, by hyphens, or by the full stop after an initial,
+    so "J.-P." and "Jean-Pierre" both have two parts, and so do "J.E." and "J. E.".
+    """
+    tokens = re.split(r"[\s\-‐‑–]+|(?<=\.)", value)
+    parts = []
+    for token in tokens:
+        token = remove_accents(token.casefold()).strip(".")
+        if token:
+            parts.append(token)
+    return parts
+
+
+def _given_name_parts_compatible(a: str, b: str) -> bool:
+    """Whether two parts of a given name may be the same name: they are equal, or one is the initial of the other."""
+    if a == b:
+        return True
+    if len(a) == 1:
+        return b.startswith(a)
+    if len(b) == 1:
+        return a.startswith(b)
+    return False
+
+
+def _is_ordered_subset(shorter: List[str], longer: List[str]) -> bool:
+    """Whether each of `shorter` corresponds to a different item of `longer`, in the same order."""
+    if not shorter:
+        return True
+    for index, part in enumerate(longer):
+        if _given_name_parts_compatible(shorter[0], part) and _is_ordered_subset(shorter[1:], longer[index + 1 :]):
+            return True
+    return False
+
+
+def given_names_compatible(stored: str, local: str) -> bool:
+    """
+    Whether two strings of given names may belong to the same person, allowing for middle names that appear
+    in only one of them, and for initials in place of names.
+
+    The first names must correspond: they must be the same (ignoring case, accents and full stops),
+    or one must be the initial of the other. Each of the remaining names in the string with fewer of them
+    must correspond in the same way to one of the remaining names in the other, in the same order.
+    So "James" and "J. Clerk" are both compatible with "James Clerk", but "Clerk" is not,
+    and neither is "James K.".
+    """
+    stored_parts = split_given_names(stored)
+    local_parts = split_given_names(local)
+    if not (stored_parts and local_parts):
+        return False
+    if not _given_name_parts_compatible(stored_parts[0], local_parts[0]):
+        return False
+    shorter, longer = sorted((stored_parts[1:], local_parts[1:]), key=len)
+    return _is_ordered_subset(shorter, longer)
+
+
+def build_given_name_regex(value: str) -> str:
+    """
+    Build a regular expression for use as a KG `REGEX` filter, which selects the stored given names that
+    `given_names_compatible()` might consider compatible with `value`: those starting with the same letter,
+    ignoring case and accents. It is a pre-filter, whose results are checked with `given_names_compatible()`.
+    """
+    parts = split_given_names(value)
+    if not parts:
+        raise ValueError(f"No given name found in {value!r}")
+    single, multi = _fold_maps()
+    # both cases are listed, in case the KG ignores case only for unaccented letters
+    initials = {parts[0][0], parts[0][0].upper()}
+    alternatives = set(initials)
+    for initial in initials:
+        alternatives |= single.get(initial, set())
+    # a stored name may begin with a special letter that folds onto two letters, e.g. "Æ" -> "AE"
+    alternatives |= {
+        character for folded, characters in multi.items() if folded[0] in initials for character in characters
+    }
+    return r"^\s*" + "[" + "".join(re.escape(alternative) for alternative in sorted(alternatives)) + "]"
