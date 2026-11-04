@@ -1823,3 +1823,199 @@ def test_by_name_returns_none_when_nothing_matches(kg_client):
 def test_by_name_requires_a_name_like_property(kg_client):
     with pytest.raises(AttributeError):
         omcore.DOI.by_name("10.25493/ANYTHING", kg_client)
+
+
+# --- existence_match="normalized" (issue #184) ---
+
+CHATELET_ID = "https://kg.ebrains.eu/api/instances/56789012-cdef-0123-4567-890abcdef012"
+CHATELET_ORCID_ID = "https://kg.ebrains.eu/api/instances/67890123-def0-1234-5678-90abcdef0123"
+EXAMPLE_ORCID = "https://orcid.org/0000-0002-1825-0097"
+
+
+def _seed_named_person(mock_client, given_name, family_name, person_id=CHATELET_ID, orcid_id=None):
+    mock_client.instances[person_id] = {
+        "@id": person_id,
+        "@type": ["https://openminds.om-i.org/types/Person"],
+        "https://core.kg.ebrains.eu/vocab/meta/space": "common",
+        "https://openminds.om-i.org/props/givenName": given_name,
+        "https://openminds.om-i.org/props/familyName": family_name,
+    }
+    if orcid_id:
+        mock_client.instances[orcid_id] = {
+            "@id": orcid_id,
+            "@type": ["https://openminds.om-i.org/types/ORCID"],
+            "https://core.kg.ebrains.eu/vocab/meta/space": "common",
+            "https://openminds.om-i.org/props/identifier": EXAMPLE_ORCID,
+        }
+        mock_client.instances[person_id]["https://openminds.om-i.org/props/digitalIdentifier"] = [{"@id": orcid_id}]
+    return person_id
+
+
+def test_exists_normalized_ignores_accents(mock_client):
+    _seed_named_person(mock_client, "Émilie", "du Châtelet")
+    assert not omcore.Person(given_name="Emilie", family_name="du Chatelet").exists(mock_client)
+    person = omcore.Person(given_name="Emilie", family_name="du Chatelet")
+    assert person.exists(mock_client, existence_match="normalized")
+    assert person.id == CHATELET_ID
+
+
+def test_exists_normalized_ignores_differences_in_whitespace(mock_client):
+    _seed_named_person(mock_client, " Émilie", "du  Châtelet ")
+    person = omcore.Person(given_name="Emilie", family_name="du Chatelet")
+    assert person.exists(mock_client, existence_match="normalized")
+    assert person.id == CHATELET_ID
+
+
+def test_exists_normalized_does_not_match_a_longer_name(mock_client):
+    _seed_named_person(mock_client, "Émilie", "du Châtelet-Lomont")
+    person = omcore.Person(given_name="Emilie", family_name="du Chatelet")
+    assert not person.exists(mock_client, existence_match="normalized")
+
+
+def test_save_normalized_adopts_the_stored_spelling(mock_client):
+    _seed_named_person(mock_client, "Émilie", "du Châtelet")
+    person = omcore.Person(given_name="emilie", family_name="Du  Chatelet")
+    log = ActivityLog()
+    person.save(mock_client, space="common", existence_match="normalized", activity_log=log)
+    assert person.id == CHATELET_ID
+    assert (person.given_name, person.family_name) == ("Émilie", "du Châtelet")
+    assert person.modified_data() == {}
+    assert [entry.type for entry in log.entries] == ["no-op"]
+    assert mock_client.updates == []
+
+
+def test_exists_normalized_prefers_the_exact_match(mock_client):
+    other_id = "https://kg.ebrains.eu/api/instances/78901234-ef01-2345-6789-0abcdef01234"
+    _seed_named_person(mock_client, "Émilie", "du Châtelet")
+    _seed_named_person(mock_client, "Emilie", "du Chatelet", person_id=other_id)
+    person = omcore.Person(given_name="emilie", family_name="du chatelet")
+    assert person.exists(mock_client, existence_match="normalized")
+    assert person.id == other_id
+    person = omcore.Person(given_name="Émilie", family_name="du Châtelet")
+    assert person.exists(mock_client, existence_match="normalized")
+    assert person.id == CHATELET_ID
+
+
+def test_exists_normalized_raises_if_there_is_no_single_best_match(mock_client):
+    other_id = "https://kg.ebrains.eu/api/instances/78901234-ef01-2345-6789-0abcdef01234"
+    _seed_named_person(mock_client, "Émilie", "du Châtelet")
+    _seed_named_person(mock_client, "Emilie", "du Chatelet", person_id=other_id)
+    with pytest.raises(Exception, match="not specific enough"):
+        omcore.Person(given_name="Émilie", family_name="du Chatelet").exists(mock_client, existence_match="normalized")
+    person = omcore.Person(given_name="Émilie", family_name="du Chatelet")
+    assert person.exists(mock_client, existence_match="normalized", ignore_duplicates=True)
+    assert person.id in (CHATELET_ID, other_id)
+
+
+def test_exists_normalized_does_not_affect_later_exact_lookups(mock_client):
+    """A normalized match must not make a later exact lookup find it, via the save cache"""
+    _seed_named_person(mock_client, "Émilie", "du Châtelet")
+    assert omcore.Person(given_name="Emilie", family_name="du Chatelet").exists(
+        mock_client, existence_match="normalized"
+    )
+    assert not omcore.Person(given_name="Emilie", family_name="du Chatelet").exists(mock_client)
+
+
+def test_exists_normalized_for_a_class_without_an_override(mock_client):
+    dataset_id = _seed_dataset(mock_client, "Café  au lait")
+    dataset = omcore.Dataset(short_name="cafe au lait")
+    assert not dataset.exists(mock_client)
+    assert dataset.exists(mock_client, existence_match="normalized")
+    assert dataset.id == dataset_id
+
+
+def test_exists_normalized_finds_a_person_by_orcid(mock_client):
+    _seed_named_person(mock_client, "Gabrielle Émilie", "Le Tonnelier de Breteuil", orcid_id=CHATELET_ORCID_ID)
+    person = omcore.Person(
+        given_name="Émilie", family_name="du Châtelet", digital_identifiers=[omcore.ORCID(identifier=EXAMPLE_ORCID)]
+    )
+    assert person.exists(mock_client, existence_match="normalized")
+    assert person.id == CHATELET_ID
+    # the names differ, so the local ones are kept, and would be saved
+    assert person.family_name == "du Châtelet"
+
+
+def test_exists_normalized_finds_a_person_by_a_linked_orcid(mock_client):
+    _seed_named_person(mock_client, "Gabrielle Émilie", "Le Tonnelier de Breteuil", orcid_id=CHATELET_ORCID_ID)
+    person = omcore.Person(
+        given_name="Émilie",
+        family_name="du Châtelet",
+        digital_identifiers=[KGProxy(omcore.ORCID, CHATELET_ORCID_ID)],
+    )
+    assert person.exists(mock_client, existence_match="normalized")
+    assert person.id == CHATELET_ID
+
+
+def test_exists_normalized_falls_back_to_names_without_an_orcid_match(mock_client):
+    _seed_named_person(mock_client, "Émilie", "du Châtelet")
+    person = omcore.Person(
+        given_name="Emilie", family_name="du Chatelet", digital_identifiers=[omcore.ORCID(identifier=EXAMPLE_ORCID)]
+    )
+    assert person.exists(mock_client, existence_match="normalized")
+    assert person.id == CHATELET_ID
+
+
+def test_exists_equals_ignores_the_orcid(mock_client):
+    _seed_named_person(mock_client, "Gabrielle Émilie", "Le Tonnelier de Breteuil", orcid_id=CHATELET_ORCID_ID)
+    person = omcore.Person(
+        given_name="Émilie", family_name="du Châtelet", digital_identifiers=[omcore.ORCID(identifier=EXAMPLE_ORCID)]
+    )
+    assert not person.exists(mock_client)
+
+
+def test_exists_normalized_finds_an_organization_by_ror_id(mock_client):
+    ror_id = "https://kg.ebrains.eu/api/instances/89012345-f012-3456-7890-abcdef012345"
+    _seed_lonely_mountain(mock_client)
+    mock_client.instances[ror_id] = {
+        "@id": ror_id,
+        "@type": ["https://openminds.om-i.org/types/RORID"],
+        "https://core.kg.ebrains.eu/vocab/meta/space": "common",
+        "https://openminds.om-i.org/props/identifier": "https://ror.org/000000000",
+    }
+    mock_client.instances[LONELY_MOUNTAIN_ID]["https://openminds.om-i.org/props/digitalIdentifier"] = [{"@id": ror_id}]
+    org = omcore.Organization(
+        full_name="Erebor", digital_identifiers=[omcore.RORID(identifier="https://ror.org/000000000")]
+    )
+    assert not org.exists(mock_client)
+    assert org.exists(mock_client, existence_match="normalized")
+    assert org.id == LONELY_MOUNTAIN_ID
+
+
+def test_exists_normalized_finds_an_organization_by_name(mock_client):
+    _seed_lonely_mountain(mock_client)
+    org = omcore.Organization(full_name="Kingdom  under the Lonely Mountain ")
+    assert org.exists(mock_client, existence_match="normalized")
+    assert org.id == LONELY_MOUNTAIN_ID
+
+
+def test_exists_normalized_skips_an_identifier_with_a_local_id(mock_client, mocker):
+    _seed_named_person(mock_client, "Émilie", "du Châtelet", orcid_id=CHATELET_ORCID_ID)
+    orcid = omcore.ORCID(identifier=EXAMPLE_ORCID, id="_:000001")
+    person = omcore.Person(given_name="Emilie", family_name="du Chatelet", digital_identifiers=[orcid])
+    query = mocker.spy(mock_client, "query")
+    assert person.exists(mock_client, existence_match="normalized")
+    assert person.id == CHATELET_ID
+    assert orcid.id == "_:000001"
+    # only the name query was run, not one for the local identifier
+    assert query.call_count == 1
+
+
+@pytest.mark.parametrize("existence_match,expect_new", [("equals", True), ("normalized", False)])
+def test_collection_upload_with_existence_match(mock_client, tmp_path, existence_match, expect_new):
+    _seed_named_person(mock_client, "Émilie", "du Châtelet")
+    collection = Collection(omcore.Person(given_name="Emilie", family_name="du Chatelet"))
+    collection.upload(
+        mock_client,
+        default_space="common",
+        upload_log_path=str(tmp_path / "upload_log.txt"),
+        existence_match=existence_match,
+    )
+    (person,) = collection.nodes.values()
+    if expect_new:
+        assert person.id != CHATELET_ID
+        assert len(mock_client.instances) == 2
+    else:
+        assert person.id == CHATELET_ID
+        assert person.given_name == "Émilie"
+        assert len(mock_client.instances) == 1
+        assert mock_client.updates == []

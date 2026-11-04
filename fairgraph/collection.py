@@ -69,6 +69,7 @@ class Collection(OMCollection):
         verbosity=0,
         max_retries=5,
         upload_log_path=".kg_upload_log.txt",
+        existence_match="equals",
     ):
         """
         Save the nodes in the collection to the Knowledge Graph.
@@ -97,6 +98,11 @@ class Collection(OMCollection):
                 The file is not deleted afterwards, and is keyed on the nodes' local ids, so delete it
                 before uploading a different collection, or uploading this one again from scratch.
                 Defaults to ".kg_upload_log.txt", in the current directory.
+            existence_match (str, optional): How string properties are compared when looking for an existing
+                instance that matches a node: "equals" (the default), "contains" or "normalized".
+                With "normalized", for example, a person called "Emilie du Chatelet" matches an existing
+                "Émilie du Châtelet". See `KGObject.exists()`. Since nodes are saved with `ignore_duplicates=True`,
+                if several instances match equally well, the first one found is used.
 
         Returns:
             An `ActivityLog`, recording what was done with each node.
@@ -160,6 +166,7 @@ class Collection(OMCollection):
                         recursive=False,
                         ignore_duplicates=True,
                         activity_log=activity_log,
+                        existence_match=existence_match,
                     )
                     with open(upload_log_path, "a") as fp:
                         fp.write(f"{original_node_id}\t{node.id}\n")

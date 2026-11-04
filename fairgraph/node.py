@@ -30,6 +30,7 @@ from .queries import (
     Contains,
     Equals,
     QueryProperty,
+    Regex,
     get_query_properties,
     get_query_filter_property,
     get_filter_value,
@@ -42,6 +43,7 @@ from .utility import (
     normalize_data,
     deprecated_aliases,
 )
+from .utility.name_matching import build_normalized_regex
 from .utility.whitespace import normalize_property_value
 
 if TYPE_CHECKING:
@@ -53,7 +55,7 @@ logger = logging.getLogger("fairgraph")
 JSONdict = Dict[str, Any]  # see https://github.com/python/typing/issues/182 for some possible improvements
 
 
-EXISTENCE_MATCH_MODES = ("equals", "contains")
+EXISTENCE_MATCH_MODES = ("equals", "contains", "normalized")
 
 
 def check_existence_match(existence_match: str):
@@ -553,7 +555,10 @@ class KGNode(Resolvable, metaclass=NodeMeta):  # KGObject and KGEmbedded
         check whether a locally-defined object (with no ID) already exists in the KG.
 
         With `existence_match="equals"`, string values must match exactly (ignoring case);
-        with `"contains"`, it is enough for the value in the KG to contain the local value.
+        with `"contains"`, it is enough for the value in the KG to contain the local value;
+        with `"normalized"`, string values are matched with a regular expression which also ignores accents
+        and differences in whitespace. That expression is only a pre-filter: the instances it selects
+        are checked locally by `KGObject._find_matching_instances()`.
 
         For a property holding a list, every local item must be present in the KG,
         but the order of the items is ignored, as are any additional items in the KG.
@@ -619,6 +624,8 @@ class KGNode(Resolvable, metaclass=NodeMeta):  # KGObject and KGEmbedded
                 if existence_match == "equals":
                     # match exactly, so that we don't identify this object with one whose value merely contains ours
                     query_val = Equals(query_val)
+                elif existence_match == "normalized":
+                    query_val = Regex(build_normalized_regex(query_val))
                 else:
                     query_val = Contains(query_val)
             return query_val

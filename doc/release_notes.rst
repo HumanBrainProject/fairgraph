@@ -3,6 +3,25 @@ Release notes
 =============
 
 
+Version 0.17.0
+==============
+
+Matching names when saving
+--------------------------
+
+- :meth:`~fairgraph.KGObject.exists` and :meth:`~fairgraph.KGObject.save` accept
+  ``existence_match="normalized"``, with which strings in the existence query match stored values that differ
+  only in case, accents and other diacritical marks, or whitespace, so that "Emilie du Chatelet" finds an existing
+  "Émilie du Châtelet" rather than creating a duplicate. If several instances match, one that matches
+  exactly (ignoring case) is preferred. In this mode, :class:`~fairgraph.openminds.core.Person` and
+  :class:`~fairgraph.openminds.core.Organization` are first looked for by ORCID or ROR ID, respectively.
+  The default, ``existence_match="equals"``, is unchanged
+  (`#184 <https://github.com/HumanBrainProject/fairgraph/issues/184>`_).
+
+- :meth:`Collection.upload() <fairgraph.Collection.upload>` accepts ``existence_match``,
+  which it passes on to :meth:`~fairgraph.KGObject.save` for each node.
+
+
 Version 0.16.0
 ==============
 

@@ -49,6 +49,23 @@ Use this with care: the object you save will overwrite any that is found::
 
     >>> dataset.save(client, space="myspace", existence_match="contains")
 
+Names are often written in different ways, for example with or without accents. To find a match
+that differs from the local value only in case, accents and other diacritical marks,
+or whitespace, pass ``existence_match="normalized"``::
+
+    >>> person = Person(given_name="Emilie", family_name="du Chatelet")
+    >>> person.save(client, space="common", existence_match="normalized")  # finds "Émilie du Châtelet"
+
+If several nodes match, but only one of them matches exactly (ignoring case), that one is used;
+otherwise an exception is raised, unless you pass ``ignore_duplicates=True``.
+When a match is found, the object takes the spelling stored in the Knowledge Graph,
+so saving does not overwrite it.
+
+With ``existence_match="normalized"``, :class:`Person` and :class:`Organization` objects that have
+an ORCID or a ROR ID, respectively, in :attr:`digital_identifiers` are first looked for by that identifier,
+and by name only if no node has it. A node found by its identifier is updated with the local names
+if they differ.
+
 
 Saving child nodes
 ==================

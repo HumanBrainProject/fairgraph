@@ -159,3 +159,11 @@ class Organization(KGObject, OMOrganization):
             memberships=memberships,
             type=type,
         )
+
+    def _find_matching_instances(self, client, in_spaces=None, existence_match="equals"):
+        # with existence_match="normalized", look for the same ROR ID before looking for the same name
+        if existence_match == "normalized":
+            instances = self._find_by_identifiers(client, ("RORID",), in_spaces=in_spaces)
+            if instances:
+                return instances
+        return super()._find_matching_instances(client, in_spaces=in_spaces, existence_match=existence_match)
