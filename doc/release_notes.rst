@@ -15,6 +15,8 @@ Matching names when saving
   "Émilie du Châtelet" rather than creating a duplicate. If several instances match, one that matches
   exactly (ignoring case) is preferred. In this mode, :class:`~fairgraph.openminds.core.Person` and
   :class:`~fairgraph.openminds.core.Organization` are first looked for by ORCID or ROR ID, respectively.
+  A :class:`~fairgraph.openminds.core.Person` is then looked for by name allowing for middle names and initials,
+  so "James Maxwell" and "J. Clerk Maxwell" both find an existing "James Clerk Maxwell".
   The default, ``existence_match="equals"``, is unchanged
   (`#184 <https://github.com/HumanBrainProject/fairgraph/issues/184>`_).
 

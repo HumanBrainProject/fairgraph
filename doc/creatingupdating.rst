@@ -66,6 +66,15 @@ an ORCID or a ROR ID, respectively, in :attr:`digital_identifiers` are first loo
 and by name only if no node has it. A node found by its identifier is updated with the local names
 if they differ.
 
+When looking for a :class:`Person` by name with ``existence_match="normalized"``, the given names may
+also differ by middle names that appear in only one of them, and by initials in place of names,
+so "James Maxwell", "James C. Maxwell" and "J. Clerk Maxwell" all find an existing "James Clerk Maxwell".
+The first given names must correspond, however: "Clerk Maxwell" does not. Family names must still match
+as described above. If several nodes match, one whose given names match exactly (ignoring case) is preferred,
+then one whose given names differ only in case, accents or whitespace. As before, the object takes the
+names stored in the Knowledge Graph, so saving "James Maxwell" does not remove the middle name of an existing
+"James Clerk Maxwell".
+
 
 Saving child nodes
 ==================
