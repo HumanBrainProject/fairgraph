@@ -19,6 +19,7 @@ from openminds.base import LinkedNodeEmbedding
 
 from fairgraph.utility import as_list
 from fairgraph.collection import Collection
+from fairgraph.errors import KGConnectionError
 from fairgraph.kgproxy import KGProxy
 from fairgraph.kgquery import KGQuery
 from fairgraph.kgobject import KGObject, EXISTENCE_QUERY_SIZE
@@ -1390,10 +1391,12 @@ def test_save_retrieves_all_matches_if_more_than_query_size(mock_client, monkeyp
 
 
 def test_exists_connection_lost(mock_client, monkeypatch):
+    # KGClient.query turns the requests.ConnectionError raised by kg_core into a KGConnectionError
     def disconnected_query(*args, **kwargs):
-        raise ConnectionError(
+        err = ConnectionError(
             ("Connection aborted.", RemoteDisconnected("Remote end closed connection without response"))
         )
+        raise KGConnectionError(f"Lost connection to the KG before a response arrived (POST /queries): {err}") from err
 
     monkeypatch.setattr(mock_client, "query", disconnected_query)
     person = omcore.Person(given_name="Bilbo", family_name="Baggins")
@@ -1403,13 +1406,14 @@ def test_exists_connection_lost(mock_client, monkeypatch):
 
 def test_exists_other_connection_error(mock_client, monkeypatch):
     def refused_query(*args, **kwargs):
-        raise ConnectionError("Failed to establish a new connection: [Errno 61] Connection refused")
+        err = ConnectionError("Failed to establish a new connection: [Errno 61] Connection refused")
+        raise KGConnectionError(f"Lost connection to the KG before a response arrived (POST /queries): {err}") from err
 
     monkeypatch.setattr(mock_client, "query", refused_query)
     person = omcore.Person(given_name="Bilbo", family_name="Baggins")
-    with pytest.raises(ConnectionError, match="Connection refused"):
+    with pytest.raises(KGConnectionError, match="Connection refused"):
         person.exists(mock_client)
-    with pytest.raises(ConnectionError, match="Connection refused"):
+    with pytest.raises(KGConnectionError, match="Connection refused"):
         person.save(mock_client, space="myspace", recursive=False)
 
 
@@ -2092,3 +2096,21 @@ def test_collection_upload_with_existence_match(mock_client, tmp_path, existence
         assert person.given_name == "Émilie"
         assert len(mock_client.instances) == 1
         assert mock_client.updates == []
+
+
+def test_collection_upload_retries_after_lost_connection(mock_client, tmp_path, mocker):
+    mocker.patch("fairgraph.collection.sleep")
+    save = omcore.Person.save
+    calls = []
+
+    def flaky_save(self, *args, **kwargs):
+        calls.append(self)
+        if len(calls) == 1:
+            raise KGConnectionError("Lost connection to the KG before a response arrived (POST /instances)")
+        return save(self, *args, **kwargs)
+
+    mocker.patch.object(omcore.Person, "save", flaky_save)
+    collection = Collection(omcore.Person(given_name="Emilie", family_name="du Chatelet"))
+    collection.upload(mock_client, default_space="common", upload_log_path=str(tmp_path / "upload_log.txt"))
+    assert len(calls) == 2
+    assert len(mock_client.instances) == 1

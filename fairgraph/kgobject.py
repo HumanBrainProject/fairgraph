@@ -26,7 +26,7 @@ from uuid import UUID
 from warnings import warn
 from typing import Any, Tuple, Dict, List, Optional, TYPE_CHECKING, Union
 
-from requests.exceptions import HTTPError, ConnectionError
+from requests.exceptions import HTTPError
 
 try:
     from tabulate import tabulate
@@ -41,7 +41,7 @@ from openminds.base import LinkedNodeEmbedding
 
 from .utility import expand_uri, as_list, expand_filter, ActivityLog, normalize_data, handle_scope_keyword
 from .queries import Query, QueryProperty, Regex
-from .errors import AuthorizationError, ResourceExistsError, CannotBuildExistenceQuery
+from .errors import AuthorizationError, ResourceExistsError, CannotBuildExistenceQuery, KGConnectionError
 from .caching import generate_cache_key
 from .base import ErrorHandling, Releasable, JSONdict
 from .utility.name_matching import (
@@ -831,7 +831,7 @@ class KGObject(KGNode, Releasable):
                     query=query, size=response.total, release_status="any", restrict_to_spaces=in_spaces
                 )
                 instances = response.data or []
-        except ConnectionError as err:
+        except KGConnectionError as err:
             if "RemoteDisconnected" in str(err):
                 warn(
                     f"Timeout when checking for existence of object {self}."

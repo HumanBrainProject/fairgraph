@@ -23,6 +23,17 @@ Matching names when saving
 - :meth:`Collection.upload() <fairgraph.Collection.upload>` accepts ``existence_match``,
   which it passes on to :meth:`~fairgraph.KGObject.save` for each node.
 
+Bug fixes
+---------
+
+- If the KG drops the connection while :meth:`~fairgraph.KGObject.exists` or :meth:`~fairgraph.KGObject.save`
+  is checking whether an object already exists, they once again treat the object as not found, with a warning,
+  rather than raising an exception. Since 0.16, the client raises :exc:`~fairgraph.errors.KGConnectionError`
+  for lost connections, which this check did not catch.
+
+- For the same reason, :meth:`Collection.upload() <fairgraph.Collection.upload>` once again retries saving a node
+  after a lost connection or a timeout, instead of stopping at the first one.
+
 
 Version 0.16.0
 ==============

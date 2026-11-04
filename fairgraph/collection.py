@@ -27,7 +27,7 @@ from warnings import warn
 
 from openminds import Collection as OMCollection
 from .utility import ActivityLog
-from .errors import AuthenticationError
+from .errors import AuthenticationError, KGConnectionError
 
 logger = logging.getLogger("fairgraph")
 
@@ -36,7 +36,7 @@ def _is_retryable(err):
     """Check if an error is transient and worth retrying."""
     err_str = str(err)
     return any(code in err_str for code in ("500", "502", "503", "504")) or isinstance(
-        err, (ConnectionError, TimeoutError)
+        err, (KGConnectionError, ConnectionError, TimeoutError)
     )
 
 
