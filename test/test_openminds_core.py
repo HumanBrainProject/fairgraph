@@ -1999,3 +1999,23 @@ def test_exists_normalized_skips_an_identifier_with_a_local_id(mock_client, mock
     # only the name query was run, not one for the local identifier
     assert query.call_count == 1
 
+
+@pytest.mark.parametrize("existence_match,expect_new", [("equals", True), ("normalized", False)])
+def test_collection_upload_with_existence_match(mock_client, tmp_path, existence_match, expect_new):
+    _seed_named_person(mock_client, "Émilie", "du Châtelet")
+    collection = Collection(omcore.Person(given_name="Emilie", family_name="du Chatelet"))
+    collection.upload(
+        mock_client,
+        default_space="common",
+        upload_log_path=str(tmp_path / "upload_log.txt"),
+        existence_match=existence_match,
+    )
+    (person,) = collection.nodes.values()
+    if expect_new:
+        assert person.id != CHATELET_ID
+        assert len(mock_client.instances) == 2
+    else:
+        assert person.id == CHATELET_ID
+        assert person.given_name == "Émilie"
+        assert len(mock_client.instances) == 1
+        assert mock_client.updates == []

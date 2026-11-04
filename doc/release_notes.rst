@@ -18,6 +18,9 @@ Matching names when saving
   The default, ``existence_match="equals"``, is unchanged
   (`#184 <https://github.com/HumanBrainProject/fairgraph/issues/184>`_).
 
+- :meth:`Collection.upload() <fairgraph.Collection.upload>` accepts ``existence_match``,
+  which it passes on to :meth:`~fairgraph.KGObject.save` for each node.
+
 
 Version 0.16.0
 ==============
