@@ -1088,41 +1088,31 @@ class KGObject(KGNode, Releasable):
                         logger.info(
                             f"  - updating - {self.__class__.__name__}(id={self.id}) - properties changed: {modified_data.keys()}"
                         )
-                        skip_update = False
-                        if "storageSize" in modified_data:
-                            warn("Removing storage size from update because this prop is currently locked by the KG")
-                            modified_data.pop("storageSize")
-                            skip_update = len(modified_data) == 0
-
-                        if skip_update:
-                            if activity_log:
-                                activity_log.update(item=self, delta=None, space=space, entry_type="no-op")
-                        else:
-                            try:
-                                # Note: if modified_data includes embedded objects
-                                # then _all_ fields of the embedded objects must be provided,
-                                # not only those that have changed.
-                                assert self.uuid is not None
-                                client.update_instance(self.uuid, modified_data)
-                            except AuthorizationError as err:
-                                if ignore_auth_errors:
-                                    logger.error(str(err))
-                                else:
-                                    raise
+                        try:
+                            # Note: if modified_data includes embedded objects
+                            # then _all_ fields of the embedded objects must be provided,
+                            # not only those that have changed.
+                            assert self.uuid is not None
+                            client.update_instance(self.uuid, modified_data)
+                        except AuthorizationError as err:
+                            if ignore_auth_errors:
+                                logger.error(str(err))
                             else:
-                                self.remote_data = local_data
-                                # Mark the raw server-side document as stale, to
-                                # match the cache invalidation done in
-                                # client.update_instance. It will be re-fetched
-                                # on demand by exists() if needed.
-                                self._raw_remote_data = None
-                            if activity_log:
-                                activity_log.update(
-                                    item=self,
-                                    delta=modified_data,
-                                    space=space,
-                                    entry_type="update",
-                                )
+                                raise
+                        else:
+                            self.remote_data = local_data
+                            # Mark the raw server-side document as stale, to
+                            # match the cache invalidation done in
+                            # client.update_instance. It will be re-fetched
+                            # on demand by exists() if needed.
+                            self._raw_remote_data = None
+                        if activity_log:
+                            activity_log.update(
+                                item=self,
+                                delta=modified_data,
+                                space=space,
+                                entry_type="update",
+                            )
                     else:
                         logger.info(f"  - not updating {self.__class__.__name__}(id={self.id}), unchanged")
                         if activity_log:
