@@ -3,7 +3,7 @@ import json
 from random import randint
 from uuid import UUID
 from copy import deepcopy
-from datetime import datetime
+from datetime import date, datetime
 import shutil
 import tempfile
 import urllib.request
@@ -474,6 +474,93 @@ def test_modified_data_method_with_local_changes():
         id="https://kg.ebrains.eu/api/instances/23456789-0abc-def0-1234-567890abcdef", iri="http://example.org"
     )
     assert dsv.modified_data() == {"https://openminds.om-i.org/props/repository": {"@id": dsv.repository.id}}
+
+
+def test_modified_data_method_with_embedded_objects_as_stored_in_kg():
+    # The KG returns the type of an embedded object as a list, not as a string.
+    # Unchanged embedded objects should not be reported as modified.
+    file_id = "https://kg.ebrains.eu/api/instances/34567890-abcd-ef01-2345-67890abcdef1"
+    byte_id = "https://kg.ebrains.eu/api/instances/4567890a-bcde-f012-3456-7890abcdef12"
+    file_ = omcore.File(
+        id=file_id,
+        name="grand_tour.dat",
+        hash=omcore.Hash(algorithm="MD5", digest="0123456789abcdef0123456789abcdef"),
+        storage_size=omcore.QuantitativeValue(value=1842, unit=omterms.UnitOfMeasurement(id=byte_id)),
+    )
+    file_.remote_data = {
+        "@id": file_id,
+        "@type": ["https://openminds.om-i.org/types/File"],
+        "https://openminds.om-i.org/props/name": "grand_tour.dat",
+        "https://openminds.om-i.org/props/hash": [
+            {
+                "@type": ["https://openminds.om-i.org/types/Hash"],
+                "https://openminds.om-i.org/props/algorithm": "MD5",
+                "https://openminds.om-i.org/props/digest": "0123456789abcdef0123456789abcdef",
+            }
+        ],
+        "https://openminds.om-i.org/props/storageSize": {
+            "@type": ["https://openminds.om-i.org/types/QuantitativeValue"],
+            "https://openminds.om-i.org/props/typeOfUncertainty": None,
+            "https://openminds.om-i.org/props/uncertainty": None,
+            "https://openminds.om-i.org/props/unit": {"@id": byte_id},
+            "https://openminds.om-i.org/props/value": 1842,
+        },
+    }
+    assert file_.modified_data() == {}
+
+    file_.hash = omcore.Hash(algorithm="MD5", digest="fedcba9876543210fedcba9876543210")
+    assert list(file_.modified_data()) == ["https://openminds.om-i.org/props/hash"]
+
+
+def test_modified_data_method_with_affiliations_as_stored_in_kg():
+    person_id = "https://kg.ebrains.eu/api/instances/567890ab-cdef-0123-4567-890abcdef123"
+    org1_id = "https://kg.ebrains.eu/api/instances/67890abc-def0-1234-5678-90abcdef1234"
+    org2_id = "https://kg.ebrains.eu/api/instances/7890abcd-ef01-2345-6789-0abcdef12345"
+    person = omcore.Person(
+        id=person_id,
+        given_name="Ada",
+        family_name="Lovelace",
+        affiliations=[
+            omcore.Affiliation(member_of=omcore.Organization(id=org1_id), start_date=date(1835, 7, 8)),
+            omcore.Affiliation(
+                member_of=omcore.Organization(id=org2_id), start_date=date(1842, 1, 1), end_date=date(1843, 9, 1)
+            ),
+        ],
+    )
+    person.remote_data = {
+        "@id": person_id,
+        "@type": ["https://openminds.om-i.org/types/Person"],
+        "https://openminds.om-i.org/props/givenName": "Ada",
+        "https://openminds.om-i.org/props/familyName": "Lovelace",
+        "https://openminds.om-i.org/props/affiliation": [
+            {
+                "@type": ["https://openminds.om-i.org/types/Affiliation"],
+                "https://openminds.om-i.org/props/memberOf": {"@id": org1_id},
+                "https://openminds.om-i.org/props/startDate": "1835-07-08",
+            },
+            {
+                "@type": ["https://openminds.om-i.org/types/Affiliation"],
+                "https://openminds.om-i.org/props/memberOf": {"@id": org2_id},
+                "https://openminds.om-i.org/props/startDate": "1842-01-01",
+                "https://openminds.om-i.org/props/endDate": "1843-09-01",
+            },
+        ],
+    }
+    assert person.modified_data() == {}
+
+    person.affiliations[0].end_date = date(1852, 11, 27)
+    modified = person.modified_data()
+    assert list(modified) == ["https://openminds.om-i.org/props/affiliation"]
+    assert modified["https://openminds.om-i.org/props/affiliation"][0]["https://openminds.om-i.org/props/endDate"] == (
+        "1852-11-27"
+    )
+
+    # an embedded object of a different type is still a modification
+    person.remote_data["https://openminds.om-i.org/props/affiliation"][0]["@type"] = [
+        "https://openminds.om-i.org/types/Membership"
+    ]
+    person.affiliations[0].end_date = None
+    assert list(person.modified_data()) == ["https://openminds.om-i.org/props/affiliation"]
 
 
 def test__update():

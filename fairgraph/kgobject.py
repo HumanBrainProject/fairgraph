@@ -907,7 +907,11 @@ class KGObject(KGNode, Releasable):
         from the values originally obtained from the Knowledge Graph.
         """
 
-        def values_are_equal(local, remote):
+        def values_are_equal(local, remote, key=None):
+            if key == "@type":
+                # The KG returns the type of an embedded object as a list,
+                # while to_jsonld() gives a single type as a string.
+                return set(as_list(local)) == set(as_list(remote))
             if type(local) != type(remote):
                 return False
             if isinstance(local, list):
@@ -916,7 +920,7 @@ class KGObject(KGNode, Releasable):
                 return all(values_are_equal(a, b) for a, b in zip(local, remote))
             elif isinstance(local, dict):
                 return all(
-                    values_are_equal(local[key], remote.get(key, None))
+                    values_are_equal(local[key], remote.get(key, None), key)
                     for key in local.keys()
                     if not (local[key] is None and key not in remote)
                 )

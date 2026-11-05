@@ -34,6 +34,10 @@ Bug fixes
 - For the same reason, :meth:`Collection.upload() <fairgraph.Collection.upload>` once again retries saving a node
   after a lost connection or a timeout, instead of stopping at the first one.
 
+- :meth:`~fairgraph.KGObject.modified_data` no longer reports unchanged embedded objects, such as a person's
+  affiliations, as modified, so :meth:`~fairgraph.KGObject.save` no longer sends needless updates for them.
+  The KG returns the type of an embedded object as a list, which was compared with the single type held locally.
+
 
 Version 0.16.0
 ==============
