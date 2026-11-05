@@ -38,6 +38,10 @@ Bug fixes
   affiliations, as modified, so :meth:`~fairgraph.KGObject.save` no longer sends needless updates for them.
   The KG returns the type of an embedded object as a list, which was compared with the single type held locally.
 
+- When saving to your private space by its real name ("private-..."), rather than as "myspace",
+  :meth:`~fairgraph.KGObject.save` no longer warns that an object found there "already exists in space 'myspace'",
+  and prefers that instance to matching ones in other spaces, as it does for any other target space.
+
 
 Version 0.16.0
 ==============

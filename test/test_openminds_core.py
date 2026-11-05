@@ -1417,6 +1417,21 @@ def test_save_prefers_instance_in_target_space(mock_client, monkeypatch, recwarn
     assert not [w for w in recwarn if "already exists in space" in str(w.message)]
 
 
+def test_save_to_private_space_by_its_real_name(mock_client, monkeypatch, recwarn):
+    """
+    The KG reports instances in the user's private space as being in "myspace", so saving to the private space
+    by its real name ("private-...") finds the instance there, without warning that it is in another space.
+    """
+    monkeypatch.setattr(type(mock_client), "_private_space", "private-1234")
+    _seed_person(mock_client, "common")
+    target_id = _seed_person(mock_client, "myspace", uuid="23456789-0abc-def0-1234-567890abcdef")
+    person = omcore.Person(given_name="Bilbo", family_name="Baggins")
+    person.save(mock_client, space="private-1234", recursive=False)
+    assert person.id == target_id
+    assert person.space == "myspace"
+    assert not [w for w in recwarn if "already exists in space" in str(w.message)]
+
+
 def test_save_new_object_queries_all_spaces_once(mock_client, monkeypatch):
     _seed_person(mock_client, "common")
     restrictions = _spy_on_query(mock_client, monkeypatch)

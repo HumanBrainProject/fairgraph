@@ -1031,6 +1031,12 @@ class KGObject(KGNode, Releasable):
                 space = self.__class__.default_space
             else:
                 space = self.space
+        # The KG reports instances in the user's private space as being in "myspace",
+        # so we compare that name, not the private space's real name, with the space of existing instances.
+        if space and space.startswith("private-") and space == client._private_space:
+            space_as_reported = "myspace"
+        else:
+            space_as_reported = space
         logger.info(f"Saving a {self.__class__.__name__} in space {space}")
         found = self._exists_without_query(client, existence_match)
         if found is None:
@@ -1038,14 +1044,16 @@ class KGObject(KGNode, Releasable):
             # but if it exists both in the target space and elsewhere, we use the instance in the target space.
             instances = self._find_matching_instances(client, existence_match=existence_match)
             candidates = [
-                instance for instance in instances if instance.get("https://schema.hbp.eu/myQuery/space") == space
+                instance
+                for instance in instances
+                if instance.get("https://schema.hbp.eu/myQuery/space") == space_as_reported
             ] or instances
             if candidates:
                 self._check_for_duplicates(candidates, ignore_duplicates, existence_match)
                 found = self._use_matching_instance(client, candidates[0], existence_match)
             else:
                 found = False
-        if found and self.space is not None and self.space != space:
+        if found and self.space is not None and self.space != space_as_reported:
             # An existing instance can only be updated in the space where it lives,
             # so we link to it there rather than creating a duplicate in the requested space.
             warn(
