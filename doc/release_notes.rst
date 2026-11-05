@@ -42,6 +42,11 @@ Bug fixes
   :meth:`~fairgraph.KGObject.save` no longer warns that an object found there "already exists in space 'myspace'",
   and prefers that instance to matching ones in other spaces, as it does for any other target space.
 
+- :meth:`~fairgraph.KGObject.save` no longer sends updates for unchanged links to openMINDS library instances
+  (controlled terms, licences, content types, ...) when one side of the comparison has the instance's semantic IRI
+  (e.g. from ``UnitOfMeasurement.byte``) and the other its KG id. For this, :meth:`~fairgraph.KGObject.modified_data`
+  accepts an optional ``client``, with which it looks up the KG ids of library instances.
+
 
 Version 0.16.0
 ==============

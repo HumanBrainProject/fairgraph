@@ -26,7 +26,7 @@ from collections import defaultdict
 from copy import deepcopy
 from functools import wraps
 from time import sleep
-from typing import Any, Dict, Iterable, List, Optional, Tuple, Union, TYPE_CHECKING
+from typing import Any, Dict, Iterable, List, Optional, Set, Tuple, Union, TYPE_CHECKING
 from uuid import uuid4, UUID
 
 try:
@@ -333,6 +333,7 @@ class KGClient(object):
         # Instances with an openMINDS URI (e.g. controlled terms) are cached under their KG URI,
         # so that a cached document is found, and cleared, whichever URI it was retrieved with
         self._cache_aliases: Dict[str, str] = {}  # openMINDS URI -> KG URI
+        self._unknown_openminds_uris: Set[str] = set()  # openMINDS URIs with no instance in the KG
         self._query_cache: Dict[str, str] = {}
         self.accepted_terms_of_use = False
         if allow_interactive:
@@ -688,13 +689,56 @@ class KGClient(object):
             raise Exception(f"This client cannot retrieve instances from {uri}")
 
         if data:
-            # cache the document under its KG URI, recording any openMINDS URIs as aliases
-            kg_uri = data.get("@id", uri)
-            for identifier in as_list(data.get("http://schema.org/identifier", [])) + [uri]:
-                if isinstance(identifier, str) and identifier.startswith(OPENMINDS_INSTANCE_NAMESPACE):
-                    self._cache_aliases[identifier] = kg_uri
-            self.cache.setdefault(kg_uri, {})[stage] = deepcopy(data)
+            self._cache_document(data, stage, uri)
         return data
+
+    def _cache_document(self, data: JsonLdDocument, stage: str, uri: str) -> str:
+        """
+        Cache the document of an instance under its KG URI, recording any openMINDS URIs
+        (`uri`, and those in its "http://schema.org/identifier") as aliases. Returns the KG URI.
+        """
+        kg_uri = data.get("@id", uri)
+        for identifier in as_list(data.get("http://schema.org/identifier", [])) + [uri]:
+            if isinstance(identifier, str) and identifier.startswith(OPENMINDS_INSTANCE_NAMESPACE):
+                self._cache_aliases[identifier] = kg_uri
+        self.cache.setdefault(kg_uri, {})[stage] = deepcopy(data)
+        return kg_uri
+
+    @retry_on_connection_error
+    @translate_network_errors
+    def _kg_uris_for_openminds_uris(self, uris: Iterable[str]) -> Dict[str, str]:
+        """
+        Map openMINDS URIs of library instances (e.g. "https://openminds.om-i.org/instances/unitOfMeasurement/byte")
+        to the URIs of the corresponding KG instances (e.g. "https://kg.ebrains.eu/api/instances/<uuid>").
+
+        Any other URIs, and openMINDS URIs with no instance in the KG, are left out of the result.
+        URIs already seen by this client are not looked up again; the others are looked up
+        together, in a single request for released instances, then (for any not found) in one
+        for instances in progress.
+        """
+        found = {}
+        missing = []
+        for uri in set(uris):
+            if uri in self._cache_aliases:
+                found[uri] = self._cache_aliases[uri]
+            elif uri.startswith(OPENMINDS_INSTANCE_NAMESPACE) and uri not in self._unknown_openminds_uris:
+                missing.append(uri)
+        kg_namespace = self._kg_client.instances._kg_config.id_namespace
+        for stage in (Stage.RELEASED, Stage.IN_PROGRESS):
+            if not missing:
+                break
+            response = self._kg_client.instances.get_by_identifiers(
+                stage=stage, payload=missing, extended_response_configuration=default_response_configuration
+            )
+            self._check_response(response, error_context=f"_kg_uris_for_openminds_uris(stage={stage})")
+            for uri, result in (response.data or {}).items():
+                if result.data:
+                    data = expand_bare_uuids(result.data, kg_namespace)
+                    found[uri] = self._cache_document(data, stage, uri)
+            missing = [uri for uri in missing if uri not in found]
+        # don't ask again for URIs the KG doesn't know
+        self._unknown_openminds_uris.update(missing)
+        return found
 
     @translate_network_errors
     def create_new_instance(

@@ -563,6 +563,163 @@ def test_modified_data_method_with_affiliations_as_stored_in_kg():
     assert list(person.modified_data()) == ["https://openminds.om-i.org/props/affiliation"]
 
 
+BYTE_ID = "https://kg.ebrains.eu/api/instances/6899d989-f510-43ad-b613-19c029b59ab2"
+KILOBYTE_ID = "https://kg.ebrains.eu/api/instances/8790abcd-ef01-4234-8678-90abcdef1234"
+RECORDING_ID = "https://kg.ebrains.eu/api/instances/90abcdef-0123-4567-890a-bcdef1234567"
+RECORDING_IRI = "https://example.org/data/sub-01_ses-01_ecephys.nwb"
+RECORDING_DIGEST = "0123456789abcdef0123456789abcdef"
+
+
+def _seed_units(mock_client):
+    for unit_id, name in ((BYTE_ID, "byte"), (KILOBYTE_ID, "kilobyte")):
+        mock_client.instances[unit_id] = {
+            "@id": unit_id,
+            "@type": ["https://openminds.om-i.org/types/UnitOfMeasurement"],
+            "https://core.kg.ebrains.eu/vocab/meta/space": "controlled",
+            "http://schema.org/identifier": [
+                unit_id,
+                f"https://openminds.om-i.org/instances/unitOfMeasurement/{name}",
+            ],
+            "https://openminds.om-i.org/props/name": name,
+        }
+
+
+def _recording_file(unit, value=1024.0):
+    return omcore.File(
+        iri=IRI(RECORDING_IRI),
+        name="sub-01_ses-01_ecephys.nwb",
+        hashes=omcore.Hash(algorithm="MD5", digest=RECORDING_DIGEST),
+        storage_size=omcore.QuantitativeValue(value=value, unit=unit),
+    )
+
+
+def _recording_remote_data(unit_id, value=1024.0):
+    return {
+        "@id": RECORDING_ID,
+        "@type": ["https://openminds.om-i.org/types/File"],
+        "https://core.kg.ebrains.eu/vocab/meta/space": "myspace",
+        "https://openminds.om-i.org/props/IRI": RECORDING_IRI,
+        "https://openminds.om-i.org/props/name": "sub-01_ses-01_ecephys.nwb",
+        "https://openminds.om-i.org/props/hash": [
+            {
+                "@type": ["https://openminds.om-i.org/types/Hash"],
+                "https://openminds.om-i.org/props/algorithm": "MD5",
+                "https://openminds.om-i.org/props/digest": RECORDING_DIGEST,
+            }
+        ],
+        "https://openminds.om-i.org/props/storageSize": {
+            "@type": ["https://openminds.om-i.org/types/QuantitativeValue"],
+            "https://openminds.om-i.org/props/unit": {"@id": unit_id},
+            "https://openminds.om-i.org/props/value": value,
+        },
+    }
+
+
+STORAGE_SIZE = "https://openminds.om-i.org/props/storageSize"
+UNIT = "https://openminds.om-i.org/props/unit"
+
+
+def test_modified_data_library_instance_vs_kg_id(mock_client):
+    # a link set locally to a library instance (semantic IRI), where the KG has the link with the instance's KG id
+    _seed_units(mock_client)
+    file_ = _recording_file(omterms.UnitOfMeasurement.byte)
+    file_.id = RECORDING_ID
+    file_.remote_data = _recording_remote_data(BYTE_ID)
+    assert list(file_.modified_data()) == [STORAGE_SIZE]  # without a client, the two forms can't be matched
+    assert file_.modified_data(mock_client) == {}
+
+
+def test_modified_data_kg_id_vs_library_instance(mock_client):
+    # a link with the KG id (here a KGProxy), where remote_data has the semantic IRI,
+    # as it does after save() has created the instance with a link to a library instance
+    _seed_units(mock_client)
+    file_ = _recording_file(KGProxy(omterms.UnitOfMeasurement, BYTE_ID))
+    file_.id = RECORDING_ID
+    file_.remote_data = _recording_remote_data("https://openminds.om-i.org/instances/unitOfMeasurement/byte")
+    assert file_.modified_data(mock_client) == {}
+
+
+def test_modified_data_different_library_instance(mock_client):
+    _seed_units(mock_client)
+    file_ = _recording_file(omterms.UnitOfMeasurement.byte)
+    file_.id = RECORDING_ID
+    file_.remote_data = _recording_remote_data(KILOBYTE_ID)
+    modified = file_.modified_data(mock_client)
+    assert list(modified) == [STORAGE_SIZE]
+    # the value to send uses the KG id of the library instance
+    assert modified[STORAGE_SIZE][UNIT] == {"@id": BYTE_ID}
+
+
+def test_modified_data_library_instance_not_in_kg(mock_client):
+    # the KG has no instance for the term (e.g. one added to openMINDS since), so the link is modified
+    file_ = _recording_file(omterms.UnitOfMeasurement.byte)
+    file_.id = RECORDING_ID
+    file_.remote_data = _recording_remote_data(BYTE_ID)
+    modified = file_.modified_data(mock_client)
+    assert list(modified) == [STORAGE_SIZE]
+    assert modified[STORAGE_SIZE][UNIT] == {"@id": "https://openminds.om-i.org/instances/unitOfMeasurement/byte"}
+
+
+SUBCELLULAR_ID = "https://kg.ebrains.eu/api/instances/a1b2c3d4-e5f6-4789-8abc-def012345678"
+CA1_MODEL_ID = "https://kg.ebrains.eu/api/instances/b2c3d4e5-f6a7-4890-9bcd-ef0123456789"
+
+
+def _seed_ca1_model(mock_client, scope_id=SUBCELLULAR_ID):
+    # Model's existence query is on full_name only, which the mock client can run
+    mock_client.instances[SUBCELLULAR_ID] = {
+        "@id": SUBCELLULAR_ID,
+        "@type": ["https://openminds.om-i.org/types/ModelScope"],
+        "https://core.kg.ebrains.eu/vocab/meta/space": "controlled",
+        "http://schema.org/identifier": [
+            SUBCELLULAR_ID,
+            "https://openminds.om-i.org/instances/modelScope/subcellular",
+        ],
+        "https://openminds.om-i.org/props/name": "subcellular",
+    }
+    mock_client.instances[CA1_MODEL_ID] = {
+        "@id": CA1_MODEL_ID,
+        "@type": ["https://openminds.om-i.org/types/Model"],
+        "https://core.kg.ebrains.eu/vocab/meta/space": "model",
+        "https://openminds.om-i.org/props/fullName": "CA1 pyramidal cell model",
+        "https://openminds.om-i.org/props/scope": {"@id": scope_id},
+    }
+
+
+SCOPE = "https://openminds.om-i.org/props/scope"
+
+
+def test_save_unchanged_link_to_library_instance(mock_client):
+    _seed_ca1_model(mock_client)
+    # found by the existence query: the KG has the scope's KG id, the local object its semantic IRI
+    model = omcore.Model(full_name="CA1 pyramidal cell model", scope=omterms.ModelScope.subcellular)
+    log = ActivityLog()
+    model.save(mock_client, recursive=False, activity_log=log)
+    assert model.id == CA1_MODEL_ID
+    assert [entry.type for entry in log.entries] == ["no-op"]
+    assert mock_client.updates == []
+
+
+def test_save_changed_link_to_library_instance(mock_client):
+    _seed_ca1_model(mock_client)
+    model = omcore.Model(full_name="CA1 pyramidal cell model", scope=omterms.ModelScope.network)
+    model.save(mock_client, recursive=False)
+    ((_, update),) = mock_client.updates
+    # network is not in the (mock) KG, so its semantic IRI is sent
+    assert update == {SCOPE: {"@id": "https://openminds.om-i.org/instances/modelScope/network"}}
+
+
+def test_save_created_with_link_to_library_instance_then_kg_id(mock_client):
+    _seed_ca1_model(mock_client)
+    model = omcore.Model(full_name="Layer 5 pyramidal cell model", scope=omterms.ModelScope.subcellular)
+    model.save(mock_client, space="model", recursive=False)
+    # remote_data now records the data sent, with the scope's semantic IRI
+    model.scope = KGProxy(omterms.ModelScope, SUBCELLULAR_ID)
+    log = ActivityLog()
+    model.save(mock_client, recursive=False, activity_log=log)
+    assert [entry.type for entry in log.entries] == ["no-op"]
+    assert mock_client.updates == []
+
+
 def test__update():
     example_data = {
         "@id": "https://kg.ebrains.eu/api/instances/e90fc25a-fc35-4066-9ff2-ca3583a2d008",

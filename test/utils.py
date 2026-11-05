@@ -81,6 +81,17 @@ class MockKGClient:
         self._existence_cache = defaultdict(dict)
         self.updates = []  # (instance_id, payload) for each update_instance() call
         self.replacements = []  # (instance_id, payload) for each replace_instance() call
+        self.openminds_uri_lookups = []  # the URIs passed to each _kg_uris_for_openminds_uris() call
+
+    def _kg_uris_for_openminds_uris(self, uris):
+        """Map openMINDS URIs to the ids of the stored instances listing them in "http://schema.org/identifier"."""
+        self.openminds_uri_lookups.append(set(uris))
+        found = {}
+        for instance_id, instance in self.instances.items():
+            for identifier in as_list(instance.get("http://schema.org/identifier", [])):
+                if identifier in uris:
+                    found[identifier] = instance_id
+        return found
 
     def retrieve_query(self, query_label):
         return {"@id": f"mock-query-{query_label}"}

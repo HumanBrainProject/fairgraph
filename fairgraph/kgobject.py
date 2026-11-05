@@ -43,6 +43,7 @@ from .utility import expand_uri, as_list, expand_filter, ActivityLog, normalize_
 from .queries import Query, QueryProperty, Regex
 from .errors import AuthorizationError, ResourceExistsError, CannotBuildExistenceQuery, KGConnectionError
 from .caching import generate_cache_key
+from .client import OPENMINDS_INSTANCE_NAMESPACE
 from .base import ErrorHandling, Releasable, JSONdict
 from .utility.name_matching import (
     KG_NAMELIKE_PROPERTIES,
@@ -901,10 +902,17 @@ class KGObject(KGNode, Releasable):
             if matched:
                 setattr(self, property_name, stored_value)
 
-    def modified_data(self) -> JSONdict:
+    def modified_data(self, client: Optional[KGClient] = None) -> JSONdict:
         """
         Return a dict containing the properties that have been modified locally
         from the values originally obtained from the Knowledge Graph.
+
+        Args:
+            client (KGClient, optional): if provided, links to openMINDS library instances
+                (controlled terms, licences, ...) are compared by the KG instance they refer to,
+                so that a link with a semantic IRI (e.g. "https://openminds.om-i.org/instances/species/musMusculus")
+                is the same as one with the UUID-based IRI of the same instance in the KG.
+                The values returned then use the UUID-based IRIs of any library instances the KG has.
         """
 
         def values_are_equal(local, remote, key=None):
@@ -927,16 +935,49 @@ class KGObject(KGNode, Releasable):
             else:
                 return local == remote
 
+        def openminds_uris(data):
+            if isinstance(data, dict):
+                for key, value in data.items():
+                    if key == "@id":
+                        if isinstance(value, str) and value.startswith(OPENMINDS_INSTANCE_NAMESPACE):
+                            yield value
+                    else:
+                        yield from openminds_uris(value)
+            elif isinstance(data, list):
+                for item in data:
+                    yield from openminds_uris(item)
+
+        def with_kg_uris(data, kg_uris):
+            if isinstance(data, dict):
+                return {
+                    key: kg_uris.get(value, value) if key == "@id" else with_kg_uris(value, kg_uris)
+                    for key, value in data.items()
+                }
+            elif isinstance(data, list):
+                return [with_kg_uris(item, kg_uris) for item in data]
+            else:
+                return data
+
         current_data = normalize_data(
             self.to_jsonld(include_empty_properties=True, embed_linked_nodes=LinkedNodeEmbedding.IF_NECESSARY),
             self.context,
         )
+        assert self.remote_data is not None
+        remote_data = self.remote_data
+        if client is not None:
+            # Links to library instances may have a semantic IRI on one side and a UUID-based IRI on the other:
+            # e.g. a link set locally to UnitOfMeasurement.byte, while the KG returns the link with byte's KG id,
+            # or remote_data recorded from the data sent when the instance was created. Use KG ids on both sides.
+            uris = {*openminds_uris(dict(current_data)), *openminds_uris(remote_data)}
+            kg_uris = client._kg_uris_for_openminds_uris(uris) if uris else {}
+            if kg_uris:
+                current_data = with_kg_uris(dict(current_data), kg_uris)
+                remote_data = with_kg_uris(remote_data, kg_uris)
         modified_data = {}
         for key, current_value in current_data.items():
             if not key.startswith("@"):
                 assert key.startswith("http")  # keys should all be expanded by this point
-                assert self.remote_data is not None
-                remote_value = self.remote_data.get(key, None)
+                remote_value = remote_data.get(key, None)
                 if not values_are_equal(current_value, remote_value):
                     modified_data[key] = current_value
         return modified_data
@@ -1091,7 +1132,7 @@ class KGObject(KGNode, Releasable):
                         # It will be re-fetched on demand by exists() if needed.
                         self._raw_remote_data = None
                 else:
-                    modified_data = self.modified_data()
+                    modified_data = self.modified_data(client)
                     if modified_data:
                         logger.info(
                             f"  - updating - {self.__class__.__name__}(id={self.id}) - properties changed: {modified_data.keys()}"
