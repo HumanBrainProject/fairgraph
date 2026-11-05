@@ -22,6 +22,7 @@ from __future__ import annotations
 from collections import defaultdict
 from contextvars import ContextVar
 import logging
+import numbers
 from uuid import UUID
 from warnings import warn
 from typing import Any, Tuple, Dict, List, Optional, TYPE_CHECKING, Union
@@ -915,11 +916,17 @@ class KGObject(KGNode, Releasable):
                 The values returned then use the UUID-based IRIs of any library instances the KG has.
         """
 
+        def is_number(value):
+            return isinstance(value, numbers.Real) and not isinstance(value, bool)
+
         def values_are_equal(local, remote, key=None):
             if key == "@type":
                 # The KG returns the type of an embedded object as a list,
                 # while to_jsonld() gives a single type as a string.
                 return set(as_list(local)) == set(as_list(remote))
+            if is_number(local) and is_number(remote):
+                # numerical properties are numbers.Real, and the KG returns a whole-number float as an int
+                return local == remote
             if type(local) != type(remote):
                 return False
             if isinstance(local, list):

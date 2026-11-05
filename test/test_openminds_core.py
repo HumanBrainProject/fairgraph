@@ -619,6 +619,18 @@ STORAGE_SIZE = "https://openminds.om-i.org/props/storageSize"
 UNIT = "https://openminds.om-i.org/props/unit"
 
 
+@pytest.mark.parametrize(
+    "local_value,remote_value,modified",
+    [(1024.0, 1024, False), (1024, 1024.0, False), (1024.5, 1024, True), (1.0, True, True)],
+)
+def test_modified_data_numbers_compared_by_value(local_value, remote_value, modified):
+    # the KG returns a whole-number float as an int
+    file_ = _recording_file(KGProxy(omterms.UnitOfMeasurement, BYTE_ID), value=local_value)
+    file_.id = RECORDING_ID
+    file_.remote_data = _recording_remote_data(BYTE_ID, value=remote_value)
+    assert bool(file_.modified_data()) is modified
+
+
 def test_modified_data_library_instance_vs_kg_id(mock_client):
     # a link set locally to a library instance (semantic IRI), where the KG has the link with the instance's KG id
     _seed_units(mock_client)

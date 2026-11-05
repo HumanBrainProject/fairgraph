@@ -47,6 +47,10 @@ Bug fixes
   (e.g. from ``UnitOfMeasurement.byte``) and the other its KG id. For this, :meth:`~fairgraph.KGObject.modified_data`
   accepts an optional ``client``, with which it looks up the KG ids of library instances.
 
+- :meth:`~fairgraph.KGObject.modified_data` compares numbers by value, so a whole-number float such as ``100.0``
+  is no longer reported as modified because the KG returns it as the integer ``100``, and
+  :meth:`~fairgraph.KGObject.save` no longer sends needless updates for it.
+
 
 Version 0.16.0
 ==============
